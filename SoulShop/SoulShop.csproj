@@ -215,6 +215,8 @@
   <ItemGroup>
     <Content Include=".gitattributes" />
     <Content Include=".gitignore" />
+    <Content Include="Areas\Shop\CSS\ready.css" />
+    <Content Include="Areas\Shop\JS\ready.js" />
     <Content Include="dist\css\bootstrap-grid.css" />
     <Content Include="dist\css\bootstrap-grid.min.css" />
     <Content Include="dist\css\bootstrap-reboot.css" />
