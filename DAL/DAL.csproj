@@ -7,8 +7,8 @@
     <ProjectGuid>{8426F2CD-08D2-472F-A261-940B7211023B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DAL</RootNamespace>
-    <AssemblyName>DAL</AssemblyName>
+    <RootNamespace>SoulShop.DAL</RootNamespace>
+    <AssemblyName>SoulShop.DAL</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

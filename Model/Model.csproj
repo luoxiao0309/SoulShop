@@ -7,8 +7,8 @@
     <ProjectGuid>{5BE91BFE-CCAC-455D-A045-43DEA280FD64}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Model</RootNamespace>
-    <AssemblyName>Model</AssemblyName>
+    <RootNamespace>SoulShop.Model</RootNamespace>
+    <AssemblyName>SoulShop.Model</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
