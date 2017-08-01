@@ -7,8 +7,8 @@
     <ProjectGuid>{7EA0D755-D75F-43B1-AC60-CDB5BFCD8E20}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BLL</RootNamespace>
-    <AssemblyName>BLL</AssemblyName>
+    <RootNamespace>SoulShop.BLL</RootNamespace>
+    <AssemblyName>SoulShop.BLL</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
