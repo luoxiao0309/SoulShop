@@ -41,12 +41,50 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shop\T_Base_Address.cs" />
+    <Compile Include="Shop\T_Base_Advertisement.cs" />
+    <Compile Include="Shop\T_Base_Appeal.cs" />
+    <Compile Include="Shop\T_Base_Area.cs" />
+    <Compile Include="Shop\T_Base_Buyer.cs" />
+    <Compile Include="Shop\T_Base_Chat.cs" />
+    <Compile Include="Shop\T_Base_Collection.cs" />
+    <Compile Include="Shop\T_Base_OrderHead.cs" />
+    <Compile Include="Shop\T_Base_OrderItem.cs" />
+    <Compile Include="Shop\T_Base_Product.cs" />
+    <Compile Include="Shop\T_Base_ProductCategory.cs" />
+    <Compile Include="Shop\T_Base_ProductSignUp.cs" />
+    <Compile Include="Shop\T_Base_SaleProduct.cs" />
+    <Compile Include="Shop\T_Base_ShopAdmin.cs" />
+    <Compile Include="Shop\T_Base_ShopCart.cs" />
+    <Compile Include="Shop\T_Base_ShopProduct.cs" />
+    <Compile Include="Shop\T_Base_SysAdmin.cs" />
+    <Compile Include="Shop\T_Base_SysData.cs" />
+    <Compile Include="Shop\T_Base_TravelNote.cs" />
+    <Compile Include="Shop\T_Product_Comment.cs" />
+    <Compile Include="Shop\T_Product_Pic.cs" />
+    <Compile Include="Shop\T_ShopProduct_Pic.cs" />
+    <Compile Include="Shop\T_TravelNote_Comment.cs" />
+    <Compile Include="Shop\T_TravelNote_Pic.cs" />
+    <Compile Include="Shop\T_TravelNote_Praise.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Admin\" />
     <Folder Include="Buyer\" />
-    <Folder Include="Shop\" />
     <Folder Include="Travels\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{e3d8759a-c5eb-402d-9f10-f5c6029a8d1a}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DBUtility\DBUtility.csproj">
+      <Project>{0988c62e-247f-471f-a183-db509c7a3839}</Project>
+      <Name>DBUtility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{5be91bfe-ccac-455d-a045-43dea280fd64}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
