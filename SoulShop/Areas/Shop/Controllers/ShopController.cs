@@ -23,7 +23,15 @@ namespace SoulShop.Areas.Shop.Controllers
             return View();
         }
 
+        //ProductList 商品分类页
         public ActionResult ProductList()
+        {
+
+            return View();
+        }
+
+        //Detail 商品详情页
+        public ActionResult Detail()
         {
 
             return View();

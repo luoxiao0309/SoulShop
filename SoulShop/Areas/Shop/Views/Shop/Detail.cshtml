@@ -1,0 +1,123 @@
+﻿
+@{
+    Layout = "~/Areas/Shop/Views/Shared/_ShopNavView.cshtml";
+}
+
+@section css{
+    <title>主页</title>
+    <link href="~/Areas/Shop/MyCSS/Detail/Detail.css" rel="stylesheet" />
+    <script src="~/Areas/Shop/MyJS/Detail/Detail.js"></script>
+    <style>
+    </style>
+}
+
+<!--商品主要信息-->
+<div class="container container-lowlg-width-p100 container-lowlg-nop main-info-wrap">
+    <div class="row m-0 justify-content-center align-items-center no-gutters">
+        <div class="main-info-img col-11 col-sm-8 col-md-6 col-lg-5 pr-lg-2 pl-2">
+            <div class="main-info-bigimg">
+                <img src="/Image/Main/img-sales5.jpg" />
+            </div>
+            <div class="main-info-smallimg row no-gutters justify-content-center">
+                <div class="col-3 active"><img src="/Image/Main/img-sales5.jpg" /></div>
+                <div class="col-3"><img src="/Image/Main/img-sales2.jpeg" /></div>
+                <div class="col-3"><img src="/Image/Main/img-sales7.jpg" /></div>
+                <div class="col-3"><img src="/Image/Main/img-sales8.jpg" /></div>
+            </div>
+        </div>
+        <div class="main-info-p col-12 col-lg-7 mt-3 mt-lg-0 pr-sm-4 pl-sm-4 pr-lg-2 pl-lg-2">
+            <div class="card">
+                <div class="card-block">
+                    <p class="main-info-title text-oneline-overhidden"><span class="my-title-12">旺仔牛奶</span></p>
+                    <p class="main-info-description card-text text-oneline-overhidden">旺仔牛奶是一种营养牛奶饮品，对小孩子的成长具有促进作用，有增食欲、促睡眠、祛疲劳等多项保健功能。是一种适合小孩子饮用的营养品。</p>
+                    <div class="main-info-description-all"> 旺仔牛奶是一种营养牛奶饮品，对小孩子的成长具有促进作用，有增食欲、促睡眠、祛疲劳等多项保健功能。是一种适合小孩子饮用的营养品。</div>
+                    <!--价格-->
+                    <div class="main-info-price">
+                        <span>价格：</span><span class="red-price">￥99</span>
+                    </div>
+                    <!--运费-->
+                    <div class="main-info-freight">
+                        <span>运费：杭州&nbsp;至&nbsp;</span><span class="arrive-city">龙泉&nbsp;</span><span>&nbsp;快递：0.00</span>
+                    </div>
+                    <!--销售信息-->
+                    <div class="main-info-saleinfo row text-center">
+                        <div class="col-6 text-oneline-overhidden">月销量&nbsp;<span>99</span></div>
+                        <div class="col-6 text-oneline-overhidden">累计评价&nbsp;<span>99</span></div>
+                    </div>
+                    <!--商品规格与数量-->
+                    <div class="main-info-style">
+                        <div class="main-info-size">
+                            <div>规格</div>
+                            <div class="active">1m</div>
+                            <div>2m</div>
+                            <div>3m</div>
+                        </div>
+                        <div class="main-info-color">
+                            <div>颜色分类</div>
+                            <div class="active">白色</div>
+                            <div>黑色</div>
+                            <div>蓝色</div>
+                        </div>
+                        <div class="main-info-count">
+                            <div>数量</div>
+                            <div class="input-group mr-1" style="width: 7rem;"><input class="form-control" type="number" value="1" /><div class="input-group-addon">件</div></div>
+                            <div class="ml-3">库存 100件</div>
+                        </div>
+                    </div>
+                    <!--按钮组-->
+                    <div class="main-info-btngroup row m-0 text-center justify-content-around">
+                        <div class="col-5 btn btn-info">立即购买</div>
+                        <div class="col-5 btn btn-info">加入购物车</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--商品评论-->
+<div class="container container-lowlg-width-p100 container-lowlg-nop comment-wrap mt-3 mt-md-5">
+    <div class="row no-gutters">
+        <div class="col-12 comment-item">
+            这个东西是真的好！
+            <div class="comment-item-icon" style="background-image: url(/Image/Main/img-sales7.jpg)"></div>
+            <div class="comment-item-star">
+                <div>
+                    <span>星级&nbsp;</span>
+                    <img src="/Icon/Detail/star.png" />
+                    <img src="/Icon/Detail/star.png" />
+                    <img src="/Icon/Detail/star.png" />
+                    <img src="/Icon/Detail/star.png" />
+                    <img src="/Icon/Detail/star.png" />
+                </div>
+            </div>
+        </div>
+        <div class="col-12 comment-item">
+            这个东西是真的好！
+            <div class="comment-item-icon" style="background-image: url(/Image/Main/img-sales7.jpg)"></div>
+            <div class="comment-item-star">
+                <div>
+                    <span>星级&nbsp;</span>
+                    <img src="/Icon/Detail/star.png" />
+                    <img src="/Icon/Detail/star.png" />
+                    <img src="/Icon/Detail/star.png" />
+                    <img src="/Icon/Detail/star.png" />
+                    <img src="/Icon/Detail/star.png" />
+                </div>
+            </div>
+        </div>
+        <div class="col-12 comment-item">
+            这个东西是真的好！
+            <div class="comment-item-icon" style="background-image: url(/Image/Main/img-sales7.jpg)"></div>
+            <div class="comment-item-star">
+                <div>
+                    <span>星级&nbsp;</span>
+                    <img src="/Icon/Detail/star.png" />
+                    <img src="/Icon/Detail/star.png" />
+                    <img src="/Icon/Detail/star.png" />
+                    <img src="/Icon/Detail/star.png" />
+                    <img src="/Icon/Detail/star.png" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
