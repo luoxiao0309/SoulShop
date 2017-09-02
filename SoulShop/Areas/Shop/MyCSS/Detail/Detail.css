@@ -1,0 +1,260 @@
+/*detail主要信息总样式*/
+.main-info-wrap {
+    margin-top: 4.5rem;
+}
+
+    /*大图片总样式*/
+    .main-info-bigimg {
+        border: 3px solid #ffffff;
+        width: 100%;
+        box-shadow: 0 0 13px 2px #aaaaaa;
+    }
+
+        .main-info-bigimg img {
+            width: 100%;
+        }
+
+    /*缩略图总样式*/
+    .main-info-smallimg {
+        padding: 2% 5% 0;
+    }
+
+        .main-info-smallimg div {
+            padding-left: 2% !important;
+            padding-right: 2% !important;
+            transition: all 0.5s 0s;
+        }
+
+            .main-info-smallimg div.active {
+                box-shadow: 0 0 13px 2px #888888;
+            }
+
+            .main-info-smallimg div img {
+                width: 100%;
+            }
+
+    /*文字信息总样式*/
+    .main-info-p {
+
+    }
+        .main-info-p .card .card-block > div {
+            margin-bottom: 1rem;
+            padding-left: 2%;
+            padding-right: 2%;
+        }
+
+        .main-info-p > div.card {
+            height: 100%;
+        }
+
+        /*主要信息标题*/
+        .main-info-title {
+            font-weight: bolder;
+        }
+
+        /*商品描述信息*/
+        .main-info-description:hover {
+            cursor: pointer;
+        }
+
+            /*商品全部描述*/
+            .main-info-description-all {
+                text-align: center;
+                z-index: 3;
+                padding-top: 1rem;
+                padding-bottom: 1rem;
+                color: #ededed;
+                position: absolute;
+                width: 75%;
+                background: #1d1e1f;
+                border-radius: 0.25rem;
+                opacity: 0;
+                transition: all 0.5s 0s;
+            }
+
+            .main-info-description-all.active {
+                opacity: 0.6;
+            }
+
+            .main-info-description-all:after {
+                content: '';
+                position: absolute;
+                top: -0.45rem;
+                left: 2rem;
+                width: 1rem;
+                height: 1rem;
+                background: #1d1e1f;
+                transform: rotate(45deg);
+            }
+
+        /*商品价格*/
+        .main-info-price {
+            background:
+                    repeating-linear-gradient(
+                            to top left,
+                            #fafafa 0,
+                            #fafafa 2em,
+                            #eee 2em,
+                            #eee 4em,
+                            #f6f2f4 4em,
+                            #f6f2f4 6em
+                    ),
+                    repeating-linear-gradient(
+                            to left,
+                            white 0,
+                            white 2em,
+                            #f6f2f4 2em,
+                            #f6f2f4 4em,
+                            #fafafa 4em,
+                            #fafafa 6em
+                    ), white;
+
+            background-blend-mode: multiply;
+            padding-top: 1%;
+            padding-bottom: 1%;
+            border-radius: 0.25rem;
+            margin-bottom: 1rem;
+        }
+
+            .red-price {
+                opacity: 0.6;
+                font-size: 3rem;
+                font-weight: bolder;
+                color: #d9534f;
+            }
+
+        /*商品运费*/
+        .main-info-freight {
+
+        }
+
+            .arrive-city {
+                border-right: 1px #cdcdcd dashed;
+            }
+
+        /*商品售卖信息*/
+        .main-info-saleinfo {
+
+        }
+
+            .main-info-saleinfo > div {
+                border-top: 1px dashed #cdcdcd;
+                border-bottom: 1px dashed #cdcdcd;
+                padding: 2%;
+            }
+
+            .main-info-saleinfo > div:first-child {
+                border-right: 1px dashed #cdcdcd;
+            }
+
+        /*商品规格*/
+        .main-info-style {
+            box-sizing: content-box;
+        }
+
+            .main-info-style > div {
+                box-sizing: inherit;
+                display: flex;
+                align-items: center;
+                flex-wrap: wrap;
+                text-align: center;
+                line-height: 1;
+                padding-top: 2%;
+                padding-bottom: 2%;
+            }
+
+                .main-info-size div, .main-info-color div {
+                    box-sizing: inherit;
+                    flex: 0 0 auto;
+                    width: auto;
+                    min-width: 1rem;
+                    height: 1rem;
+                    line-height: 1;
+                    border: 2px #cdcdcd solid;
+                    border-radius: 0.25rem;
+                    margin: 1%;
+                    padding: 0.8rem;
+                    transition: all 0.5s 0s;
+                }
+
+                .main-info-size div:hover, .main-info-color div:hover {
+                    cursor: pointer;
+                }
+
+                .main-info-size div.active, .main-info-color div.active {
+                    border-color: rgba(217, 83, 79, .5);
+                    box-shadow: 0 0 3px 1px #d99191 inset;
+                }
+
+                .main-info-size div:first-child, .main-info-color div:first-child {
+                    margin-left: 0;
+                    border: none;
+                }
+
+                .main-info-count div {
+                    flex: 0 0 auto;
+                }
+
+                .main-info-count div:first-child {
+                    margin: 1% 2% 1% 0;
+                    padding: 0.8rem;
+                }
+
+        /*商品按钮组*/
+        .main-info-btngroup {
+
+        }
+        
+    /*评论*/
+    .comment-wrap {
+
+    }
+        
+        .comment-wrap .comment-item {
+            position: relative;
+            margin-top: 0.25rem;
+            padding: 1.5rem 1.5rem 2.5rem 3rem;
+            line-height: 1;
+            background: #ffffff;
+            background: #ffffff linear-gradient(to right, #ffffff 50%, #ededed);
+        }
+
+        .comment-item-icon {
+            top: 1rem;
+            left: 0.6rem;
+            position: absolute;
+            width: 2rem;
+            height: 2rem;
+            background: #ffffff;
+            background-size: 100%;
+            border-radius: 50%;
+        }
+
+        .comment-item-star {
+            top: 3.4rem;
+            left: 3rem;
+            position: absolute;
+            color: #cdcdcd;
+            font-size: 0.8rem;
+            z-index: 3;
+        }
+
+            .comment-item-star div {
+                display: inline;
+            }
+
+                .comment-item-star div span {
+                    vertical-align: middle;
+                }
+
+                .comment-item-star div img {
+                    width: 0.9rem;
+                    vertical-align: middle;
+                }
+
+    /*页足*/
+    .footer-wrap {
+        background: #ffffff;
+        height: 3rem;
+    }
+

@@ -1,0 +1,368 @@
+@media (max-width: 576px) {
+
+    /*类别列表项目*/
+    .one-classification a {
+        background-size: auto 80% !important;
+    }
+}
+
+/*toptools*/
+.top-tools-wrap {
+    margin-top: 4.5rem;
+}
+
+/*部分一总样式*/
+.one-wrap {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+/*类别列表*/
+.one-classification {
+    order: 0;
+    flex: 1 1 25%;
+}
+
+    /*类别列表项目*/
+    .one-classification a {
+        position: relative;
+        overflow: hidden;
+        background: #ffffff 10% center no-repeat;
+        background-size: auto 60%;
+        padding: 12.714% 0 12.714% !important;
+        border-radius: 0 !important;
+    }
+
+    .one-classification a:first-child {
+        border-top-left-radius: 0.5rem !important;
+    }
+
+    .one-classification a:last-child {
+        border-bottom-left-radius: 0.5rem !important;
+    }
+
+    @-moz-document url-prefix() {
+        .one-classification a {
+            padding: 7.143% 0 7.143% !important;
+        }
+    }
+
+        /*种类图标*/
+        .one-classification a .class-icon {
+            position: absolute;
+            height: 150%;
+            top: 10%;
+            right: -10%;
+        }
+
+/*广告区*/
+.one-ad {
+    order: 1;
+    flex: 1 1 60%;
+}
+
+    /*广告滚动区*/
+    .one-ad .carousel {
+        height: 75%;
+        overflow: hidden;
+    }
+
+    .one-ad .carousel .carousel-inner {
+        height: 100%;
+    }
+
+    .one-ad .carousel .carousel-inner .carousel-item img{
+        width: 100%;
+        height: 100%;
+    }
+
+    .one-ad > div:last-child {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+        .one-ad > div:last-child > a {
+            border-left: #ffffff 2px solid;
+            border-top: #ffffff 2px solid;
+            background: #ffffff left center no-repeat;
+            background-size: auto 100%;
+            flex: 1 1 33.3%;
+            transition: all 0.5s 0s;
+        }
+
+        .one-ad > div:last-child > a:hover {
+            cursor: pointer;
+            opacity: 0.6;
+        }
+
+        .one-ad > div:last-child > a:last-child {
+            border-right: #ffffff 2px solid;
+        }
+
+/*广告区2*/
+.one-ad2 {
+    order: 2;
+    flex: 1 1 15%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
+
+    .one-ad2 a {
+        background: #ffffff center no-repeat;
+        background-size: 100% auto;
+        flex: 1 1 33.3%;
+        transition: all 0.5s 0s;
+    }
+
+    .one-ad2 a:first-child {
+        border-top-right-radius: 0.5rem;
+    }
+
+    .one-ad2 a:last-child {
+        border-bottom-right-radius: 0.5rem;
+    }
+
+    .one-ad2 a:hover {
+        opacity: 0.6;
+        cursor: pointer;
+    }
+
+/*部分二总样式*/
+.two-wrap {
+
+}
+
+    /*标签总样式*/
+    .two-wrap .nav {
+        position: relative;
+        border-bottom: none;
+        margin-bottom: 1rem;
+    }
+
+    /*单标签样式*/
+    .two-wrap .nav .nav-link {
+        color: #000000;
+        font-size: 1.2rem;
+        border: 1px solid #8fcafe;
+        background-color: #fff;
+        border-radius: 0;
+        transition: all 0.5s 0s;
+    }
+
+    /*标签三角形*/
+    .two-wrap .nav .nav-link:after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-top: 10px solid #8fcafe;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        display: none;
+    }
+
+    /*第二个标签三角形位置*/
+    .two-wrap .nav .nav-link:last-child:after {
+        left: auto;
+        right: 50%;
+    }
+
+    /*激活的标签*/
+    .two-wrap .nav .nav-link.active:after {
+        display: block;
+    }
+
+    .two-wrap .nav .nav-link:first-child {
+        border-top-left-radius: 0.25rem;
+        border-bottom-left-radius: 0.25rem;
+        box-shadow: 0 0 1px 1px #cdcdcd;
+    }
+
+    .two-wrap .nav .nav-link:last-child {
+        border-top-right-radius: 0.25rem;
+        border-bottom-right-radius: 0.25rem;
+        box-shadow: 0 0 1px 1px #cdcdcd;
+    }
+
+    .two-wrap .nav .nav-link.active {
+        color: #ffffff;
+        font-size: 1.2rem;
+        border: 1px solid transparent;
+        background-color: #8fcafe;
+    }
+
+    @media (max-width: 768px) {
+        .two-wrap .nav .nav-link {
+            color: #000000;
+            font-size: 1rem;
+        }
+
+        .two-wrap .nav .nav-link.active {
+            color: #ffffff;
+            font-size: 1rem;
+        }
+    }
+
+    /*第二部分的卡片样式*/
+    .two-wrap .tab-content .tab-pane .card {
+        border: 1px solid #ededed;
+    }
+
+    .two-wrap .tab-content .tab-pane .card:after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        transition: all 0.5s 0s;
+        border-radius: 0.25rem;
+    }
+
+    .two-wrap .tab-content .tab-pane .card:hover:after {
+        box-shadow: 0 0 13px 2px #aaaaaa inset;
+    }
+
+    .two-wrap .tab-content .tab-pane .card:hover {
+
+    }
+
+        .two-wrap .tab-content .tab-pane .card-block .card-text {
+            width: 100%;
+            white-space:nowrap;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            display: flex;
+        }
+
+        .two-wrap .tab-content .tab-pane .card-block .card-text span {
+            display: inline-block;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 576px) {
+
+            .two-wrap .tab-content .tab-pane .card-block .card-text,
+            .two-wrap .tab-content .tab-pane .card-block h5 {
+                margin-bottom: 8px;
+            }
+
+            .two-wrap .tab-content .tab-pane .card-block .card-text span:first-child {
+                display: none;
+            }
+
+            .two-wrap .tab-content .tab-pane .card-block .card-text:last-child {
+                margin-bottom: 0;
+            }
+
+            .two-wrap .tab-content .tab-pane .card-block .card-text span:last-child {
+                font-size: 0.5rem;
+            }
+        }
+
+        /*现价*/
+        .now-pay {
+            transform: rotateZ(15deg);
+            color: #d9534f;
+            position: absolute;
+            font-size: 4rem;
+            font-weight: bolder;
+            bottom: 20%;
+            right: 10%;
+            opacity: 0.6;
+        }
+
+        @media (max-width: 992px) {
+            .now-pay {
+                font-size: 3rem;
+                bottom: 23%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .now-pay {
+                font-size: 2.5rem;
+                bottom: 27%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .now-pay {
+                font-size: 3rem;
+                bottom: 22%;
+            }
+        }
+
+/*第三部分总样式*/
+.three-wrap {
+
+}
+
+    .three-wrap .card .card {
+        border-right: 2px #ededed solid !important;
+        border-bottom: 2px #ededed solid !important;
+    }
+
+    .three-wrap .card .card:after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        box-shadow: none;
+        transition: all 0.5s 0s;
+    }
+
+    .three-wrap .card .card:hover:after {
+        box-shadow: 0 0 13px 2px #aaaaaa inset;
+    }
+
+    .three-wrap .card .card:last-child {
+        border-right: none !important;
+    }
+
+    .three-wrap .card .card .card-block .card-text {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        align-items: baseline;
+        width: 100%;
+    }
+
+        @media (max-width: 576px) {
+
+            .three-wrap .card-block .card-text,
+            .three-wrap .card-block h5 {
+                margin-bottom: 8px;
+            }
+
+            .three-wrap .card-block .card-text:last-child {
+                margin-bottom: 0;
+            }
+
+            .three-wrap .card-block .card-text span:last-child {
+                font-size: 0.5rem;
+            }
+        }
+
+    .hot-icon {
+        opacity: 0.8;
+        position: absolute;
+        width: 30%;
+        height: auto;
+        top: 2%;
+        left: 5%;
+    }
+    

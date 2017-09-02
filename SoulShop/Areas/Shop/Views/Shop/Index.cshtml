@@ -1,32 +1,45 @@
-﻿
-@{
-    Layout = null;
-}
-
-<!DOCTYPE html>
-
-<html>
+﻿<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="renderer" content="webkit">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,
+          user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>首页</title>
     <link href="~/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/Areas/Shop/MyCSS/MyGen.css" rel="stylesheet" />
+    <link href="~/Areas/Shop/MyCSS/Cover/Cover.css" rel="stylesheet" />
     <script src="~/js/jquery-3.2.1.min.js"></script>
-    <script src="~/docs/assets/js/vendor/tether.min.js"></script>
+    <script src="~/js/tether.min.js"></script>
     <script src="~/dist/js/bootstrap.js"></script>
+    <script src="~/Areas/Shop/MyJS/Cover/Cover.js"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="row" style="margin: 30px 0;">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        测试
-                    </div>
-                    <div class="card-block">
-                        测试
-                    </div>
-                </div>
-            </div>
+    <div class="cover-wrap">
+        <!--Cover-part-->
+        <div class="cover-part" style="background-image: url(/Image/Cover/bg1.jpg);">
+            <a href="" style="cursor: pointer; display:block; opacity:0.6; width: 60%; position:absolute; top: 30%; left:20%"><img src="~/Image/Cover/welcome.png" style="width: 100%" /></a>
+        </div>
+        <div class="cover-part" style="background-image: url(/Image/Cover/bg2.jpg);">
+        </div>
+        <div class="cover-part" style="background-image: url(/Image/Cover/bg3.jpg);">
+        </div>
+        <div class="cover-part" style="background-image: url(/Image/Cover/bg4.png);">
+        </div>
+        <div class="cover-part" style="background-image: url(/Image/Cover/bg5.jpeg);">
+        </div>
+        <!--choose-button-->
+        <div class="cover-choose-button">
+            <div class="active"></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="cover-updown-button">
+            <img src="/Icon/Cover/arrow-up.png" />
+            <img src="/Icon/Cover/arrow-down.png" />
         </div>
     </div>
 </body>

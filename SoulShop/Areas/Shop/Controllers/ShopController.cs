@@ -11,8 +11,12 @@ namespace SoulShop.Areas.Shop.Controllers
         // GET: Shop/Shop
         public ActionResult Index()
         {
-            //测试数据库连接
 
+            return View();
+        }
+
+        public ActionResult Main()
+        {
 
             return View();
         }
