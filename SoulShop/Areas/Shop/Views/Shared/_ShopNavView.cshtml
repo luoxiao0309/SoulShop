@@ -1,0 +1,175 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="renderer" content="webkit">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,
+          user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+    <link href="~/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/Areas/Shop/MyCSS/MyGen.css" rel="stylesheet" />
+    <link href="~/Areas/Shop/MyCSS/NavView/NavView.css" rel="stylesheet" />
+    <script src="~/js/jquery-3.2.1.min.js"></script>
+    <script src="~/js/tether.min.js"></script>
+    <script src="~/dist/js/bootstrap.js"></script>
+    <script src="~/Areas/Shop/MyJS/MyGen.js"></script>
+    <script src="~/Areas/Shop/MyJS/NavView/NavView.js"></script>
+    @RenderSection("css", false)<!--包括title style 和 独立样式表或Js文件-->
+</head>
+<body style="background: #ededed;">
+    <div class="wrap" style="background: #ededed;">
+        <!--导航条-->
+        <nav class="soul-nav navbar navbar-toggleable-md navbar-light bg-light fixed-top" style="background-color: #ffffff">
+            <div class="container">
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarToggler1" aria-controls="navbarToggler1" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <!--标志-->
+                <a class="navbar-brand" href="#"><img src="/Icon/NavView/soul.png" style="height: 2rem"></a>
+                <!--工具栏-->
+                <div class="collapse navbar-collapse" id="navbarToggler1">
+                    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                        <li class="nav-item">
+                            <div class="nav-search">
+                                <!--搜索输入框-->
+                                <input class="nav-search-input form-control mr-sm-2" type="text" placeholder="Yourt will, my hands">
+                                <!--搜索按钮-->
+                                <button class="nav-search-btn btn btn-outline-secondary my-2 my-lg-0">
+                                    <img src="/Icon/NavView/search.png" style="width: 1.25rem; height: 1.25rem; display: block;">
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="user-btn-group">
+                        <button class="soul-btn-modal btn-login btn btn-outline-secondary my-2 my-lg-0 mr-2" data-target="#modalLogin">登录</button>
+                        <button class="soul-btn-modal btn-sign-up btn btn-outline-secondary my-2 my-lg-0" data-target="#modalSignUp">注册</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!--填充部分-->
+        @RenderBody()
+        <!--页尾-->
+        <div class="mt-3 mt-md-5"></div>
+    </div>
+    <!--登录框-->
+    <div id="modalLogin" class="soul-modal">
+        <div class="soul-modal-body">
+            <div class="login-Header"><img class="login-icon" src="/Image/Main/img-sales5.jpg" /><img class="login-band" src="/Image/NavView/welcome.png"></div>
+            <input type="text" class="noactive" placeholder="用户名" />
+            <input type="text" class="noactive" placeholder="密码" />
+            <div class="login-btng-group">
+                <div class="btn" data-soulmodalmiss="true">确认</div>
+                <div class="btn" data-soulmodalmiss="true">取消</div>
+            </div>
+        </div>
+    </div>
+    <!--注册框-->
+    <div id="modalSignUp" class="soul-modal">
+        <div class="soul-modal-body">
+            <div class="login-Header"><img class="login-band" src="/Image/NavView/welcome.png"></div>
+            <nav class="soul-type-btn-group">
+                <div class="soul-type-btn" href="#normalSignUp" data-toggle="tab" role="tab" aria-controls="normalSignUp" aria-expanded="false">会员</div>
+                <div class="soul-type-btn active" href="#adminSignUp" data-toggle="tab" role="tab" aria-controls="adminSignUp" aria-expanded="true">店铺</div>
+            </nav>
+            <div class="tab-content">
+                <div id="normalSignUp" class="tab-pane fade">
+                    <div class="sign-input"><div class="sign-label">账号</div><input type="text" /></div>
+                    <div class="sign-input"><div class="sign-label">密码</div><input type="text" /></div>
+                    <div class="sign-input"><div class="sign-label">昵称</div><input type="text" /></div>
+                    <div class="sign-input"><div class="sign-label">QQ</div><input type="text" /></div>
+                    <div class="sign-input"><div class="sign-label">电话</div><input type="text" /></div>
+                    <div class="login-btng-group">
+                        <div class="btn" data-soulmodalmiss="true">确认</div>
+                        <div class="btn" data-soulmodalmiss="true">关闭</div>
+                    </div>
+                </div>
+                <div id="adminSignUp" class="tab-pane fade show active">
+                    <div class="sign-input"><div class="sign-label">账号</div><input type="text" /></div>
+                    <div class="sign-input"><div class="sign-label">密码</div><input type="text" /></div>
+                    <div class="sign-input"><div class="sign-label">店铺名</div><input type="text" /></div>
+                    <div class="sign-input"><div class="sign-label">身份证</div><input type="text" /></div>
+                    <div class="sign-input"><div class="sign-label">姓名</div><input type="text" /></div>
+                    <div class="sign-input"><div class="sign-label">电话</div><input type="text" /></div>
+                    <div class="sign-input">
+                        <div class="sign-label">地址</div>
+                        <div class="sign-area">
+                            <div id="sign-province" class="text-oneline-overhidden" style="background-image: url(/Icon/NavView/省.png)">北京市</div>
+                            <div id="sign-city" class="text-oneline-overhidden" style="background-image: url(/Icon/NavView/市.png)">北京市</div>
+                        </div>
+                        <div id="sign-province-choose" class="sign-address-choose">
+                            <div class="sign-address-choose-pinyin">ABCF</div>
+                            <div class="sign-address-choose-province">
+                                <div>澳门</div>
+                                <div>安徽</div>
+                                <div>北京</div>
+                                <div>重庆</div>
+                                <div>福建</div>
+                            </div>
+                            <div class="sign-address-choose-pinyin">G</div>
+                            <div class="sign-address-choose-province">
+                                <div>广西</div>
+                                <div>贵州</div>
+                                <div>广东</div>
+                                <div>甘肃</div>
+                            </div>
+                            <div class="sign-address-choose-pinyin">H</div>
+                            <div class="sign-address-choose-province">
+                                <div>海南</div>
+                                <div>黑龙江</div>
+                                <div>河南</div>
+                                <div>河北</div>
+                                <div>湖北</div>
+                                <div>湖南</div>
+                            </div>
+                            <div class="sign-address-choose-pinyin">JNL</div>
+                            <div class="sign-address-choose-province">
+                                <div>江西</div>
+                                <div>江苏</div>
+                                <div>吉林</div>
+                                <div>宁夏</div>
+                                <div>内蒙古</div>
+                                <div>辽宁</div>
+                            </div>
+                            <div class="sign-address-choose-pinyin">QS</div>
+                            <div class="sign-address-choose-province">
+                                <div>青海</div>
+                                <div>陕西</div>
+                                <div>上海</div>
+                                <div>山东</div>
+                                <div>四川</div>
+                                <div>山西</div>
+                            </div>
+                            <div class="sign-address-choose-pinyin">TXYZ</div>
+                            <div class="sign-address-choose-province">
+                                <div>台湾</div>
+                                <div>天津</div>
+                                <div>香港</div>
+                                <div>新疆</div>
+                                <div>西藏</div>
+                                <div>云南</div>
+                                <div>浙江</div>
+                            </div>
+                        </div>
+                        <div id="sign-city-choose" class="sign-address-choose">
+                            <div class="sign-city-choose-titile">北京市</div>
+                            <div class="sign-address-choose-city">
+                                <div>北京市</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="login-btng-group">
+                        <div class="btn" data-soulmodalmiss="true">确认</div>
+                        <div class="btn" data-soulmodalmiss="true">关闭</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

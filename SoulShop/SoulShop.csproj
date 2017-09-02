@@ -642,6 +642,7 @@
     <Content Include="Areas\Travels\Views\web.config" />
     <Content Include="Areas\Shop\Views\Shop\Index.cshtml" />
     <Content Include="Areas\Shop\Views\Shop\Main.cshtml" />
+    <Content Include="Areas\Shop\Views\Shared\_ShopNavView.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -654,6 +655,13 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Text\NavView\传统美食.png" />
+    <Content Include="Text\NavView\养生补品.png" />
+    <Content Include="Text\NavView\木制工艺.png" />
+    <Content Include="Text\NavView\特色生鲜.png" />
+    <Content Include="Text\NavView\珠宝玉器.png" />
+    <Content Include="Text\NavView\金属工艺.png" />
+    <Content Include="Text\NavView\陶制工艺.png" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -782,7 +790,6 @@
     <Folder Include="Areas\Buyer\Models\" />
     <Folder Include="Areas\Buyer\Views\Shared\" />
     <Folder Include="Areas\Shop\Models\" />
-    <Folder Include="Areas\Shop\Views\Shared\" />
     <Folder Include="Areas\Travels\Controllers\" />
     <Folder Include="Areas\Travels\Models\" />
     <Folder Include="Areas\Travels\Views\Shared\" />
