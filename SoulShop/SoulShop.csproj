@@ -643,6 +643,7 @@
     <Content Include="Areas\Shop\Views\Shop\Index.cshtml" />
     <Content Include="Areas\Shop\Views\Shop\Main.cshtml" />
     <Content Include="Areas\Shop\Views\Shared\_ShopNavView.cshtml" />
+    <Content Include="Areas\Shop\Views\Shop\ProductList.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

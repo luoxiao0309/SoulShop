@@ -187,7 +187,7 @@ function addProduct(needCount) {
 function addProductToDOM(index) {
     var product = productArray[index];
     var objProduct = $('<div class="product-card card">' +
-        '<img class="card-img-top w-100 h-100" src="Image/ProductList/img' + product.img + '.jpg"/>' +
+        '<img class="card-img-top w-100 h-100" src="/Image/ProductList/img' + product.img + '.jpg"/>' +
         '<div class="card-block">' +
         '<div class="card-title text-oneline-overhidden">玛丽黛佳</div>' +
         '<p class="card-text card-text-description text-oneline-overhidden">' + product.description + '</p>' +
