@@ -15,5 +15,13 @@ namespace SoulShop.Model
             set { picList = value; }
             get { return picList; }
         }
+
+        private T_Base_Product orProduct;
+
+        public T_Base_Product OrProduct
+        {
+            set { orProduct = value; }
+            get { return orProduct; }
+        }
     }
 }

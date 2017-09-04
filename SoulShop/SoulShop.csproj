@@ -223,6 +223,7 @@
     <Content Include="Areas\Shop\MyCSS\NavView\NavView.css" />
     <Content Include="Areas\Shop\MyCSS\ProductList\ProductList.css" />
     <Content Include="Areas\Shop\MyJS\ChatOnline\ChatOnline.js" />
+    <Content Include="Areas\Shop\MyJS\constant.js" />
     <Content Include="Areas\Shop\MyJS\Cover\Cover.js" />
     <Content Include="Areas\Shop\MyJS\Detail\Detail.js" />
     <Content Include="Areas\Shop\MyJS\Main\BaiduMap.js" />
@@ -660,6 +661,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="SQL\sql_View_ShopProduct_Product.txt" />
     <Content Include="Text\NavView\传统美食.png" />
     <Content Include="Text\NavView\养生补品.png" />
     <Content Include="Text\NavView\木制工艺.png" />

@@ -1,29 +1,10 @@
 //图片数组
-var productArray = [ { img: 1, title: "玛丽黛佳", price: 100, monthSale: 100, description: "Some quick example text to build on the card title and make up the bulk of the card's content."},
-    { img: 2, title: "玛丽黛佳", price: 100, monthSale: 100, description: "Some quick example text to build on the card title and make up the bulk of the card's content."},
-    { img: 3, title: "玛丽黛佳", price: 100, monthSale: 100, description: "Some quick example text to build on the card title and make up the bulk of the card's content."},
-    { img: 4, title: "玛丽黛佳", price: 100, monthSale: 100, description: "Some quick example text to build on the card title and make up the bulk of the card's content."},
-    { img: 5, title: "玛丽黛佳", price: 100, monthSale: 100, description: "Some quick example text to build on the card title and make up the bulk of the card's content."},
-    { img: 6, title: "玛丽黛佳", price: 100, monthSale: 100, description: "Some quick example text to build on the card title and make up the bulk of the card's content."},
-    { img: 7, title: "玛丽黛佳", price: 100, monthSale: 100, description: "Some quick example text to build on the card title and make up the bulk of the card's content."},
-    { img: 8, title: "玛丽黛佳", price: 100, monthSale: 100, description: "Some quick example text to build on the card title and make up the bulk of the card's content."},
-    { img: 9, title: "玛丽黛佳", price: 100, monthSale: 100, description: "Some quick example text to build on the card title and make up the bulk of the card's content."},
-    { img: 10, title: "玛丽黛佳", price: 100, monthSale: 100, description: "Some quick example text to build on the card title and make up the bulk of the card's content."},
-    { img: 11, title: "玛丽黛佳", price: 100, monthSale: 100, description: "Some quick example text to build on the card title and make up the bulk of the card's content."},
-    { img: 12, title: "玛丽黛佳", price: 100, monthSale: 100, description: "Some quick example text to build on the card title and make up the bulk of the card's content."},
-    { img: 13, title: "玛丽黛佳", price: 100, monthSale: 100, description: "Some quick example text to build on the card title and make up the bulk of the card's content."},
-    { img: 14, title: "玛丽黛佳", price: 100, monthSale: 100, description: "Some quick example text to build on the card title and make up the bulk of the card's content."},
-    { img: 15, title: "玛丽黛佳", price: 100, monthSale: 100, description: "Some quick example text to build on the card title and make up the bulk of the card's content."},
-    { img: 16, title: "玛丽黛佳", price: 100, monthSale: 100, description: "Some quick example text to build on the card title and make up the bulk of the card's content."},
-    { img: 17, title: "玛丽黛佳", price: 100, monthSale: 100, description: "Some quick example text to build on the card title and make up the bulk of the card's content."},
-    { img: 18, title: "玛丽黛佳", price: 100, monthSale: 100, description: "Some quick example text to build on the card title and make up the bulk of the card's content."},
-    { img: 19, title: "玛丽黛佳", price: 100, monthSale: 100, description: "Some quick example text to build on the card title and make up the bulk of the card's content."},
-    { img: 20, title: "玛丽黛佳", price: 100, monthSale: 100, description: "Some quick example text to build on the card title and make up the bulk of the card's content."}
-    ];
+var productArray = [];
 
 var isLoad = false;//图片是否加载完毕
-var nowHaveMaxImg = 20;
-var firstAddProductCount = 10;//当前检索到的商品总数量
+var nowHaveMaxImg = 0;//当前检索到的商品总数量
+var SQLServerMaxImg = 0;//能从数据库获取的该条件下最大的图片数量
+var firstAddProductCount = 0;//第一次添加商品的数量
 var colCount = 4;//当前一次添加商品的数量
 var nowProductShowIndex = 0;//当前已显示的商品序号（数组中）
 var nowFinishedProductCount = 0;//当前已完成的卡片数量
@@ -35,10 +16,18 @@ var colHeight = [0, 0, 0, 0];//window各列中已有高度
 var windowWidth;//当前卡片容器的宽度
 var scrolldivWidth = 40;
 
+//检索条件类
+var conSearch = {
+    sortTypes: SORT_TYPE_MONTHLYSALE,//排序类型
+    productCategory: PRODUCT_CATEGORY_ID_ALL,//根据商品类别ID 0为全部
+    nowSortTypes: SORT_TYPE_MONTHLYSALE,//当前显示的选择
+    nowProductCategory: PRODUCT_CATEGORY_ID_ALL//当前显示的选择
+};
+
 $(function () {
 
-    /*
     //商品按钮激活
+    /*  
     $(".product-falls-wrap .product-card").mouseenter(function () {
         $(this).find(".join-shopcar").addClass("activeshow");
         $(this).find(".check-detail").addClass("activeshow");
@@ -55,6 +44,9 @@ $(function () {
         var objThis = $(this);
         var objs = $("#kindsWrap div");
 
+        //在检索变量中 设置商品排序类型
+        conSearch.nowProductCategory = objThis.data("categoryid");
+
         if(this == objs[0])
             return;
 
@@ -66,11 +58,14 @@ $(function () {
         objThis.addClass("active");
     });
 
-    //商品类别
+    //商品排序类型
     $("#orderWrap div").click(function () {
 
         var objThis = $(this);
         var objs = $("#orderWrap div");
+
+        //在检索变量中 设置商品类别
+        conSearch.nowSortTypes = objThis.data("sorttypes");
 
         if(this == objs[0])
             return;
@@ -81,6 +76,16 @@ $(function () {
 
         objs.removeClass("active");
         objThis.addClass("active");
+    });
+    
+    //检索按钮相应
+    $(".search-btn").click(function () {
+        //在检索变量中 设置商品排序类型
+        conSearch.sortTypes = conSearch.nowSortTypes;
+        //在检索变量中 设置商品类别
+        conSearch.productCategory = conSearch.nowProductCategory;
+
+        getShopProductDataByAjaxInit();
     });
 
     //搜索栏按钮
@@ -139,18 +144,20 @@ $(function () {
         $(this).removeClass("active");
     });
 
-    //计算列数
+    //获取数据并初始化
+    getShopProductDataByAjaxInit();
+    /*//计算列数
     calColCountAndCardMargin();
     //计算列宽
     calEveryColWidth();
     //初始化列高
     resertColHeight();
-    //初始化当前已加载图片
+    //初始化当前已加载图片数量信息
     resertNowPosition();
 
     //根据当前列宽添加初始化的商品 添加两排
     addProduct(firstAddProductCount);
-    isImgRead(setProductPosition);
+    isImgRead(setProductPosition);*/
 });
 
 $(window).resize(function () {
@@ -162,14 +169,100 @@ $(window).scroll(function () {
     console.log(getMaxColHeight());//显示最大列高
     if(checkScrollToBottom()) {
 
-        if(!isLoad || (nowProductShowIndex + colCount) > nowHaveMaxImg)
+        if (!isLoad || (nowProductShowIndex + colCount) > nowHaveMaxImg) {
+            if ((nowProductShowIndex + colCount) > nowHaveMaxImg) {
+                //若为图片数量不足 尝试获取
+                if (SQLServerMaxImg > nowHaveMaxImg) {
+                    //如果还能从数据库获取数据
+                    getShopProductDataByAjax();
+                }
+            }
             return;
+        }
         isLoad = false;
 
         addProduct(colCount);
         isImgRead(setProductPosition);
     }
 });
+
+//通过ajax从后端获取数据 并初始化数据
+function getShopProductDataByAjaxInit() {
+    var areaID = $(".map-now-area-text").data("areaid");
+
+    //ajax获取商品数据
+    $.post("/Shop/Shop/GetShopProductsMore",
+        {
+            "getNumberStr": 100 + "",
+            "hasNumberStr": 0 + "",
+            "sortTypesStr": conSearch.sortTypes + "", /*月销量*/
+            "cityStr": areaID + "", /*全部*/
+            "productTypeStr": conSearch.productCategory + "" /*全部*/
+        }, function (data, status) {
+            //获取该条件下能从数据库中获取的最大数据量
+            SQLServerMaxImg = data.hasNumber;
+            //获取传入的Json数据
+            var jsonString = data.result;
+            //将json数据实例化为店铺商品对象数据
+            var listShopProduct = eval("(" + jsonString + ")")
+            nowHaveMaxImg = listShopProduct.length;
+            productArray = [];//清空数据列表
+            addAjaxDataToSPArray(listShopProduct);
+            if (nowHaveMaxImg > 10) {
+                firstAddProductCount = 10;
+            } else {
+                firstAddProductCount = nowHaveMaxImg;
+            }
+            resertAll();
+        });
+}
+
+//通过ajax从后端获取数据
+function getShopProductDataByAjax() {
+    var areaID = $(".map-now-area-text").data("areaid");
+
+    //ajax获取商品数据
+    $.post("/Shop/Shop/GetShopProductsMore",
+        {
+            "getNumberStr": 100 + "",
+            "hasNumberStr": nowHaveMaxImg + "",
+            "sortTypesStr": conSearch.sortTypes + "", /*月销量*/
+            "cityStr": conSearch.areaID + "", /*全部*/
+            "productTypeStr": conSearch.productCategory + "" /*全部*/
+        }, function (data, status) {
+            //获取该条件下能从数据库中获取的最大数据量
+            SQLServerMaxImg = data.hasNumber;
+            //获取传入的Json数据
+            var jsonString = data.result;
+            //将json数据实例化为店铺商品对象数据
+            var listShopProduct = eval("(" + jsonString + ")")
+            nowHaveMaxImg += listShopProduct.length;
+            addAjaxDataToSPArray(listShopProduct);
+        });
+}
+
+//ShopProductCardData构造函数 用于productArray的数据成员
+function createShopProduct(imgPath, name, price, monthlySale, description) {
+    var shopProduct = {
+        imgPath: imgPath,
+        name: name,
+        price: price,
+        monthlySale: monthlySale,
+        description: description
+    };
+
+    return shopProduct;
+}
+
+//将获取到的对象列表数据添加至总数据数组
+function addAjaxDataToSPArray(listShopProduct) {
+    var length = listShopProduct.length;
+    var i;
+    for (i = 0; i < length; i++) {
+        var sp = listShopProduct[i];
+        productArray.push(createShopProduct(sp.PicList[0].Path, sp.OrProduct.Name, sp.Price, sp.MonthlySale, sp.OrProduct.Description));
+    }
+}
 
 //添加商品块
 function addProduct(needCount) {
@@ -187,11 +280,11 @@ function addProduct(needCount) {
 function addProductToDOM(index) {
     var product = productArray[index];
     var objProduct = $('<div class="product-card card">' +
-        '<img class="card-img-top w-100 h-100" src="/Image/ProductList/img' + product.img + '.jpg"/>' +
+        '<img class="card-img-top w-100 h-100" src='+ product.imgPath +'>' +
         '<div class="card-block">' +
-        '<div class="card-title text-oneline-overhidden">玛丽黛佳</div>' +
+        '<div class="card-title text-oneline-overhidden">' + product.name + '</div>' +
         '<p class="card-text card-text-description text-oneline-overhidden">' + product.description + '</p>' +
-        '<p class="card-text text-oneline-overhidden"><span class="mr-auto hot-money">￥100</span><span class="my-smaller-font sales-count">100人已购</span></p>' +
+        '<p class="card-text text-oneline-overhidden"><span class="mr-auto hot-money">￥' + product.price + '</span><span class="my-smaller-font sales-count">' + product.monthlySale + '人已购</span></p>' +
         '</div>' +
         '</div>');
     /* '<div class="card-btn-group">' +
@@ -268,6 +361,7 @@ function resertAll() {
 
 //判断图片是否加载完毕
 function isImgRead(callback) {
+    isLoad = false;
     var allComplete = true;
     $(".product-falls-wrap .card-img-top").each(function () {
         if(!this.complete) {

@@ -1,0 +1,17 @@
+create view V_ShopProduct_Product as
+select T_Base_ShopProduct.ID as ID,
+		T_Base_ShopProduct.Size as Size,
+		T_Base_ShopProduct.Color as Color,
+		T_Base_ShopProduct.Stock as Stock,
+		T_Base_ShopProduct.Price as Pirce,
+		T_Base_ShopProduct.MonthlySale as MonthlySale,
+		T_Base_ShopProduct.ShopID as ShopID,
+		T_Base_ShopProduct.ProductID as ProductID,
+		T_Base_Product.Name as Name,
+		T_Base_Product.Description as Description,
+		T_Base_Product.AreaID as AreaID,
+		T_Base_Product.ProductCategoryID as ProductCategoryID
+from T_Base_ShopProduct left outer join T_Base_Product 
+on T_Base_ShopProduct.ProductID = T_Base_Product.ID
+
+select * from V_ShopProduct_Product

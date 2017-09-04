@@ -194,6 +194,22 @@ function setCurrentCityByPoint(point) {
         $("#MapCurrentProvince").text(addComp.province);
         $("#MapCurrentCP").text(addComp.province + "," + addComp.city);
         $(".map-now-area-text").text(addComp.city);
+        //根据城市名获取地域ID
+        var i, j;
+        var pLength = provincesList.length;
+
+        outermost:
+        for (i = 0; i < pLength; i++) {
+            var citys = provincesList[i].citys;
+            var cLength = citys.length;
+            for (j = 0; j < cLength; j++) {
+                if (citys[j].name == addComp.city) {
+                    $(".map-now-area-text").data("areaid", citys[j].dataId);
+                    break outermost;
+                }
+            }           
+        }
+     
         currentCity.city = addComp.city;
         currentCity.province = addComp.province;
     });

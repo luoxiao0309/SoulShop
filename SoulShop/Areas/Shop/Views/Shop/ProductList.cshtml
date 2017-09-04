@@ -1,10 +1,12 @@
-﻿
+﻿@using SoulShop.Model;
 @{
     Layout = "~/Areas/Shop/Views/Shared/_ShopNavView.cshtml";
+    //商品类别列表
+    List<T_Base_ProductCategory> listProductCategory = ViewBag.listProductCategory;
 }
 
 @section css{
-    <title>主页</title>
+    <title>商品分类页</title>
     <link href="~/Areas/Shop/MyCSS/ProductList/ProductList.css" rel="stylesheet" />
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=M1mt3fUZntsnljyuaZ4mBVN0qtNgwgOe"></script>
     <script src="~/Areas/Shop/MyJS/Main/BaiduMap.js"></script>
@@ -23,22 +25,20 @@
         <div class="arrow arrow-down"><img src="/Icon/ProductList/arrow-down.png" /></div>
         <div id="orderWrap" class="search-con-wrap">
             <div>排序类型</div>
-            <div class="active"> 价格 <img src="/Icon/ProductList/勾.png" /></div>
-            <div>月销量<img src="/Icon/ProductList/勾.png" /></div>
+            <div class="active" data-sorttypes="1">月销量<img src="/Icon/ProductList/勾.png" /></div>
+            <div data-sorttypes="0"> 价格 <img src="/Icon/ProductList/勾.png" /></div>      
         </div>
         <div id="kindsWrap" class="search-con-wrap">
             <div>商品分类</div>
-            <div class="active">传统美食<img src="/Icon/ProductList/勾.png" /></div>
-            <div>特色生鲜<img src="/Icon/ProductList/勾.png" /></div>
-            <div>养生补品<img src="/Icon/ProductList/勾.png" /></div>
-            <div>木制工艺<img src="/Icon/ProductList/勾.png" /></div>
-            <div>金属工艺<img src="/Icon/ProductList/勾.png" /></div>
-            <div>陶制工艺<img src="/Icon/ProductList/勾.png" /></div>
-            <div>珠宝玉器<img src="/Icon/ProductList/勾.png" /></div>
+            <div class="active" data-categoryid="0"> 全部 <img src="/Icon/ProductList/勾.png" /></div>
+            @foreach (T_Base_ProductCategory item in listProductCategory)
+            {
+                <div data-categoryid="@item.ID">@item.Name<img src="/Icon/ProductList/勾.png" /></div>
+            }                
         </div>
         <div id="areaWrap" class="search-con-wrap">
             <div>地区选择</div>
-            <div class="active map-now-area-text" id="MapBtn" data-toggle="modal" data-target="#MapModel">北京市</div>
+            <div class="active map-now-area-text" id="MapBtn" data-toggle="modal" data-target="#MapModel" data-areaid="0">全部</div>
         </div>
         <div class="btn btn-secondary search-btn"><img src="/Icon/NavView/search.png" style="width: 1.25rem; height: 1.25rem;"></div>
     </div>
