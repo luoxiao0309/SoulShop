@@ -1,10 +1,12 @@
-﻿
+﻿@using SoulShop.Model;
 @{
     Layout = "~/Areas/Shop/Views/Shared/_ShopNavView.cshtml";
+    List<T_Base_ShopProduct> listShopProduct = ViewBag.listShopProduct;
+    T_Base_Product product = ViewBag.product;
 }
 
 @section css{
-    <title>主页</title>
+    <title>详情页</title>
     <link href="~/Areas/Shop/MyCSS/Detail/Detail.css" rel="stylesheet" />
     <script src="~/Areas/Shop/MyJS/Detail/Detail.js"></script>
     <style>
@@ -18,19 +20,26 @@
             <div class="main-info-bigimg">
                 <img src="/Image/Main/img-sales5.jpg" />
             </div>
-            <div class="main-info-smallimg row no-gutters justify-content-center">
-                <div class="col-3 active"><img src="/Image/Main/img-sales5.jpg" /></div>
-                <div class="col-3"><img src="/Image/Main/img-sales2.jpeg" /></div>
-                <div class="col-3"><img src="/Image/Main/img-sales7.jpg" /></div>
-                <div class="col-3"><img src="/Image/Main/img-sales8.jpg" /></div>
-            </div>
+            <img class="main-info-smallimg-arrow main-info-smallimg-arrow-left" src="~/Icon/Detail/右箭头.png">
+            <img class="main-info-smallimg-arrow main-info-smallimg-arrow-right" src="~/Icon/Detail/左箭头.png">    
+            <div class="main-info-smallimg">      
+                @foreach (T_Base_ShopProduct item in listShopProduct)
+                {
+                    foreach (T_ShopProduct_Pic itemPic in item.PicList)
+                    {
+                        <div data-size="@item.Size" data-color="@item.Color">
+                            <img src="@itemPic.Path" />
+                        </div>
+                    }
+                }            
+            </div>              
         </div>
         <div class="main-info-p col-12 col-lg-7 mt-3 mt-lg-0 pr-sm-4 pl-sm-4 pr-lg-2 pl-lg-2">
             <div class="card">
                 <div class="card-block">
-                    <p class="main-info-title text-oneline-overhidden"><span class="my-title-12">旺仔牛奶</span></p>
-                    <p class="main-info-description card-text text-oneline-overhidden">旺仔牛奶是一种营养牛奶饮品，对小孩子的成长具有促进作用，有增食欲、促睡眠、祛疲劳等多项保健功能。是一种适合小孩子饮用的营养品。</p>
-                    <div class="main-info-description-all"> 旺仔牛奶是一种营养牛奶饮品，对小孩子的成长具有促进作用，有增食欲、促睡眠、祛疲劳等多项保健功能。是一种适合小孩子饮用的营养品。</div>
+                    <p class="main-info-title text-oneline-overhidden"><span class="my-title-12">@product.Name</span></p>
+                    <p class="main-info-description card-text text-oneline-overhidden">@product.Description</p>
+                    <div class="main-info-description-all"> @product.Description</div>
                     <!--价格-->
                     <div class="main-info-price">
                         <span>价格：</span><span class="red-price">￥99</span>
@@ -41,27 +50,35 @@
                     </div>
                     <!--销售信息-->
                     <div class="main-info-saleinfo row text-center">
-                        <div class="col-6 text-oneline-overhidden">月销量&nbsp;<span>99</span></div>
+                        <div class="col-6 text-oneline-overhidden main-info-monthsale-show">月销量&nbsp;<span>99</span></div>
                         <div class="col-6 text-oneline-overhidden">累计评价&nbsp;<span>99</span></div>
                     </div>
                     <!--商品规格与数量-->
                     <div class="main-info-style">
                         <div class="main-info-size">
                             <div>规格</div>
-                            <div class="active">1m</div>
-                            <div>2m</div>
-                            <div>3m</div>
+                            @foreach (T_Base_ShopProduct item in listShopProduct)
+                            { 
+                                <div>@item.Size</div>
+                            }
                         </div>
                         <div class="main-info-color">
                             <div>颜色分类</div>
-                            <div class="active">白色</div>
-                            <div>黑色</div>
-                            <div>蓝色</div>
+                            @foreach (T_Base_ShopProduct item in listShopProduct)
+                            {
+                                <div>@item.Color</div>
+                            }
                         </div>
                         <div class="main-info-count">
                             <div>数量</div>
                             <div class="input-group mr-1" style="width: 7rem;"><input class="form-control" type="number" value="1" /><div class="input-group-addon">件</div></div>
-                            <div class="ml-3">库存 100件</div>
+                            <div class="main-info-count-show ml-3">库存 0件</div>
+                            <div id="mainInfoCountData" style="display:none">
+                                @foreach (T_Base_ShopProduct item in listShopProduct)
+                                {
+                                    <div class="main-info-count-data" data-size="@item.Size" data-color="@item.Color" data-monthsale="@item.MonthlySale" data-stock="@item.Stock" data-price="@item.Price"></div>
+                                }
+                            </div>
                         </div>
                     </div>
                     <!--按钮组-->

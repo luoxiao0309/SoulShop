@@ -343,6 +343,7 @@
     <Content Include="docs\_layouts\docs.html" />
     <Content Include="docs\_layouts\home.html" />
     <Content Include="docs\_layouts\simple.html" />
+    <Content Include="backup\favicon.ico" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -358,6 +359,8 @@
     <Content Include="Icon\Cover\choose-button-active.png" />
     <Content Include="Icon\Cover\choose-button.png" />
     <Content Include="Icon\Detail\star.png" />
+    <Content Include="Icon\Detail\右箭头.png" />
+    <Content Include="Icon\Detail\左箭头.png" />
     <Content Include="Icon\Detail\标题.png" />
     <Content Include="Icon\Main\HOT.png" />
     <Content Include="Icon\Main\Map坐标.png" />

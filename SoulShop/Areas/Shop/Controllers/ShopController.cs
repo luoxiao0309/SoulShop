@@ -19,6 +19,7 @@ namespace SoulShop.Areas.Shop.Controllers
         //Main 主页
         public ActionResult Main()
         {
+            
 
             return View();
         }
@@ -31,8 +32,19 @@ namespace SoulShop.Areas.Shop.Controllers
         }
 
         //Detail 商品详情页
-        public ActionResult Detail()
+        public ActionResult Detail(string shopId="14211160225", Int32 productId=1)
         {
+            //根据商品ID获取商品信息
+            DAL.T_Base_Product dalProduct = new DAL.T_Base_Product();
+            Model.T_Base_Product product = dalProduct.GetModel(productId);
+
+            ViewBag.product = product;
+
+            //根据商品ID和店铺ID获取商品信息
+            DAL.T_Base_ShopProduct dalShopProduct = new DAL.T_Base_ShopProduct();
+            List<Model.T_Base_ShopProduct> listShopProduct = dalShopProduct.GetModelList("ShopID='" + shopId + "' and productID=" + productId);
+
+            ViewBag.listShopProduct = listShopProduct;
 
             return View();
         }

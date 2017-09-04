@@ -16,17 +16,44 @@
 
     /*缩略图总样式*/
     .main-info-smallimg {
-        padding: 2% 5% 0;
+        position: relative;
+        margin: 2% 8% 0;
+        padding: 1%;
+        display: flex;
+        overflow: hidden;
     }
 
+        .main-info-smallimg-arrow {
+            position: absolute;
+            width: 10%;
+            bottom: 5%;         
+            opacity: 0.7;  
+        }
+
+        .main-info-smallimg-arrow:hover { 
+            cursor: pointer;
+            opacity: 0.5;  
+        }
+
+        .main-info-smallimg-arrow-left {
+            left: 0;
+        }
+
+        .main-info-smallimg-arrow-right {
+            right: 0;
+        }
+
         .main-info-smallimg div {
+            position: relative;         
+            width: 25%;
+            min-width: 25%;
             padding-left: 2% !important;
             padding-right: 2% !important;
             transition: all 0.5s 0s;
         }
 
             .main-info-smallimg div.active {
-                box-shadow: 0 0 13px 2px #888888;
+                box-shadow: 0 0 8px 2px #cdcdcd;
             }
 
             .main-info-smallimg div img {
@@ -200,6 +227,10 @@
                     padding: 0.8rem;
                 }
 
+                .nostock {
+                    opacity: 0.3;
+                }
+
         /*商品按钮组*/
         .main-info-btngroup {
 
@@ -211,6 +242,7 @@
     }
         
         .comment-wrap .comment-item {
+            border-left: #e1e1e1 5px solid;
             position: relative;
             margin-top: 0.25rem;
             padding: 1.5rem 1.5rem 2.5rem 3rem;
@@ -257,4 +289,3 @@
         background: #ffffff;
         height: 3rem;
     }
-
