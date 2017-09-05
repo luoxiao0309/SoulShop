@@ -7,6 +7,7 @@ var currentCity = {
     city: "北京市"
 }
 var searchedCitys = [];//当前检索到的城市数组
+var isGetLocation = false;//是否完成定位
 
 //创建新的城市
 function createCity(provinceName, cityName) {
@@ -212,6 +213,8 @@ function setCurrentCityByPoint(point) {
      
         currentCity.city = addComp.city;
         currentCity.province = addComp.province;
+
+        isGetLocation = true;
     });
 }
 

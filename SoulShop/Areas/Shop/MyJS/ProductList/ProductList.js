@@ -103,6 +103,7 @@ $(function () {
 
     //百度地图初始化
     initMap();
+    getShopProductDataTimeOut();
 
     //城市搜索按钮侦听
     $("#MapCitySearchBtn").click(function () {
@@ -144,8 +145,7 @@ $(function () {
         $(this).removeClass("active");
     });
 
-    //获取数据并初始化
-    getShopProductDataByAjaxInit();
+   
     /*//计算列数
     calColCountAndCardMargin();
     //计算列宽
@@ -185,6 +185,16 @@ $(window).scroll(function () {
         isImgRead(setProductPosition);
     }
 });
+
+//延时启动数据获取
+function getShopProductDataTimeOut() {
+    if (isGetLocation) {
+        //获取数据并初始化
+        getShopProductDataByAjaxInit();
+    } else {
+        setTimeout(getShopProductDataTimeOut, 500);
+    }
+}
 
 //通过ajax从后端获取数据 并初始化数据
 function getShopProductDataByAjaxInit() {
