@@ -215,6 +215,7 @@
   <ItemGroup>
     <Content Include=".gitattributes" />
     <Content Include=".gitignore" />
+    <Content Include="Areas\Shop\MyCSS\Buyer\ShopCar.css" />
     <Content Include="Areas\Shop\MyCSS\ChatOnline\ChatOnline.css" />
     <Content Include="Areas\Shop\MyCSS\Cover\Cover.css" />
     <Content Include="Areas\Shop\MyCSS\Detail\Detail.css" />
@@ -222,6 +223,7 @@
     <Content Include="Areas\Shop\MyCSS\MyGen.css" />
     <Content Include="Areas\Shop\MyCSS\NavView\NavView.css" />
     <Content Include="Areas\Shop\MyCSS\ProductList\ProductList.css" />
+    <Content Include="Areas\Shop\MyJS\Buyer\ShopCar.js" />
     <Content Include="Areas\Shop\MyJS\ChatOnline\ChatOnline.js" />
     <Content Include="Areas\Shop\MyJS\constant.js" />
     <Content Include="Areas\Shop\MyJS\Cover\Cover.js" />
@@ -351,6 +353,8 @@
     <Content Include="Gruntfile.js" />
     <Content Include="grunt\change-version.js" />
     <Content Include="grunt\postcss.js" />
+    <Content Include="Icon\Buyer\headicon.jpg" />
+    <Content Include="Icon\Buyer\打勾.png" />
     <Content Include="Icon\ChatOnline\发送.png" />
     <Content Include="Icon\ChatOnline\文件.png" />
     <Content Include="Icon\ChatOnline\笑脸.png" />
@@ -649,6 +653,7 @@
     <Content Include="Areas\Shop\Views\Shared\_ShopNavView.cshtml" />
     <Content Include="Areas\Shop\Views\Shop\ProductList.cshtml" />
     <Content Include="Areas\Shop\Views\Shop\Detail.cshtml" />
+    <Content Include="Areas\Shop\Views\Shop\ShopCar.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

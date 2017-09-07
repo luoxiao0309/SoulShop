@@ -101,6 +101,13 @@ $(function () {
         $(".arrow-down").css("display", "block");
     });
 
+    //商品类型初始化
+    var productCategory = $("#getHttpData").data("productcategory");
+    $("#kindsWrap div").removeClass("active");
+    $($("#kindsWrap div")[productCategory + 1]).addClass("active");
+    conSearch.nowProductCategory = productCategory;
+    conSearch.productCategory = productCategory;
+
     //百度地图初始化
     initMap();
     getShopProductDataTimeOut();

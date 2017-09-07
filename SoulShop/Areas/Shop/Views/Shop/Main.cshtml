@@ -1,6 +1,8 @@
-﻿
+﻿@using SoulShop.Model;
 @{
     Layout = "~/Areas/Shop/Views/Shared/_ShopNavView.cshtml";
+    List<T_Base_ShopProduct> listShopProduct = ViewBag.listShopProduct;
+    List<T_Base_ProductCategory> listProductCategory = ViewBag.listProductCategory;
 }
 
 @section css{
@@ -16,6 +18,7 @@
 <!--工具栏-->
 <div class="container top-tools-wrap container-lowlg-width-p100">
     <button id="MapBtn" class="btn btn-outline-info" data-toggle="modal" data-target="#MapModel">定位</button>
+    <div class="btn btn-info map-now-area-text" style="background-color:#8fcafe; border-color:#8fcafe">定位中...</div>
     <!--Model-->
     <div class="modal fade" id="MapModel" tabindex="-1" role="dialog" aria-labelledby="MapModelLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -58,13 +61,13 @@
 <div class="container one-wrap container-lowlg-width-p100 container-lowlg-nop">
     <!--分类列表-->
     <div class="one-classification list-group">
-        <a class="list-group-item" style="background-image: url(/Text/NavView/传统美食.png)"><img class="class-icon" src="/Icon/Main/美食.png" /></a>
-        <a class="list-group-item" style="background-image: url(/Text/NavView/特色生鲜.png)"><img class="class-icon" src="/Icon/Main/水果.png" /></a>
-        <a class="list-group-item" style="background-image: url(/Text/NavView/养生补品.png)"><img class="class-icon" src="/Icon/Main/人参.png" /></a>
-        <a class="list-group-item" style="background-image: url(/Text/NavView/木制工艺.png)"><img class="class-icon" src="/Icon/Main/树.png" /></a>
-        <a class="list-group-item" style="background-image: url(/Text/NavView/金属工艺.png)"><img class="class-icon" src="/Icon/Main/金属.png" /></a>
-        <a class="list-group-item" style="background-image: url(/Text/NavView/陶制工艺.png)"><img class="class-icon" src="/Icon/Main/陶艺.png" /></a>
-        <a class="list-group-item" style="background-image: url(/Text/NavView/珠宝玉器.png)"><img class="class-icon" src="/Icon/Main/钻石.png" /></a>
+        <a href="/Shop/Shop/ProductList?productType=1" class="list-group-item" style="background-image: url(/Text/NavView/传统美食.png)"><img class="class-icon" src="/Icon/Main/美食.png" /></a>
+        <a href="/Shop/Shop/ProductList?productType=2" class="list-group-item" style="background-image: url(/Text/NavView/特色生鲜.png)"><img class="class-icon" src="/Icon/Main/水果.png" /></a>
+        <a href="/Shop/Shop/ProductList?productType=3" class="list-group-item" style="background-image: url(/Text/NavView/养生补品.png)"><img class="class-icon" src="/Icon/Main/人参.png" /></a>
+        <a href="/Shop/Shop/ProductList?productType=4" class="list-group-item" style="background-image: url(/Text/NavView/木制工艺.png)"><img class="class-icon" src="/Icon/Main/树.png" /></a>
+        <a href="/Shop/Shop/ProductList?productType=5" class="list-group-item" style="background-image: url(/Text/NavView/金属工艺.png)"><img class="class-icon" src="/Icon/Main/金属.png" /></a>
+        <a href="/Shop/Shop/ProductList?productType=6" class="list-group-item" style="background-image: url(/Text/NavView/陶制工艺.png)"><img class="class-icon" src="/Icon/Main/陶艺.png" /></a>
+        <a href="/Shop/Shop/ProductList?productType=7" class="list-group-item" style="background-image: url(/Text/NavView/珠宝玉器.png)"><img class="class-icon" src="/Icon/Main/钻石.png" /></a>
     </div>
     <!--广告区1-->
     <div class="one-ad" style="perspective:1000px; transform-style: preserve-3d;">
@@ -247,58 +250,22 @@
             热销商品
         </div>
         <div class="card-block row no-gutters p-0">
-            <div class="card col-6 col-sm-4 col-md-3 p-0 radius-0 border-0">
-                <img class="card-img-top w-100 radius-0" src="/Image/Main/img-sales8.jpg" alt="Card image cap">
-                <div class="card-block">
-                    <div class="card-title text-oneline-overhidden">玛丽黛佳</div>
-                    <p class="card-text card-text-description text-oneline-overhidden">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <p class="card-text text-oneline-overhidden"><span class="mr-auto hot-money">￥100</span><span class="my-smaller-font">100人已购</span></p>
+            @foreach (T_Base_ShopProduct item in listShopProduct)
+            {
+                <div class="hot-product-card card col-6 col-sm-4 col-md-3 p-0 radius-0 border-0" data-id="@item.ID">         
+                    <img class="card-img-top w-100 radius-0" src="@item.PicList[0].Path" alt="Card image cap">
+                    <div class="card-block">
+                        <div class="card-title text-oneline-overhidden">@item.OrProduct.Name</div>
+                        <p class="card-text card-text-description text-oneline-overhidden">@item.OrProduct.Description</p>
+                        <p class="card-text text-oneline-overhidden"><span class="mr-auto hot-money">￥@item.Price</span><span class="my-smaller-font">@item.MonthlySale 人已购</span></p>
+                    </div>
+                    <div class="card-btn-group">
+                        <div class="join-shopcar btn btn-outline-secondary">加入购物车</div>
+                        <a href="/Shop/Shop/Detail?shopId=@item.ShopID&productId=@item.ProductID&size=@item.Size&color=@item.Color" class="check-detail btn btn-outline-secondary">查看详情</a>
+                    </div>
+                    <img src="/Icon/Main/HOT.png" class="hot-icon" />
                 </div>
-                <div class="card-btn-group">
-                    <div class="join-shopcar btn btn-outline-secondary">加入购物车</div>
-                    <a class="check-detail btn btn-outline-secondary">查看详情</a>
-                </div>
-                <img src="/Icon/Main/HOT.png" class="hot-icon" />
-            </div>
-            <div class="card col-6 col-sm-4 col-md-3 p-0 radius-0 border-0">
-                <img class="card-img-top w-100 radius-0" src="/Image/Main/img-sales8.jpg" alt="Card image cap">
-                <div class="card-block">
-                    <div class="card-title text-oneline-overhidden">玛丽黛佳</div>
-                    <p class="card-text card-text-description text-oneline-overhidden">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <p class="card-text text-oneline-overhidden"><span class="mr-auto hot-money">￥100</span><span class="my-smaller-font">100人已购</span></p>
-                </div>
-                <div class="card-btn-group">
-                    <div class="join-shopcar btn btn-outline-secondary">加入购物车</div>
-                    <a class="check-detail btn btn-outline-secondary">查看详情</a>
-                </div>
-                <img src="/Icon/Main/HOT.png" class="hot-icon" />
-            </div>
-            <div class="card col-6 col-sm-4 col-md-3 p-0 radius-0 border-0">
-                <img class="card-img-top w-100 radius-0" src="/Image/Main/img-sales8.jpg" alt="Card image cap">
-                <div class="card-block">
-                    <div class="card-title  text-oneline-overhidden">玛丽黛佳</div>
-                    <p class="card-text card-text-description text-oneline-overhidden">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <p class="card-text text-oneline-overhidden"><span class="mr-auto hot-money">￥100</span><span class="my-smaller-font">100人已购</span></p>
-                </div>
-                <div class="card-btn-group">
-                    <div class="join-shopcar btn btn-outline-secondary">加入购物车</div>
-                    <a class="check-detail btn btn-outline-secondary">查看详情</a>
-                </div>
-                <img src="/Icon/Main/HOT.png" class="hot-icon" />
-            </div>
-            <div class="card col-6 col-sm-4 col-md-3 p-0 radius-0 border-0">
-                <img class="card-img-top w-100 radius-0" src="/Image/Main/img-sales8.jpg" alt="Card image cap">
-                <div class="card-block">
-                    <div class="card-title text-oneline-overhidden">玛丽黛佳</div>
-                    <p class="card-text card-text-description text-oneline-overhidden">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <p class="card-text text-oneline-overhidden"><span class="mr-auto hot-money">￥100</span><span class="my-smaller-font">100人已购</span></p>
-                </div>
-                <div class="card-btn-group">
-                    <div class="join-shopcar btn btn-outline-secondary">加入购物车</div>
-                    <a class="check-detail btn btn-outline-secondary">查看详情</a>
-                </div>
-                <img src="/Icon/Main/HOT.png" class="hot-icon" />
-            </div>
+            }
         </div>
     </div>
 </div>

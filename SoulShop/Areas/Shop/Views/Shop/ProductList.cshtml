@@ -3,6 +3,8 @@
     Layout = "~/Areas/Shop/Views/Shared/_ShopNavView.cshtml";
     //商品类别列表
     List<T_Base_ProductCategory> listProductCategory = ViewBag.listProductCategory;
+
+    int productCategory = ViewBag.productCategory;
 }
 
 @section css{
@@ -14,6 +16,8 @@
     <style>
     </style>
 }
+
+<div id="getHttpData" style="display:none" data-productcategory="@productCategory"></div>
 
  <!--商品瀑布区-->
 <div class="container container-lowlg-width-p100 container-lowlg-nop product-falls-wrap p-0">

@@ -98,6 +98,29 @@ $(function () {
         $("#sign-city").text(cityName);
         $("#sign-city-choose").removeClass("active");
     });
+
+    //登录确认响应
+    $("#navLoginSureBtn").click(function () {
+        //获取当前填入的用户名和密码
+        var id = $("#NavLoginID").val();
+        var password = $("#NavLoginPassword").val();
+
+        //ajax验证账号密码
+        $.post("/Shop/Shop/CheackLogin",
+            {
+                "id": id,
+                "password": password
+            },
+            function (data, status) {
+                if (data.code == 1) {
+                    alert("登录成功 欢迎 会员");
+                } else if (data.code == 2) {
+                    alert("登录成功 欢迎 店铺管理员");
+                } else {
+                    alert("登录失败");
+                }
+            });
+    });
 });
 
 $(window).resize(function () {

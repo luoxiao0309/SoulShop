@@ -1,6 +1,13 @@
-﻿
+﻿@using SoulShop.Model;
 @{
     Layout = null;
+
+    T_Base_Buyer buyer = null;
+
+    if (Session["buyer"] != null)
+    {
+        buyer = (T_Base_Buyer)Session["buyer"];
+    }
 }
 
 <!DOCTYPE html>
@@ -46,10 +53,20 @@
                             </div>
                         </li>
                     </ul>
-                    <div class="user-btn-group">
-                        <button class="soul-btn-modal btn-login btn btn-outline-secondary my-2 my-lg-0 mr-2" data-target="#modalLogin">登录</button>
-                        <button class="soul-btn-modal btn-sign-up btn btn-outline-secondary my-2 my-lg-0" data-target="#modalSignUp">注册</button>
-                    </div>
+                    @if (buyer != null)
+                    {
+                        <div class="user-info">
+                        <img class="user-info-icon" src="~/Image/Main/img-sales7.jpg" />
+                        <div class="user-info-nickname text-oneline-overhidden">@buyer.NickName</div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="user-btn-group">
+                            <button class="soul-btn-modal btn-login btn btn-outline-secondary my-2 my-lg-0 mr-2" data-target="#modalLogin">登录</button>
+                            <button class="soul-btn-modal btn-sign-up btn btn-outline-secondary my-2 my-lg-0" data-target="#modalSignUp">注册</button>
+                        </div>
+                    }            
                 </div>
             </div>
         </nav>
@@ -63,10 +80,10 @@
     <div id="modalLogin" class="soul-modal">
         <div class="soul-modal-body">
             <div class="login-Header"><img class="login-icon" src="/Image/Main/img-sales5.jpg" /><img class="login-band" src="/Image/NavView/welcome.png"></div>
-            <input type="text" class="noactive" placeholder="用户名" />
-            <input type="text" class="noactive" placeholder="密码" />
+            <input id="NavLoginID" type="text" class="noactive" placeholder="用户名" />
+            <input id="NavLoginPassword" type="text" class="noactive" placeholder="密码" />
             <div class="login-btng-group">
-                <div class="btn" data-soulmodalmiss="true">确认</div>
+                <div id="navLoginSureBtn" class="btn" data-soulmodalmiss="true">确认</div>
                 <div class="btn" data-soulmodalmiss="true">取消</div>
             </div>
         </div>

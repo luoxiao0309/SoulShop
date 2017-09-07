@@ -159,6 +159,23 @@ $(function () {
     $("#MapCurrentCP").click(function () {
         $(this).removeClass("active");
     });
+
+    //商品卡片查看加入购物车按钮响应
+    $(".join-shopcar").click(function () {
+        var hotCard = $(this).parents(".hot-product-card");
+        var shopProductID = hotCard.data("id");
+        //获取加入购物篮所需的卡片中的信息 amount=1 shopProductID
+        $.post("/Shop/Shop/AddInfoToShopCar",
+            {
+                "amount": 1,
+                "shopProductID": shopProductID
+            },
+            function (data, status) {
+                if (data.code == 1) {
+                    alert("已加入购物车");
+                }
+            });
+    });
 });
 
 $(window).resize(function (){

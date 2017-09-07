@@ -1,0 +1,62 @@
+﻿@using SoulShop.Model;
+@{
+    Layout = "~/Areas/Shop/Views/Shared/_ShopNavView.cshtml";
+    List<T_Base_ShopCart> listShopCart = ViewBag.listShopCart;
+}
+
+@section css{
+    <title>购物车</title>
+    <link href="~/Areas/Shop/MyCSS/Buyer/ShopCar.css" rel="stylesheet" />
+    <script src="~/Areas/Shop/MyJS/Buyer/ShopCar.js"></script>
+    <style>
+    </style>
+}
+
+<!--购物车信息包围盒-->
+<div class="shop-car-wrap container container-lowlg-width-p100 container-lowlg-nop">
+    @foreach (T_Base_ShopCart item in listShopCart)
+    {
+        <div class="shop-car-wrap-item">
+            <div class="item-pic">
+                <img src="@item.ShopProduct.PicList[0].Path" />
+                <img class="item-choose-sign" src="~/Icon/Buyer/打勾.png" />
+            </div>
+            <div class="item-info">
+                <div class="item-info-id" style="display: none;">@item.ShopProductID</div>
+                <div class="item-info-name">@item.ShopProduct.OrProduct.Name</div>
+                <div class="item-info-description">@item.ShopProduct.OrProduct.Description</div>
+                <div class="item-info-style"><span>规格：</span>@item.ShopProduct.Size<span>&nbsp;&nbsp;</span><span>颜色：</span>@item.ShopProduct.Color</div>
+                <div class="item-info-price">￥<span class="item-info-price-value">@item.ShopProduct.Price</span>&nbsp;<span class="item-info-small-amount">X @item.Amount</span></div>
+            </div>
+            <div class="item-count my-count-input-group">
+                <img src="~/Icon/Detail/右箭头.png" />
+                <div><input type="text" value="@item.Amount" /></div>
+                <img src="~/Icon/Detail/左箭头.png" />
+            </div>
+            <div class="item-edit-btn">
+                <div class="btn btn-outline-secondary">编辑</div>
+            </div>
+            <div class="item-edit">   
+                <div class="item-edit-count my-count-input-group">
+                    <img src="~/Icon/Detail/右箭头.png" />
+                    <div><input type="text" value="@item.Amount" /></div>
+                    <img src="~/Icon/Detail/左箭头.png" />
+                </div>    
+                <div class="item-edit-count-secceed">完成</div>       
+            </div>
+        </div>
+    }
+</div>
+
+<!--购物车工具栏-->
+<div class="shop-car-tools container container-lowlg-width-p100 container-lowlg-nop mt-3">
+    <div class="shop-car-tools-count">
+       已选&nbsp;<span class="shop-car-tools-count-number">0</span>&nbsp;件
+    </div>
+    <div class="shop-car-tools-sumprice">
+        总金额：<span class="shop-car-tools-sumprice-price">￥100</span>
+    </div>
+    <div class="shop-car-tools-clear">
+        结算
+    </div>
+</div>

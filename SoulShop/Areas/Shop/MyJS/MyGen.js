@@ -2426,3 +2426,60 @@ function getBoundingClientRect(element) {
         }
     }
 }
+
+function initMyCountInputGroup() {
+    var objMyCountInputGroup = $(".my-count-input-group");
+    var length = objMyCountInputGroup.length;
+    var i;
+    for (i = 0; i < length; i++) {
+        //按钮响应
+        var objSubBtn = $($(objMyCountInputGroup[i]).find("img")[0]);
+        var objAddBtn = $($(objMyCountInputGroup[i]).find("img")[1]);
+
+        objSubBtn.click(function () {
+            var objInput = $(this).parents(".my-count-input-group").find("div input");
+            //获取当前Input中的值
+            var amount = objInput.val();
+            if (amount > 1) {//如果大于1则减1
+                amount--;
+            }
+            //将相关的input值重置为修改后的值
+            objInput.val(amount);
+        });
+        objAddBtn.click(function () {
+            var objInput = $(this).parents(".my-count-input-group").find("div input");
+            //获取当前Input中的值
+            var amount = objInput.val();
+            amount++;        
+            //将相关的input值重置为修改后的值
+            objInput.val(amount);
+        });
+    }
+
+    //input输入过滤
+    var objMyCountInput = objMyCountInputGroup.find("div input");
+    objMyCountInput.keypress(function (e) {
+        var charCode;
+        
+        if (typeof e.charCode == "number") {
+            charCode = e.charCode;
+        } else {
+            charCode = e.keyCode;
+        }
+
+        var char = String.fromCharCode(charCode);
+
+        if (!/\d/.test(char)) {
+            e.preventDefault();
+        }
+    });
+
+    objMyCountInput.keyup(function (e) {
+        var inputVal = $(this).val();
+        if (inputVal.slice(0, 1) == 0)
+        {
+            inputVal = 1;
+        }
+        $(this).val(inputVal);
+    });
+}

@@ -59,6 +59,26 @@ nav.soul-nav {
         }
     }
 
+/*个人信息*/
+.user-info {
+    overflow: hidden;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 7rem;
+}
+
+    .user-info .user-info-icon {
+        flex: 0 0 auto;
+        max-width: 2.5rem;
+        border-radius: 50%;
+    }
+
+    .user-info .user-info-nickname {
+        flex: 0 0 auto;
+        max-width: 3.5rem;
+    }
+
 /*wrap*/
 .wrap {
     transition: all 0.4s 0s;

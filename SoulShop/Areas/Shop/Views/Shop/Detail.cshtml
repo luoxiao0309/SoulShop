@@ -3,6 +3,9 @@
     Layout = "~/Areas/Shop/Views/Shared/_ShopNavView.cshtml";
     List<T_Base_ShopProduct> listShopProduct = ViewBag.listShopProduct;
     T_Base_Product product = ViewBag.product;
+
+    string size = ViewBag.size;
+    string color = ViewBag.color;
 }
 
 @section css{
@@ -12,6 +15,8 @@
     <style>
     </style>
 }
+
+<div class="init-data" data-productsize="@size" data-productcolor="@color"></div>
 
 <!--商品主要信息-->
 <div class="container container-lowlg-width-p100 container-lowlg-nop main-info-wrap">

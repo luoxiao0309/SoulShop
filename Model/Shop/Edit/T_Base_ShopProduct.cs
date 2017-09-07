@@ -8,6 +8,7 @@ namespace SoulShop.Model
 {
     public partial class T_Base_ShopProduct
     {
+        //图片了列表
         private List<T_ShopProduct_Pic> picList;
         
         public List<T_ShopProduct_Pic> PicList
@@ -16,6 +17,7 @@ namespace SoulShop.Model
             get { return picList; }
         }
 
+        //源商品信息
         private T_Base_Product orProduct;
 
         public T_Base_Product OrProduct

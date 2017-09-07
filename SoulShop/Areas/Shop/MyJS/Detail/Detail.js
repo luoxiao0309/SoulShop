@@ -178,10 +178,24 @@ $(function () {
        
     });
 
+    //获取初始化的size和color
+    var initSize = $(".init-data").data("productsize");
+    var initColor = $(".init-data").data("productcolor");
+
     //商品规格颜色库存初始化
-    var objMICDivFir = $($(".main-info-color div")[1]);
+    var objMICDivFir = $(".main-info-color div").filter(function () {
+        if ($(this).text() == initColor)
+            return true;
+        return false;
+    });
+    objMICDivFir = $(objMICDivFir[0]);
     objMICDivFir.addClass("active");
-    var objMISDivFir = $($(".main-info-size div")[1]);
+    var objMISDivFir = $(".main-info-size div").filter(function () {
+        if ($(this).text() == initSize)
+            return true;
+        return false;
+    });
+    objMISDivFir = $(objMISDivFir[0]);
     objMISDivFir.addClass("active");
     //设置当前的Color和Size
     currentSize = objMISDivFir.text();

@@ -1,0 +1,332 @@
+﻿/*购物车包围盒*/
+.shop-car-wrap {
+    margin-top: 4.5rem;
+    border: solid #dddddd 1px;
+    border-radius: 0.25rem;
+    box-shadow: 0 0 5px 1px #ddd;
+    background-color: #ffffff;
+}
+
+    /*购物车条目*/
+    .shop-car-wrap .shop-car-wrap-item {
+        display: flex;
+        align-items: center;
+        padding: 1rem 0.25rem;
+        border-bottom: dashed 1px #ddd;  
+        overflow: hidden;
+        position: relative;
+    }
+
+    @media(max-width: 576px) {
+        .shop-car-wrap .shop-car-wrap-item {
+             padding: 0.25rem 0.25rem;
+        }
+    }
+
+    .shop-car-wrap .shop-car-wrap-item:last-child {
+        border-bottom: none;   
+    }
+
+        /*条目图片*/
+        .shop-car-wrap .shop-car-wrap-item .item-pic {
+            position: relative;
+            flex: 0 0 6rem;
+            border: 1px solid #eee;
+            box-shadow: 0 0 4px 1px #cdcdcd;
+        }
+
+        .shop-car-wrap .shop-car-wrap-item .item-pic .item-choose-sign {
+            display: none;
+            position: absolute;
+            width: 30%;
+            height: 30%;
+            left: 5%;
+            top: 5%;
+        }
+
+            .shop-car-wrap .shop-car-wrap-item .item-pic .item-choose-sign.active {
+                display: block;
+            }
+
+        @media(max-width: 576px) {
+            .shop-car-wrap .shop-car-wrap-item .item-pic {
+                flex: 0 0 5rem;
+            }
+        }
+
+            .shop-car-wrap .shop-car-wrap-item .item-pic img {
+                width:100%;
+            }
+
+        /*条目信息*/
+        .shop-car-wrap .shop-car-wrap-item .item-info {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-around;
+            max-width: calc(100% - 12rem);
+        }
+
+           .shop-car-wrap .shop-car-wrap-item .item-info div {
+                width: 100%;
+                padding: 0.5rem 1rem;
+                text-align:center;
+                overflow: hidden;
+                text-overflow:ellipsis;
+            }
+
+        @media(max-width: 576px) {
+            .shop-car-wrap .shop-car-wrap-item .item-info {
+                max-width: calc(100% - 9rem);
+                padding-left: 0.8rem;
+            }
+
+             .shop-car-wrap .shop-car-wrap-item .item-info div {
+                text-align:start;
+            }
+        }
+            
+        @media(max-width: 768px) {
+            .shop-car-wrap .shop-car-wrap-item .item-info {          
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-around;
+            }
+
+            .shop-car-wrap .shop-car-wrap-item .item-info div {
+                white-space: nowrap;
+                padding: 0.2rem 0.5rem;
+            }
+        }
+
+            .shop-car-wrap .shop-car-wrap-item .item-info .item-info-name {
+                flex: 0 0 25%;    
+                font-weight:bolder;          
+            }
+
+            .shop-car-wrap .shop-car-wrap-item .item-info .item-info-description {
+                color: #ccc;
+                flex: 0 0 30%;
+                font-size: 0.8rem;
+            }
+            
+            .shop-car-wrap .shop-car-wrap-item .item-info .item-info-style {
+                color: #ccc;
+                flex: 0 0 25%;
+                font-size: 0.9rem;
+            }
+
+                .shop-car-wrap .shop-car-wrap-item .item-info .item-info-style span:first-child {
+                    color: #ccc;
+                    font-weight: bolder;
+                }
+
+                .shop-car-wrap .shop-car-wrap-item .item-info .item-info-style span:last-child {
+                    color: #ccc;
+                    font-weight: bolder;
+                }
+
+            .shop-car-wrap .shop-car-wrap-item .item-info .item-info-price {
+                color: #d9534f;
+                font-weight: bolder;
+                opacity: 0.8;
+                flex: 0 0 20%;
+            }
+
+                .shop-car-wrap .shop-car-wrap-item .item-info .item-info-price .item-info-small-amount{
+                    display: none;
+                    color: #cdcdcd;             
+                }
+
+        @media(max-width: 576px) {
+            .shop-car-wrap .shop-car-wrap-item .item-info .item-info-name {
+                font-size: 0.8rem;
+            }
+
+            .shop-car-wrap .shop-car-wrap-item .item-info .item-info-description {
+                font-size: 0.6rem;
+            }
+
+            .shop-car-wrap .shop-car-wrap-item .item-info .item-info-style {
+                font-size: 0.6rem;
+            }
+
+            .shop-car-wrap .shop-car-wrap-item .item-info .item-info-price {
+                font-size: 0.8rem;
+            }
+
+            .shop-car-wrap .shop-car-wrap-item .item-info .item-info-price .item-info-small-amount{
+                display: inline-block;
+                color: #cdcdcd;             
+            }
+        }
+
+        @media(max-width: 768px) {
+            
+        }
+
+        /*商品数量*/
+        .shop-car-wrap .shop-car-wrap-item .item-count {
+            flex: 0 0 6rem;
+            height: 6rem;
+            display: flex;
+            justify-content: space-between;
+            flex-direction: row;
+            align-items: center;          
+        }
+
+        @media(max-width: 576px) {
+            .shop-car-wrap .shop-car-wrap-item .item-count {
+                display: none;
+            }
+        }
+
+            .shop-car-wrap .shop-car-wrap-item .item-count div {
+                flex: 1 1 auto%;
+                display:flex;
+                width:60%;         
+            }
+
+            .shop-car-wrap .shop-car-wrap-item .item-count input {
+                outline: none;
+                border: 1px solid #ddd;
+                border-radius: 0.25rem;
+                box-shadow: 0 0 3px 1px #eee inset;
+                width: 100%;
+                margin: auto 0;
+                text-align: center;
+            }
+
+            .shop-car-wrap .shop-car-wrap-item .item-count img {
+                flex: 1 1 20%;
+                max-width: 20%;
+            }
+
+            .shop-car-wrap .shop-car-wrap-item .item-count img:hover {
+                cursor:pointer;
+            }
+
+        /*编辑栏*/
+        .shop-car-wrap .shop-car-wrap-item .item-edit-btn {
+            flex: 0 0 4rem;
+            max-width: 4rem;
+            padding: 0.5rem 0.5rem;
+        }
+
+            .shop-car-wrap .shop-car-wrap-item .item-edit-btn .btn {
+                width: 100%;
+                font-size:0.8rem;
+                padding: 0.5rem 0.5rem;
+            }
+
+        @media (min-width: 576px) {
+            .shop-car-wrap .shop-car-wrap-item .item-edit-btn {
+                display:none;
+            }
+        }
+
+        /*width 12rem*/
+        .shop-car-wrap .shop-car-wrap-item .item-edit {
+            display: flex;
+            background:#fff;     
+            justify-content:space-between;
+            align-items:center;
+            position: absolute;
+            top:0;
+            right:-12rem;
+            height: 100%;
+            width: 12rem;
+            transition: all 0.2s 0s;
+        }
+
+            /*width 8rem*/
+            .shop-car-wrap .shop-car-wrap-item .item-edit .item-edit-count {
+                flex: 1 1 auto; 
+                display: flex;
+                align-items:center;
+                justify-content:center;
+                width: 8rem;         
+                border-left:1px dashed #ddd;  
+                height: 100%;       
+            }
+
+                .shop-car-wrap .shop-car-wrap-item .item-edit .item-edit-count img {
+                    flex: 1 1 auto;
+                    max-width: 1.5rem;            
+                }
+
+                .shop-car-wrap .shop-car-wrap-item .item-edit .item-edit-count input {
+                    flex: 1 1 auto;
+                    width: 4rem;
+                    outline: none;
+                    border: 1px solid #ddd;
+                    border-radius: 0.25rem;
+                    box-shadow: 0 0 3px 1px #eee inset;                 
+                    text-align: center;
+                }
+
+            /*width 4rem*/
+            .shop-car-wrap .shop-car-wrap-item .item-edit .item-edit-count-secceed {
+                height: 100%;
+                background-color: #ee9393;
+                color: #fff;
+                flex: 1 1 4rem;
+                display:flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+/*购物车工具栏*/
+.shop-car-tools {
+    border: solid #dddddd 1px;
+    border-radius: 0.25rem;
+    box-shadow: 0 0 5px 1px #ddd;
+    background-color: #ffffff;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    overflow: hidden;
+}
+
+    .shop-car-tools > div {
+        flex: 1 1 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+        /*商品数量*/
+        .shop-car-tools .shop-car-tools-count {
+            
+        }
+
+            .shop-car-tools .shop-car-tools-count-number {
+                font-size: 1.2rem;
+                font-weight: bolder;
+                color: #ee9393;
+            }
+
+        /*商品总价格*/
+        .shop-car-tools .shop-car-tools-sumprice {   
+            text-align: center;   
+        }
+        
+            .shop-car-tools .shop-car-tools-sumprice .shop-car-tools-sumprice-price {
+                font-size: 1.2rem;
+                font-weight: bolder;
+                color: #ee9393;
+            }
+
+    .shop-car-tools .shop-car-tools-clear {       
+        font-size: 1.2rem;
+        color: #fff;
+        height: 100%;
+        max-width: 6rem;
+        background-color: #ee9393;      
+    }
+
+    
