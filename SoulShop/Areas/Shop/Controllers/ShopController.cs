@@ -276,5 +276,114 @@ namespace SoulShop.Areas.Shop.Controllers
             result = new JavaScriptSerializer().Serialize(msg2);
             Response.Write(callback + "(" + result + ")");
         }
+
+        //聊天服务 跨域ajax保存聊天记录
+        public void SaveMsgToServer()
+        {
+            string callback = Request.QueryString["callback"];
+            string contackName = Request.QueryString["contackName"];
+            string myName = Request.QueryString["myName"];
+            string contents = Request.QueryString["contents"];
+
+            //根据传参将数据保存
+            Model.T_Base_ChatOnline chatOnlineItem = new Model.T_Base_ChatOnline();
+            chatOnlineItem.Contents = contents;
+            chatOnlineItem.ReceiverName = contackName;
+            chatOnlineItem.SenderName = myName;
+            chatOnlineItem.CreateTime = DateTime.Now;
+            chatOnlineItem.IsChecked = 0;
+
+            DAL.T_Base_ChatOnline dalChatOnline = new DAL.T_Base_ChatOnline();
+            dalChatOnline.Add(chatOnlineItem);
+
+            var msg = new { code = 1 };
+            string result = new JavaScriptSerializer().Serialize(msg);
+            Response.Write(callback + "(" + result + ")");
+        }
+
+        //聊天服务 跨域ajax获取联系人列表
+        public void GetConackList()
+        {
+            string callback = Request.QueryString["callback"];
+            string myName = Request.QueryString["myName"];
+
+            //根据当前用户名 获取联系人列表
+            DAL.T_Base_ChatContacks dalChatContacks = new DAL.T_Base_ChatContacks();
+            List<Model.T_Base_ChatContacks> listChatContacks = dalChatContacks.GetModelListByOwnerName("OwnerName='" + myName + "'");
+
+            //json格式的联系人列表数据
+            string result = JsonConvert.SerializeObject(listChatContacks);
+
+            Response.Write(callback + "(" + result + ")");
+        }
+
+        public void GetChatItemsByContacks()
+        {
+            Model.T_Base_Buyer buyer = (Model.T_Base_Buyer)Session["buyer"];
+            string nickName = buyer.NickName;
+
+            string callback = Request.QueryString["callback"];
+            string contacksName = Request.QueryString["contacksName"];
+
+            DAL.T_Base_ChatOnline dalChatOnline = new DAL.T_Base_ChatOnline();
+            string sql = "SenderName in (" + contacksName +
+                ") and ReceiverName='" + nickName
+                + "' or SenderName='" + nickName
+                + "' and ReceiverName in (" + contacksName + ") order by CreateTime";
+            List<Model.T_Base_ChatOnline> listSumChatOnline = dalChatOnline.GetModelList(sql);
+
+            //联系人数组
+            contacksName = contacksName.Replace("'", "");
+            string[] contacksNameArray = contacksName.Split(',');
+            //联系人数目
+            int contacksLength = contacksNameArray.Length;
+            //聊天记录数目
+            int chatOnlineLength = listSumChatOnline.Count;
+
+            //新建聊天记录数据保存列表
+            List<Model.T_Base_ListContackChats> listChat = new List<Model.T_Base_ListContackChats>();
+
+            //根据contackName将数据分组
+            for (int i = 0; i < contacksLength; i++)
+            {
+                //获取联系人名 和 聊天记录列表
+                string contackName = contacksNameArray[i];
+                List<Model.T_Base_ChatOnline> newListChatOnline = new List<Model.T_Base_ChatOnline>();
+                for (int j = 0; j < chatOnlineLength; j++)
+                {
+                    Model.T_Base_ChatOnline newChatOnline = listSumChatOnline[j];
+                    if (newChatOnline.SenderName.Equals(contackName)
+                        || newChatOnline.ReceiverName.Equals(contackName))
+                    {
+                        newListChatOnline.Add(newChatOnline);
+                    }
+                }
+                //保存获取的数据
+                Model.T_Base_ListContackChats listContackChats = new Model.T_Base_ListContackChats();
+                listContackChats.ListChatOnline = newListChatOnline;
+                listContackChats.ContackName = contackName;
+                listChat.Add(listContackChats);
+            }
+
+            //json格式的联系人列表数据
+            string result = JsonConvert.SerializeObject(listChat);
+
+            Response.Write(callback + "(" + result + ")");
+        }
+
+        public void ChangeChatReadSign()
+        {
+            string callback = Request.QueryString["callback"];
+            string contackName = Request.QueryString["contackName"];
+            string myName = Request.QueryString["myName"];
+
+            //发送方和接收方的名字 更改数据
+            DAL.T_Base_ChatOnline dalChatOnline = new DAL.T_Base_ChatOnline();
+            dalChatOnline.UpdateReadSign(contackName, myName);
+
+            var msg = new { code = 1 };
+            string result = new JavaScriptSerializer().Serialize(msg);
+            Response.Write(callback + "(" + result + ")");
+        }
     }
 }

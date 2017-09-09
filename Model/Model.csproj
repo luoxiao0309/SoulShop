@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shop\Edit\T_Base_ListContackChats.cs" />
     <Compile Include="Shop\Edit\T_Base_ShopCart.cs" />
     <Compile Include="Shop\Edit\T_Base_ShopProduct.cs" />
     <Compile Include="Shop\Edit\T_ShopProduct_Pic.cs" />
@@ -50,6 +51,8 @@
     <Compile Include="Shop\T_Base_Area.cs" />
     <Compile Include="Shop\T_Base_Buyer.cs" />
     <Compile Include="Shop\T_Base_Chat.cs" />
+    <Compile Include="Shop\T_Base_ChatContacks.cs" />
+    <Compile Include="Shop\T_Base_ChatOnline.cs" />
     <Compile Include="Shop\T_Base_Collection.cs" />
     <Compile Include="Shop\T_Base_OrderHead.cs" />
     <Compile Include="Shop\T_Base_OrderItem.cs" />
