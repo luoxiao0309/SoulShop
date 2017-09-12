@@ -26,18 +26,6 @@ var conSearch = {
 
 $(function () {
 
-    //商品按钮激活
-    /*  
-    $(".product-falls-wrap .product-card").mouseenter(function () {
-        $(this).find(".join-shopcar").addClass("activeshow");
-        $(this).find(".check-detail").addClass("activeshow");
-    });
-
-    $(".product-falls-wrap .product-card").mouseleave(function () {
-        $(this).find(".join-shopcar").removeClass("activeshow");
-        $(this).find(".check-detail").removeClass("activeshow");
-    });*/
-
     //商品类别
     $("#kindsWrap div").click(function () {
 
@@ -259,13 +247,18 @@ function getShopProductDataByAjax() {
 }
 
 //ShopProductCardData构造函数 用于productArray的数据成员
-function createShopProduct(imgPath, name, price, monthlySale, description) {
+function createShopProduct(imgPath, name, price, monthlySale, description, id, shopID, productID, size, color) {
     var shopProduct = {
         imgPath: imgPath,
         name: name,
         price: price,
         monthlySale: monthlySale,
-        description: description
+        description: description,
+        id: id,
+        shopID: shopID,
+        productID: productID,
+        size: size,
+        color: color
     };
 
     return shopProduct;
@@ -277,7 +270,7 @@ function addAjaxDataToSPArray(listShopProduct) {
     var i;
     for (i = 0; i < length; i++) {
         var sp = listShopProduct[i];
-        productArray.push(createShopProduct(sp.PicList[0].Path, sp.OrProduct.Name, sp.Price, sp.MonthlySale, sp.OrProduct.Description));
+        productArray.push(createShopProduct(sp.PicList[0].Path, sp.OrProduct.Name, sp.Price, sp.MonthlySale, sp.OrProduct.Description, sp.ID, sp.ShopID, sp.OrProduct.ID, sp.Size, sp.Color));
     }
 }
 
@@ -293,15 +286,52 @@ function addProduct(needCount) {
     nowProductShowIndex = endIndex + 1;
 }
 
+//设置商品按钮激活响应
+function setCartBtnGroupActive(objProduct/*目标商品card对象*/) {
+    //商品按钮激活
+    objProduct.mouseenter(function () {
+        $(this).find(".join-shopcar").addClass("activeshow");
+        $(this).find(".check-detail").addClass("activeshow");
+    });
+
+    objProduct.mouseleave(function () {
+        $(this).find(".join-shopcar").removeClass("activeshow");
+        $(this).find(".check-detail").removeClass("activeshow");
+    });
+
+    //商品卡片查看加入购物车按钮响应
+    objProduct.find(".join-shopcar").click(function () {
+        var hotCard = $(this).parents(".product-card");
+        var shopProductID = hotCard.data("id");
+        //获取加入购物篮所需的卡片中的信息 amount=1 shopProductID
+        $.post("/Shop/Shop/AddInfoToShopCar",
+            {
+                "amount": 1,
+                "shopProductID": shopProductID
+            },
+            function (data, status) {
+                if (data.code == 1) {
+                    alert("已加入购物车");
+                } else if (data.code == 0) {
+                    alert("请先登录");
+                }
+            });
+    });
+}
+
 //根据Index将数组中商品块数据 添加到DOM中
 function addProductToDOM(index) {
     var product = productArray[index];
-    var objProduct = $('<div class="product-card card">' +
+    var objProduct = $('<div class="product-card card" data-id=' + product.id + '>' +
         '<img class="card-img-top w-100 h-100" src='+ product.imgPath +'>' +
         '<div class="card-block">' +
         '<div class="card-title text-oneline-overhidden">' + product.name + '</div>' +
         '<p class="card-text card-text-description text-oneline-overhidden">' + product.description + '</p>' +
         '<p class="card-text text-oneline-overhidden"><span class="mr-auto hot-money">￥' + product.price + '</span><span class="my-smaller-font sales-count">' + product.monthlySale + '人已购</span></p>' +
+        '</div>' +
+        '<div class="card-btn-group">' +
+        '<a class="join-shopcar btn btn-outline-secondary">加入购物车</a>' +
+        '<a href="/Shop/Shop/Detail?shopId=' + product.shopID + '&productId=' + product.productID + '&size=' + product.size + '&color=' + product.color + '" class="check-detail btn btn-outline-secondary">查看详情</a>' +
         '</div>' +
         '</div>');
     /* '<div class="card-btn-group">' +
@@ -311,6 +341,7 @@ function addProductToDOM(index) {
     //设置元素宽
     objProduct.width(everyProductWidth);
     $(".product-falls-wrap").append(objProduct);
+    setCartBtnGroupActive(objProduct);
 }
 
 //计算商品卡片的位置

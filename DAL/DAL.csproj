@@ -44,6 +44,7 @@
     <Compile Include="Shop\Edit\T_Base_ChatContacks.cs" />
     <Compile Include="Shop\Edit\T_Base_ChatOnline.cs" />
     <Compile Include="Shop\Edit\T_Base_ProductCategory.cs" />
+    <Compile Include="Shop\Edit\T_Base_SaleProduct.cs" />
     <Compile Include="Shop\Edit\T_Base_ShopAdmin.cs" />
     <Compile Include="Shop\Edit\T_Base_ShopCart.cs" />
     <Compile Include="Shop\Edit\T_Base_ShopProduct.cs" />

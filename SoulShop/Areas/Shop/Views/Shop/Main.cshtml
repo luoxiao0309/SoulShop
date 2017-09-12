@@ -3,6 +3,8 @@
     Layout = "~/Areas/Shop/Views/Shared/_ShopNavView.cshtml";
     List<T_Base_ShopProduct> listShopProduct = ViewBag.listShopProduct;
     List<T_Base_ProductCategory> listProductCategory = ViewBag.listProductCategory;
+    List<T_Base_SaleProduct> listSaleProductPre = ViewBag.listSaleProductPre;
+    List<T_Base_SaleProduct> listSaleProduct = ViewBag.listSaleProduct;
 }
 
 @section css{
@@ -118,128 +120,50 @@
     </nav>
     <div class="tab-content">
         <div id="SaleTabNow" class="tab-pane row no-gutters fade show active" aria-labelledby="Tab-SaleTabNow" aria-expanded="true">
-            <div class="col-6 col-sm-4 col-md-3 pb-1 pr-1 pl-1 p-sm-0">
-                <div class="card">
-                    <img class="card-img-top w-100" src="/Image/Main/img-sales1.jpeg" alt="Card image cap">
-                    <div class="card-block">
-                        <div class="card-title text-oneline-overhidden">玛丽黛佳</div>
-                        <p class="card-text card-text-description">Some quick example text to build on the card title and make up the bulk of the card's content.</>
-                        <p class="card-text"><span class="money-cancel mr-auto">￥100</span><span>100人已购</span></p>
+            @foreach (T_Base_SaleProduct item in listSaleProduct)
+            {
+                <div class="sale-product-card card col-6 col-sm-4 col-md-3 pb-1 pr-1 pl-1 p-sm-0" data-id="@item.ShopProduct.ID">       
+                    <div class="product-img-wrap card-img-top w-100" style="background-image: url(@item.ShopProduct.PicList[0].Path)">
+                        <img src="@item.ShopProduct.PicList[0].Path" />
                     </div>
-                    <div class="now-pay">￥99</div>
+                    <div class="card-block">
+                        <div class="card-title text-oneline-overhidden">@item.ShopProduct.OrProduct.Name</div>
+                        <p class="card-text card-text-description">@item.ShopProduct.OrProduct.Description</p>
+                        <p class="card-text"><span class="money-cancel mr-auto">￥@decimal.Round((decimal)item.ShopProduct.Price, 0)</span><span>@item.ShopProduct.MonthlySale 人已购</span></p>
+                    </div>
+                    @{
+                        decimal nowpay = decimal.Round((decimal)(item.ShopProduct.Price * item.Discount), 0);
+                     }
+                    <div class="now-pay">￥@nowpay</div>
                     <div class="card-btn-group">
                         <a class="join-shopcar btn btn-outline-secondary">加入购物车</a>
-                        <a class="check-detail btn btn-outline-secondary">查看详情</a>
-                    </div>
+                        <a href="/Shop/Shop/Detail?shopId=@item.ShopProduct.ShopID&productId=@item.ShopProduct.ProductID&size=@item.ShopProduct.Size&color=@item.ShopProduct.Color" class="check-detail btn btn-outline-secondary">查看详情</a>
+                    </div>   
                 </div>
-            </div>
-            <div class="col-6 col-sm-4 col-md-3 pb-1 pr-1 pl-1 p-sm-0">
-                <div class="card">
-                    <img class="card-img-top w-100" src="/Image/Main/img-sales2.jpeg" alt="Card image cap">
-                    <div class="card-block">
-                        <div class="card-title text-oneline-overhidden">玛丽黛佳</div>
-                        <p class="card-text card-text-description">Some quick example text to build on the card title and make up the bulk of the card's content.</>
-                        <p class="card-text"><span class="money-cancel mr-auto">￥100</span><span>100人已购</span></p>
-                    </div>
-                    <div class="now-pay">￥99</div>
-                    <div class="card-btn-group">
-                        <a class="join-shopcar btn btn-outline-secondary">加入购物车</a>
-                        <a class="check-detail btn btn-outline-secondary">查看详情</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-sm-4 col-md-3 pb-1 pr-1 pl-1 p-sm-0">
-                <div class="card">
-                    <img class="card-img-top w-100" src="/Image/Main/img-sales3.jpg" alt="Card image cap">
-                    <div class="card-block">
-                        <div class="card-title text-oneline-overhidden">玛丽黛佳</div>
-                        <p class="card-text card-text-description">Some quick example text to build on the card title and make up the bulk of the card's content.</>
-                        <p class="card-text"><span class="money-cancel mr-auto">￥100</span><span>100人已购</span></p>
-                    </div>
-                    <div class="now-pay">￥99</div>
-                    <div class="card-btn-group">
-                        <a class="join-shopcar btn btn-outline-secondary">加入购物车</a>
-                        <a class="check-detail btn btn-outline-secondary">查看详情</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-sm-4 col-md-3 pb-1 pr-1 pl-1 p-sm-0">
-                <div class="card">
-                    <img class="card-img-top w-100" src="/Image/Main/img-sales4.jpg" alt="Card image cap">
-                    <div class="card-block">
-                        <div class="card-title text-oneline-overhidden">玛丽黛佳</div>
-                        <p class="card-text card-text-description">Some quick example text to build on the card title and make up the bulk of the card's content.</>
-                        <p class="card-text"><span class="money-cancel mr-auto">￥100</span><span>100人已购</span></p>
-                    </div>
-                    <div class="now-pay">￥99</div>
-                    <div class="card-btn-group">
-                        <a class="join-shopcar btn btn-outline-secondary">加入购物车</a>
-                        <a class="check-detail btn btn-outline-secondary">查看详情</a>
-                    </div>
-                </div>
-            </div>
+            }
         </div>
         <div id="SaleTabPre" class="tab-pane row no-gutters fade" aria-labelledby="Tab-SaleTabPre" aria-expanded="false">
-            <div class="col-6 col-sm-4 col-md-3 pb-1 pr-1 pl-1 p-sm-0">
-                <div class="card">
-                    <img class="card-img-top w-100" src="/Image/Main/img-sales5.jpg" alt="Card image cap">
-                    <div class="card-block">
-                        <div class="card-title text-oneline-overhidden">玛丽黛佳</div>
-                        <p class="card-text card-text-description">Some quick example text to build on the card title and make up the bulk of the card's content.</>
-                        <p class="card-text"><span class="money-cancel mr-auto">￥100</span><span>100人已购</span></p>
+            @foreach (T_Base_SaleProduct item in listSaleProductPre)
+            {
+                <div class="sale-product-card card col-6 col-sm-4 col-md-3 pb-1 pr-1 pl-1 p-sm-0">       
+                    <div class="product-img-wrap card-img-top w-100" style="background-image: url(@item.ShopProduct.PicList[0].Path)">
+                        <img src="@item.ShopProduct.PicList[0].Path" />
                     </div>
-                    <div class="now-pay">￥99</div>
+                    <div class="card-block">
+                        <div class="card-title text-oneline-overhidden">@item.ShopProduct.OrProduct.Name</div>
+                        <p class="card-text card-text-description">@item.ShopProduct.OrProduct.Description</p>
+                        <p class="card-text"><span class="money-cancel mr-auto">￥@item.ShopProduct.Price</span><span>@item.ShopProduct.MonthlySale 人已购</span></p>
+                    </div>
+                    @{
+                        decimal nowpay = decimal.Round((decimal)(item.ShopProduct.Price * item.Discount), 0);
+                    }
+                    <div class="now-pay">￥@nowpay</div>
                     <div class="card-btn-group">
                         <a class="join-shopcar btn btn-outline-secondary">加入购物车</a>
-                        <a class="check-detail btn btn-outline-secondary">查看详情</a>
-                    </div>
+                        <a href="/Shop/Shop/Detail?shopId=@item.ShopProduct.ShopID&productId=@item.ShopProduct.ProductID&size=@item.ShopProduct.Size&color=@item.ShopProduct.Color" class="check-detail btn btn-outline-secondary">查看详情</a>
+                    </div>   
                 </div>
-            </div>
-            <div class="col-6 col-sm-4 col-md-3 pb-1 pr-1 pl-1 p-sm-0">
-                <div class="card">
-                    <img class="card-img-top w-100" src="/Image/Main/img-sales6.jpg" alt="Card image cap">
-                    <div class="card-block">
-                        <div class="card-title text-oneline-overhidden">玛丽黛佳</div>
-                        <p class="card-text card-text-description">Some quick example text to build on the card title and make up the bulk of the card's content.</>
-                        <p class="card-text"><span class="money-cancel mr-auto">￥100</span><span>100人已购</span></p>
-                    </div>
-                    <div class="now-pay">￥99</div>
-                    <div class="card-btn-group">
-                        <a class="join-shopcar btn btn-outline-secondary">加入购物车</a>
-                        <a class="check-detail btn btn-outline-secondary">查看详情</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-sm-4 col-md-3 pb-1 pr-1 pl-1 p-sm-0">
-                <div class="card">
-                    <img class="card-img-top w-100" src="/Image/Main/img-sales7.jpg" alt="Card image cap">
-                    <div class="card-block">
-                        <div class="card-title text-oneline-overhidden">玛丽黛佳</div>
-                        <p class="card-text card-text-description">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <p class="card-text"><span class="money-cancel mr-auto">￥100</span><span>100人已购</span></p>
-                    </div>
-                    <div class="now-pay">￥99</div>
-                    <div class="card-btn-group">
-                        <a class="join-shopcar btn btn-outline-secondary">加入购物车</a>
-                        <a class="check-detail btn btn-outline-secondary">查看详情</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-sm-4 col-md-3 pb-1 pr-1 pl-1 p-sm-0">
-                <div class="card">
-                    <img class="card-img-top w-100" src="/Image/Main/img-sales8.jpg" alt="Card image cap">
-                    <div class="card-block">
-                        <div class="card-title card-text-description">玛丽黛佳</div>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</>
-                        <p class="card-text"><span class="money-cancel mr-auto">￥100</span><span>100人已购</span></p>
-                    </div>
-                    <div class="now-pay">￥99</div>
-                    <div class="card-btn-group">
-                        <a class="join-shopcar btn btn-outline-secondary">加入购物车</a>
-                        <a class="check-detail btn btn-outline-secondary">查看详情</a>
-                    </div>
-                </div>
-            </div>
+            }
         </div>
     </div>
 </div>
@@ -253,7 +177,9 @@
             @foreach (T_Base_ShopProduct item in listShopProduct)
             {
                 <div class="hot-product-card card col-6 col-sm-4 col-md-3 p-0 radius-0 border-0" data-id="@item.ID">         
-                    <img class="card-img-top w-100 radius-0" src="@item.PicList[0].Path" alt="Card image cap">
+                    <div class="product-img-wrap card-img-top w-100 radius-0" style="background-image: url(@item.PicList[0].Path)">
+                        <img src="@item.PicList[0].Path" />
+                    </div>
                     <div class="card-block">
                         <div class="card-title text-oneline-overhidden">@item.OrProduct.Name</div>
                         <p class="card-text card-text-description text-oneline-overhidden">@item.OrProduct.Description</p>

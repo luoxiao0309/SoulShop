@@ -6,6 +6,9 @@
 
     string size = ViewBag.size;
     string color = ViewBag.color;
+
+    List<string> listSize = ViewBag.listSize;
+    List<string> listColor = ViewBag.listColor;
 }
 
 @section css{
@@ -62,16 +65,16 @@
                     <div class="main-info-style">
                         <div class="main-info-size">
                             <div>规格</div>
-                            @foreach (T_Base_ShopProduct item in listShopProduct)
+                            @foreach (string item in listSize)
                             { 
-                                <div>@item.Size</div>
+                                <div>@item</div>
                             }
                         </div>
                         <div class="main-info-color">
                             <div>颜色分类</div>
-                            @foreach (T_Base_ShopProduct item in listShopProduct)
+                            @foreach (string item in listColor)
                             {
-                                <div>@item.Color</div>
+                                <div>@item</div>
                             }
                         </div>
                         <div class="main-info-count">

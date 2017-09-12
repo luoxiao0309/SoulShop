@@ -8,6 +8,7 @@
     .product-card {
         position: absolute;
         transition: all 0.5s 0s;
+        overflow: hidden;
     }
     
         .product-card .card-block {

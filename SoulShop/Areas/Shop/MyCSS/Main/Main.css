@@ -273,6 +273,7 @@
 
         /*现价*/
         .now-pay {
+            width: 60%;
             transform: rotateZ(15deg);
             color: #d9534f;
             position: absolute;
@@ -281,6 +282,7 @@
             bottom: 20%;
             right: 10%;
             opacity: 0.6;
+            transition: all 0.1s 0s;
         }
 
         @media (max-width: 992px) {
@@ -366,3 +368,13 @@
         left: 5%;
     }
     
+
+/*商品背景图片样式*/
+.product-img-wrap {
+    background: #fff no-repeat center;
+    background-size: 100% auto;     
+}
+
+    .product-img-wrap img {
+        display: none;
+    }

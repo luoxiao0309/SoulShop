@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shop\Edit\T_Base_SaleProduct.cs" />
     <Compile Include="Shop\Edit\T_Base_ListContackChats.cs" />
     <Compile Include="Shop\Edit\T_Base_ShopCart.cs" />
     <Compile Include="Shop\Edit\T_Base_ShopProduct.cs" />

@@ -24,23 +24,69 @@ namespace SoulShop.Areas.Shop.Controllers
             //获取热销商品
             DAL.T_Base_ShopProduct dalShopProduct = new DAL.T_Base_ShopProduct();
 
-            Int32 length = dalShopProduct.GetRecordCount("1=1");
-            if (length > 4) {
-                length = 4;
+            Int32 lengthHot = dalShopProduct.GetRecordCount("1=1");
+            if (lengthHot > 4) {
+                lengthHot = 4;
             }
 
             List<Model.T_Base_ShopProduct> listShopProduct = null;
 
-            if (length < 1)
+            if (lengthHot < 1)
             {
                 //不获取数据
             }
             else
             {
-                listShopProduct = dalShopProduct.GetModelListByPageByView("", "MonthlySale desc", 1, length);
+                listShopProduct = dalShopProduct.GetModelListByPageByView("", "MonthlySale desc", 1, lengthHot);
             }
 
             ViewBag.listShopProduct = listShopProduct;
+
+            //获取活动商品
+            DateTime nowTime = DateTime.Now;
+            string sqlWhereTimeOK = "CONVERT(datetime, '" + nowTime + "', 102) between StartTime and EndTime";
+            string sqlWhereTimePre = "StartTime>CONVERT(datetime, '" + nowTime + "', 102)";
+            //1.正在活动的商品
+            DAL.T_Base_SaleProduct dalSaleProduct = new DAL.T_Base_SaleProduct();
+
+            Int32 lengthSale = dalSaleProduct.GetRecordCount(sqlWhereTimeOK);
+            if (lengthSale > 4)
+            {
+                lengthSale = 4;
+            }
+
+            List<Model.T_Base_SaleProduct> listSaleProduct = null;
+
+            if (lengthSale < 1)
+            {
+                //不获取数据
+            }
+            else
+            {
+                listSaleProduct = dalSaleProduct.GetModelListByPageByView(sqlWhereTimeOK, "MonthlySale desc", 1, lengthSale);
+            }
+
+            ViewBag.listSaleProduct = listSaleProduct;
+
+            //2.正在活动的商品
+            lengthSale = dalSaleProduct.GetRecordCount(sqlWhereTimePre);
+            if (lengthSale > 4)
+            {
+                lengthSale = 4;
+            }
+
+            List<Model.T_Base_SaleProduct> listSaleProductPre = null;
+
+            if (lengthSale < 1)
+            {
+                //不获取数据
+            }
+            else
+            {
+                listSaleProductPre = dalSaleProduct.GetModelListByPageByView(sqlWhereTimePre, "MonthlySale desc", 1, lengthSale);
+            }
+
+            ViewBag.listSaleProductPre = listSaleProductPre;
 
             //获取全部分类
             DAL.T_Base_ProductCategory dalProductCategory = new DAL.T_Base_ProductCategory();
@@ -138,6 +184,24 @@ namespace SoulShop.Areas.Shop.Controllers
 
             ViewBag.listShopProduct = listShopProduct;
 
+            //根据商品列表中的Size和Color 筛选不重复的这两个数组
+            List<string> listSize = new List<string>();
+            List<string> listColor = new List<string>();
+            foreach (Model.T_Base_ShopProduct item in listShopProduct)
+            {
+                if (listSize.IndexOf(item.Size) < 0)
+                {
+                    listSize.Add(item.Size);
+                }
+                if (listColor.IndexOf(item.Color) < 0)
+                {
+                    listColor.Add(item.Color);
+                }
+            }
+
+            ViewBag.listSize = listSize;
+            ViewBag.listColor = listColor;
+
             return View();
         }
 
@@ -196,16 +260,23 @@ namespace SoulShop.Areas.Shop.Controllers
         //向购物篮加入信息
         public JsonResult AddInfoToShopCar(Int32 shopProductID, Int32 amount)
         {
+            //完整的权限设置
+            Model.T_Base_Buyer buyer = (Model.T_Base_Buyer)Session["buyer"];
+            if (buyer == null)//如果buyer为null 说明没有用户登录
+            {
+                return Json(new { code = 0 });//0为无用户登录
+            }
+
             Model.T_Base_ShopCart shopCartItem = new Model.T_Base_ShopCart();
             shopCartItem.ShopProductID = shopProductID;
             shopCartItem.Amount = amount;
             shopCartItem.CreateTime = DateTime.Now;
-            shopCartItem.BuyerID = "756384199@qq.com";
+            shopCartItem.BuyerID = buyer.ID;
 
             DAL.T_Base_ShopCart dalShopCar = new DAL.T_Base_ShopCart();
             dalShopCar.Add(shopCartItem);
 
-            return Json(new { code = 1 });
+            return Json(new { code = 1 });//操作完成
         }
 
         //修改购物篮条目的数据
@@ -317,6 +388,7 @@ namespace SoulShop.Areas.Shop.Controllers
             Response.Write(callback + "(" + result + ")");
         }
 
+        //根据聊天对象获取聊天记录
         public void GetChatItemsByContacks()
         {
             Model.T_Base_Buyer buyer = (Model.T_Base_Buyer)Session["buyer"];
@@ -371,6 +443,7 @@ namespace SoulShop.Areas.Shop.Controllers
             Response.Write(callback + "(" + result + ")");
         }
 
+        //改变是否阅读状态
         public void ChangeChatReadSign()
         {
             string callback = Request.QueryString["callback"];

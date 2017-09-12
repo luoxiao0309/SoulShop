@@ -1,6 +1,7 @@
 var intervalId_Carouse3d;
 var nowrotatey = 0, nowrotatex = 0;
 var rotatey = 0, rotatex = 0;
+var isLoad = false;
 
 function setMainCarouse3d() {
     var objCarouse = $("#MainCarouse");
@@ -12,7 +13,67 @@ function setMainCarouse3d() {
     objCarouse.css("transform", strTra);
 }
 
+function setNowPayFontSize() {
+    var objNowpays = $(".now-pay");
+    var length = objNowpays.length;
+    var i;
+    for (i = 0; i < length; i++) {
+        var objNowpay = $(objNowpays[i]);
+        var width = objNowpay.width();
+        var fontNumber = objNowpay.text().length;
+        var fontSize = width / fontNumber;
+        objNowpay.css("font-size", fontSize * 1.5 + "px");
+    } 
+}
+
+function isImgRead(callback) {
+    isLoad = false;
+    var allComplete = true;
+    $(".product-img-wrap img").each(function () {
+        if (!this.complete) {
+            allComplete = false;
+        }
+    });
+
+    if (allComplete) {
+        isLoad = true;
+    }
+
+    if (!isLoad) {//未完毕
+        setTimeout(function () {
+            isImgRead(callback);
+        }, 500);
+    } else {
+        callback();
+    }
+}
+
 $(function () {
+    //初始化nowpay中字体宽度
+    isImgRead(setNowPayFontSize);
+
+    //活动商品切换按钮
+    $("#Tab-SaleTabPre").click(function () {
+        setTimeout(function () { setNowPayFontSize(); }, 200);       
+    });
+    $("#Tab-SaleTabNow").click(function () {
+        setTimeout(function () { setNowPayFontSize(); }, 200);
+    });
+
+    //调整热销和活动商品块的高度 根据图片的长宽设置其位置
+    var objProductImgWraps = $(".product-img-wrap");
+    objProductImgWraps.height(objProductImgWraps.width());
+    var lengthProductWrap = objProductImgWraps.length;
+    var iPW;
+    for (iPW = 0; iPW < lengthProductWrap; iPW++) {
+        var objProductImgWrap = $(objProductImgWraps[iPW]);
+        var shopImgWidth = objProductImgWrap.find("img").width();
+        var shopImgHeight = objProductImgWrap.find("img").height();
+        if (shopImgHeight < shopImgWidth) {
+            objProductImgWrap.css("background-size", "auto 100%");
+        }
+    }
+
     //调整类别选择区高度 根据其宽度等比例放大
     var classWidth = $(".one-classification").width();
     var objClass = $(".one-classification");//获取目标块
@@ -107,7 +168,6 @@ $(function () {
             rotatey = rotatex = 0;
         }
     });*/
-
     //鼠标移出MainCarouse
     //$("#MainCarouse").mouseleave(function (e) {
         //var strTra = "rotateY(0deg) rotateX(0deg)";
@@ -162,7 +222,7 @@ $(function () {
 
     //商品卡片查看加入购物车按钮响应
     $(".join-shopcar").click(function () {
-        var hotCard = $(this).parents(".hot-product-card");
+        var hotCard = $(this).parents(".hot-product-card") && $(this).parents(".sale-product-card");
         var shopProductID = hotCard.data("id");
         //获取加入购物篮所需的卡片中的信息 amount=1 shopProductID
         $.post("/Shop/Shop/AddInfoToShopCar",
@@ -173,12 +233,17 @@ $(function () {
             function (data, status) {
                 if (data.code == 1) {
                     alert("已加入购物车");
+                } else if (data.code == 0) {
+                    alert("请先登录");
                 }
             });
     });
 });
 
-$(window).resize(function (){
+$(window).resize(function () {
+    //改变nowpay中字体宽度
+    setNowPayFontSize();
+
     //调整类别选择区高度 根据其宽度等比例放大
     var classWidth = $(".one-classification").width();
     var objClass = $(".one-classification");//获取目标块
