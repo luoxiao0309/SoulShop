@@ -10,6 +10,7 @@ namespace SoulShop.Areas.Shop.Controllers
 {
     public class ShopController : Controller
     {
+        /*1.首页*/
         // GET: Shop/Shop
         //Cover 首页
         public ActionResult Index()
@@ -18,6 +19,7 @@ namespace SoulShop.Areas.Shop.Controllers
             return View();
         }
 
+        /*2.主页*/
         //Main 主页
         public ActionResult Main()
         {
@@ -98,6 +100,7 @@ namespace SoulShop.Areas.Shop.Controllers
             return View();
         }
 
+        /*3.商品浏览页*/
         //ProductList 商品分类页
         public ActionResult ProductList(int sortTypes = 1/*排序类型*/, int city = 0/*城市ID 默认值为0 全部地区*/, int productType = 0/*商品类型 默认为全部类型*/)
         {
@@ -165,6 +168,96 @@ namespace SoulShop.Areas.Shop.Controllers
             return Json(new { result = result, hasNumber = hasNumber + getNumber });
         }
 
+        //SaleProductList 抢购（活动商品浏览页）
+        public ActionResult SaleProductList(int sortTypes = 1/*排序类型*/, int city = 0/*城市ID 默认值为0 全部地区*/,
+            int productType = 0/*商品类型 默认为全部类型*/, int saleType = 0/*0为未开始活动 1为已开始活动*/)
+        {
+            /*0为未开始活动 1为已开始活动*/
+            ViewBag.saleType = saleType;
+
+            //获取全部分类
+            DAL.T_Base_ProductCategory dalProductCategory = new DAL.T_Base_ProductCategory();
+            List<Model.T_Base_ProductCategory> listProductCategory = dalProductCategory.GetModelList("1=1");
+
+            /*商品类别列表*/
+            ViewBag.listProductCategory = listProductCategory;
+
+            /*商品类别*/
+            ViewBag.productCategory = productType;
+
+            return View();
+        }
+
+        //ajax获取店铺商品数据
+        public JsonResult GetSaleProductsMore(string getNumberStr = "100"/*所需获取数量*/,
+            string hasNumberStr = "0"/*已有店铺商品数量*/,
+            string sortTypesStr = "1"/*排序类型*/,
+            string cityStr = "0"/*城市ID 默认值为0 全部地区*/,
+            string productTypeStr = "0"/*商品类型 默认为全部类型*/,
+            string saleTypeStr = "0"/*0为未开始活动 1为已开始活动*/)
+        {
+            Int32 getNumber = Convert.ToInt32(getNumberStr);
+            Int32 hasNumber = Convert.ToInt32(hasNumberStr);
+            int sortTypes = Convert.ToInt32(sortTypesStr);
+            int city = Convert.ToInt32(cityStr);
+            int productType = Convert.ToInt32(productTypeStr);
+            int saleType = Convert.ToInt32(saleTypeStr);
+
+            DateTime nowTime = DateTime.Now;
+            string sqlWhereTime = null;
+            //构造关于活动是否开始的sql条件语句
+            if (saleType == 0)/*活动未开始*/
+            {
+                sqlWhereTime = "StartTime>CONVERT(datetime, '" + nowTime + "', 102)";
+            }
+            else if(saleType == 1)/*活动已开始*/
+            {
+                sqlWhereTime = "CONVERT(datetime, '" + nowTime + "', 102) between StartTime and EndTime";
+            }
+
+            //根据当前商品类型和城市定位获取商品列表
+            //编辑SQL语句
+            DAL.T_Base_SaleProduct dalSaleProduct = new DAL.T_Base_SaleProduct();
+            string sql = "";
+            if (city != 0) { sql = sql + "AreaID=" + city; }
+            if (productType != 0)
+            {
+                if (sql.Equals(""))
+                {
+                    sql = "ProductCategoryID=" + productType;
+                }
+                else
+                {
+                    sql = sql + " and " + "ProductCategoryID=" + productType;
+                }
+            }
+
+            //sql总和
+            sql = sql + " and " + sqlWhereTime;
+
+            //编辑排序类型 //0表示按价格排序 1表示按月销量排序
+            string sortString = "";
+            if (sortTypes == 0) { sortString = "Pirce"; }
+            else if (sortTypes == 1) { sortString = "MonthlySale desc"; }
+            else { sortString = "ID"; }
+
+            //计算列表长度
+            Int32 length = dalSaleProduct.GetRecordCountbyVSSPFS(sql);
+            if (getNumber + hasNumber > length)
+            {//如果所需的商品数量超限 获取的商品数量为可取的最大值
+                getNumber = length - hasNumber;
+            }
+
+            //根据指定数量获取数据列表
+            List<Model.T_Base_SaleProduct> listSaleProduct = dalSaleProduct.GetModelListByPageByView(sql, sortString, hasNumber + 1, hasNumber + getNumber);
+
+            //json格式的店铺商品列表数据
+            string result = JsonConvert.SerializeObject(listSaleProduct);
+
+            return Json(new { result = result, hasNumber = hasNumber + getNumber });
+        }
+
+        /*4.商品详情页*/
         //Detail 商品详情页
         public ActionResult Detail(string size, string color, string shopId="14211160225", Int32 productId=1)
         {
@@ -205,6 +298,7 @@ namespace SoulShop.Areas.Shop.Controllers
             return View();
         }
 
+        /*5.购物篮页*/
         //购物篮页
         public ActionResult ShopCar()
         {
@@ -295,6 +389,7 @@ namespace SoulShop.Areas.Shop.Controllers
             return Json(new { code = 1 });
         }
 
+        /*6.登陆与注册*/
         //登录验证
         public JsonResult CheackLogin(string id, string password)
         {
@@ -307,6 +402,7 @@ namespace SoulShop.Areas.Shop.Controllers
                 if (buyer.Password.Equals(password))
                 {
                     Session["buyer"] = buyer;
+                    Session["type"] = 0;
                     return Json(new { code = 1 });
                 }
             }
@@ -319,13 +415,36 @@ namespace SoulShop.Areas.Shop.Controllers
                 if (shopAdmin.Password.Equals(password))
                 {
                     Session["shopAdmin"] = shopAdmin;
+                    Session["type"] = 1;
                     return Json(new { code = 2 });
+                }
+            }
+            DAL.T_Base_SysAdmin dalSysAdmin = new DAL.T_Base_SysAdmin();
+            //判断账号是否存在（超级管理员）
+            if (dalSysAdmin.GetRecordCount("ID='" + id + "'") > 0)
+            {
+                //若账号存在 判断账号和密码是否相符
+                Model.T_Base_SysAdmin sysAdmin = dalSysAdmin.GetModel(id);
+                if (sysAdmin.Password.Equals(password))
+                {
+                    Session["sysAdmin"] = sysAdmin;
+                    Session["type"] = 2;
+                    return Json(new { code = 3 });
                 }
             }
 
             return Json(new { code = 0 });
         }
 
+        //注销登录
+        public JsonResult CancelLogin()
+        {       
+            Session.Abandon();//清除数据
+
+            return Json(new { code = 1 });
+        }
+
+        /*7.在线聊天*/
         //聊天服务 跨域ajax获取用户信息
         public void GetUserInfo()
         {

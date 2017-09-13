@@ -59,29 +59,144 @@ nav.soul-nav {
         }
     }
 
-/*个人信息*/
-.user-info {
-    overflow: hidden;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 7rem;
+    /*个人操作*/
+    .buyer-operation {
+        display: none;
+        opacity: 0.9;
+        top: 3.2rem;
+        right: 15px;
+        position: absolute;
+        width: 10rem;
+        flex-direction: column;
+        justify-content: center;
+        border: #cdcdcd 1px solid;
+        border-radius: 0.25rem;
+    }
+
+    .buyer-operation.active {
+        display: flex;
+    }
+
+        .buyer-operation .buyer-operation-item {
+            padding: 0.8rem 1.5rem;
+            padding-left: 4rem;
+            text-align: center;
+            background:#fff no-repeat left 1.2rem top 0.6rem;
+            background-size: 1.8rem 1.8rem;
+            border-bottom: 1px #eee dashed;
+        }
+
+        .buyer-operation .buyer-operation-item:last-child {
+            border-bottom: 1px #eee none;
+        }
+
+        .buyer-operation .buyer-operation-item:hover {
+            cursor: pointer;
+            background-color: #eee;
+        }
+
+        .buyer-operation .buyer-operation-item:first-child:after {
+            content: "";
+            top: -0.55rem;
+            left: calc(50% - 0.75rem);
+            width: 1rem;
+            height: 1rem;
+            position: absolute;        
+            border: 1px #cdcdcd solid;
+            border-right: none;
+            border-bottom: none;
+            transform: rotate(45deg);
+            background: #fff;
+        }
+
+        .buyer-operation .buyer-operation-item:first-child:hover:after {
+            cursor: pointer;
+            background-color: #eee;
+        }
+
+@media (max-width: 992px) {
+     /*个人操作*/
+    .buyer-operation {
+        display: flex;
+        opacity: 1;
+        top: 0;
+        left: 0;
+        position:relative;
+        width:100%;
+        border: none;
+        border-radius: 0rem;
+    }   
+
+    .buyer-operation .buyer-operation-item {
+        border-bottom: 1px #cdcdcd dashed;
+    }
+
+    .buyer-operation .buyer-operation-item:first-child:after {
+        display:none;
+    }
 }
 
-    .user-info .user-info-icon {
-        flex: 0 0 auto;
-        max-width: 2.5rem;
-        border-radius: 50%;
+    /*个人信息*/
+    .user-info {
+        overflow: hidden;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 10rem;
     }
 
-    .user-info .user-info-nickname {
-        flex: 0 0 auto;
-        max-width: 3.5rem;
+        .user-info:hover {
+            cursor: pointer;
+            opacity: 0.8;
+            border-top: 1px solid #cdcdcd;
+            border-bottom: 1px solid #cdcdcd;
+            box-shadow: 0 0 5px 1px #cdcdcd;
+        }
+
+        .user-info .user-info-icon {
+            flex: 0 0 30%;
+            max-width: 30%;
+            padding-right: 5%;
+            border-right: dashed 1px #cdcdcd;
+        }
+
+        .user-info .user-info-icon img {
+            width:100%;
+            border-radius: 50%;
+        }
+
+        .user-info .user-info-nickname {
+            text-align:center;
+            flex: 0 0 70%;
+            max-width: 70%;
+            padding-left: 5%;
+        }
+
+@media (max-width: 992px) {
+    .user-info {
+        width: 100%;
+        border-bottom:1px #cdcdcd dashed;
+        padding: 0.5rem 0;
     }
+
+        .user-info .user-info-icon {
+            flex: 0 0 auto;
+            max-width: 4rem;        
+            border-right: none;
+            padding: 0 0.75rem;
+        }
+
+        .user-info .user-info-nickname {
+            text-align:center;
+            flex: 0 0 calc(100% - 4rem);
+            max-width: calc(100% - 4rem);
+            padding-left:0;
+        }
+}
 
 /*wrap*/
 .wrap {
-    transition: all 0.1s 0s;
+    /*transition: all 0s 0s;*/
 }
 
 /*背景玻璃滤镜*/

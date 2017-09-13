@@ -120,49 +120,55 @@
     </nav>
     <div class="tab-content">
         <div id="SaleTabNow" class="tab-pane row no-gutters fade show active" aria-labelledby="Tab-SaleTabNow" aria-expanded="true">
-            @foreach (T_Base_SaleProduct item in listSaleProduct)
+            @if (listSaleProduct != null)
             {
-                <div class="sale-product-card card col-6 col-sm-4 col-md-3 pb-1 pr-1 pl-1 p-sm-0" data-id="@item.ShopProduct.ID">       
-                    <div class="product-img-wrap card-img-top w-100" style="background-image: url(@item.ShopProduct.PicList[0].Path)">
-                        <img src="@item.ShopProduct.PicList[0].Path" />
-                    </div>
-                    <div class="card-block">
-                        <div class="card-title text-oneline-overhidden">@item.ShopProduct.OrProduct.Name</div>
-                        <p class="card-text card-text-description">@item.ShopProduct.OrProduct.Description</p>
-                        <p class="card-text"><span class="money-cancel mr-auto">￥@decimal.Round((decimal)item.ShopProduct.Price, 0)</span><span>@item.ShopProduct.MonthlySale 人已购</span></p>
-                    </div>
-                    @{
-                        decimal nowpay = decimal.Round((decimal)(item.ShopProduct.Price * item.Discount), 0);
-                     }
-                    <div class="now-pay">￥@nowpay</div>
-                    <div class="card-btn-group">
-                        <a class="join-shopcar btn btn-outline-secondary">加入购物车</a>
-                        <a href="/Shop/Shop/Detail?shopId=@item.ShopProduct.ShopID&productId=@item.ShopProduct.ProductID&size=@item.ShopProduct.Size&color=@item.ShopProduct.Color" class="check-detail btn btn-outline-secondary">查看详情</a>
-                    </div>   
-                </div>
-            }
+                    foreach (T_Base_SaleProduct item in listSaleProduct)
+                    {
+                        <div class="sale-product-card card col-6 col-sm-4 col-md-3 pb-1 p-sm-0" data-id="@item.ShopProduct.ID">       
+                            <div class="product-img-wrap card-img-top w-100" style="background-image: url(@item.ShopProduct.PicList[0].Path)">
+                                <img src="@item.ShopProduct.PicList[0].Path" />
+                            </div>
+                            <div class="card-block">
+                                <div class="card-title text-oneline-overhidden">@item.ShopProduct.OrProduct.Name</div>
+                                <p class="card-text card-text-description">@item.ShopProduct.OrProduct.Description</p>
+                                <p class="card-text"><span class="money-cancel mr-auto">￥@decimal.Round((decimal)item.ShopProduct.Price, 0)</span><span>@item.ShopProduct.MonthlySale 人已购</span></p>
+                            </div>
+                            @{
+                                decimal nowpay = decimal.Round((decimal)(item.ShopProduct.Price * item.Discount), 0);
+                             }
+                            <div class="now-pay">￥@nowpay</div>
+                            <div class="card-btn-group">
+                                <a class="join-shopcar btn btn-outline-secondary">加入购物车</a>
+                                <a href="/Shop/Shop/Detail?shopId=@item.ShopProduct.ShopID&productId=@item.ShopProduct.ProductID&size=@item.ShopProduct.Size&color=@item.ShopProduct.Color" class="check-detail btn btn-outline-secondary">查看详情</a>
+                            </div>   
+                        </div>
+                    }
+            }      
         </div>
         <div id="SaleTabPre" class="tab-pane row no-gutters fade" aria-labelledby="Tab-SaleTabPre" aria-expanded="false">
-            @foreach (T_Base_SaleProduct item in listSaleProductPre)
-            {
-                <div class="sale-product-card card col-6 col-sm-4 col-md-3 pb-1 pr-1 pl-1 p-sm-0">       
-                    <div class="product-img-wrap card-img-top w-100" style="background-image: url(@item.ShopProduct.PicList[0].Path)">
-                        <img src="@item.ShopProduct.PicList[0].Path" />
+           @if (listSaleProductPre != null)
+           {
+                 foreach (T_Base_SaleProduct item in listSaleProductPre)
+                 {
+                    <div class="sale-product-card card col-6 col-sm-4 col-md-3 pb-1 p-sm-0">       
+                        <div class="product-img-wrap card-img-top w-100" style="background-image: url(@item.ShopProduct.PicList[0].Path)">
+                            <img src="@item.ShopProduct.PicList[0].Path" />
+                        </div>
+                        <div class="card-block">
+                            <div class="card-title text-oneline-overhidden">@item.ShopProduct.OrProduct.Name</div>
+                            <p class="card-text card-text-description">@item.ShopProduct.OrProduct.Description</p>
+                            <p class="card-text"><span class="money-cancel mr-auto">￥@item.ShopProduct.Price</span><span>@item.ShopProduct.MonthlySale 人已购</span></p>
+                        </div>
+                        @{
+                            decimal nowpay = decimal.Round((decimal)(item.ShopProduct.Price * item.Discount), 0);
+                        }
+                        <div class="now-pay">￥@nowpay</div>
+                        <div class="card-btn-group">
+                            <a class="join-shopcar btn btn-outline-secondary">加入购物车</a>
+                            <a href="/Shop/Shop/Detail?shopId=@item.ShopProduct.ShopID&productId=@item.ShopProduct.ProductID&size=@item.ShopProduct.Size&color=@item.ShopProduct.Color" class="check-detail btn btn-outline-secondary">查看详情</a>
+                        </div>   
                     </div>
-                    <div class="card-block">
-                        <div class="card-title text-oneline-overhidden">@item.ShopProduct.OrProduct.Name</div>
-                        <p class="card-text card-text-description">@item.ShopProduct.OrProduct.Description</p>
-                        <p class="card-text"><span class="money-cancel mr-auto">￥@item.ShopProduct.Price</span><span>@item.ShopProduct.MonthlySale 人已购</span></p>
-                    </div>
-                    @{
-                        decimal nowpay = decimal.Round((decimal)(item.ShopProduct.Price * item.Discount), 0);
-                    }
-                    <div class="now-pay">￥@nowpay</div>
-                    <div class="card-btn-group">
-                        <a class="join-shopcar btn btn-outline-secondary">加入购物车</a>
-                        <a href="/Shop/Shop/Detail?shopId=@item.ShopProduct.ShopID&productId=@item.ShopProduct.ProductID&size=@item.ShopProduct.Size&color=@item.ShopProduct.Color" class="check-detail btn btn-outline-secondary">查看详情</a>
-                    </div>   
-                </div>
+                }
             }
         </div>
     </div>

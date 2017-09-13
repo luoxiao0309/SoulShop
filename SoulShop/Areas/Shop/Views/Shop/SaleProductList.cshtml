@@ -1,0 +1,90 @@
+﻿@using SoulShop.Model;
+@{
+    Layout = "~/Areas/Shop/Views/Shared/_ShopNavView.cshtml";
+    //商品类别列表
+    List<T_Base_ProductCategory> listProductCategory = ViewBag.listProductCategory;
+
+    int productCategory = ViewBag.productCategory;
+    int saleType = ViewBag.saleType;
+}
+
+@section css{
+    <title>商品分类页</title>
+    <link href="~/Areas/Shop/MyCSS/ProductList/SaleProductList.css" rel="stylesheet" />
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=M1mt3fUZntsnljyuaZ4mBVN0qtNgwgOe"></script>
+    <script src="~/Areas/Shop/MyJS/Main/BaiduMap.js"></script>
+    <script src="~/Areas/Shop/MyJS/ProductList/SaleProductList.js"></script>
+    <style>
+    </style>
+}
+
+<div id="getHttpData" style="display:none" data-productcategory="@productCategory" data-saleType="@saleType"></div>
+
+<!--商品瀑布区-->
+<div class="container container-lowlg-width-p100 container-lowlg-nop product-falls-wrap p-0">
+
+</div>
+<div class="search-wrap">
+    <div class="container p-3">
+        <div class="arrow arrow-up"><img src="/Icon/ProductList/arrow-up.png" /></div>
+        <div class="arrow arrow-down"><img src="/Icon/ProductList/arrow-down.png" /></div>
+        <div id="orderWrap" class="search-con-wrap">
+            <div>排序类型</div>
+            <div class="active" data-sorttypes="1">月销量<img src="/Icon/ProductList/勾.png" /></div>
+            <div data-sorttypes="0"> 价格 <img src="/Icon/ProductList/勾.png" /></div>
+        </div>
+        <div id="kindsWrap" class="search-con-wrap">
+            <div>商品分类</div>
+            <div class="active" data-categoryid="0"> 全部 <img src="/Icon/ProductList/勾.png" /></div>
+            @foreach (T_Base_ProductCategory item in listProductCategory)
+            {
+                <div data-categoryid="@item.ID">@item.Name<img src="/Icon/ProductList/勾.png" /></div>
+            }
+        </div>
+        <div id="areaWrap" class="search-con-wrap">
+            <div>地区选择</div>
+            <div class="active map-now-area-text" id="MapBtn" data-toggle="modal" data-target="#MapModel" data-areaid="0">全部</div>
+        </div>
+        <div class="btn btn-secondary search-btn"><img src="/Icon/NavView/search.png" style="width: 1.25rem; height: 1.25rem;"></div>
+    </div>
+</div>
+
+@section modalPosition {
+    <!--Model-->
+    <div class="modal fade" id="MapModel" tabindex="-1" role="dialog" aria-labelledby="MapModelLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="MapModelLabel">定位</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span a-ria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="map-tools pb-3 row" style="">
+                        <div class="col-6 row no-gutters justify-content-between">
+                            <input id="MapCitySearchInput" type="text" class="form-control" />
+                            <div id="MapCitySearchBtn" class="btn btn-info">
+                                <img src="/Icon/NavView/search-fff.png">
+                            </div>
+                            <div class="citys-wrap">
+                                <div class="list-group">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 row no-gutters">
+                            <div id="MapCurrentProvince">北京市</div>
+                            <div id="MapCurrentCity" class="col-12 text-oneline-overhidden">北京市</div>
+                            <div id="MapCurrentCP">北京市-北京市</div>
+                        </div>
+                    </div>
+                    <div id="soulMap" style="width: 100%;"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info">确定</button>
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

@@ -13,6 +13,22 @@ function setMainCarouse3d() {
     objCarouse.css("transform", strTra);
 }
 
+//调整热销和活动商品块的高度 根据图片的长宽设置其位置
+function setShopProductCardHeight() {
+    var objProductImgWraps = $(".product-img-wrap");
+    objProductImgWraps.height(objProductImgWraps.width());
+    var lengthProductWrap = objProductImgWraps.length;
+    var iPW;
+    for (iPW = 0; iPW < lengthProductWrap; iPW++) {
+        var objProductImgWrap = $(objProductImgWraps[iPW]);
+        var shopImgWidth = objProductImgWrap.find("img").width();
+        var shopImgHeight = objProductImgWrap.find("img").height();
+        if (shopImgHeight < shopImgWidth) {
+            objProductImgWrap.css("background-size", "auto 100%");
+        }
+    }
+}
+
 function setNowPayFontSize() {
     var objNowpays = $(".now-pay");
     var length = objNowpays.length;
@@ -61,18 +77,7 @@ $(function () {
     });
 
     //调整热销和活动商品块的高度 根据图片的长宽设置其位置
-    var objProductImgWraps = $(".product-img-wrap");
-    objProductImgWraps.height(objProductImgWraps.width());
-    var lengthProductWrap = objProductImgWraps.length;
-    var iPW;
-    for (iPW = 0; iPW < lengthProductWrap; iPW++) {
-        var objProductImgWrap = $(objProductImgWraps[iPW]);
-        var shopImgWidth = objProductImgWrap.find("img").width();
-        var shopImgHeight = objProductImgWrap.find("img").height();
-        if (shopImgHeight < shopImgWidth) {
-            objProductImgWrap.css("background-size", "auto 100%");
-        }
-    }
+    setShopProductCardHeight();
 
     //调整类别选择区高度 根据其宽度等比例放大
     var classWidth = $(".one-classification").width();
@@ -243,6 +248,9 @@ $(function () {
 $(window).resize(function () {
     //改变nowpay中字体宽度
     setNowPayFontSize();
+
+    //调整热销和活动商品块的高度 根据图片的长宽设置其位置
+    setShopProductCardHeight();
 
     //调整类别选择区高度 根据其宽度等比例放大
     var classWidth = $(".one-classification").width();

@@ -223,6 +223,7 @@
     <Content Include="Areas\Shop\MyCSS\MyGen.css" />
     <Content Include="Areas\Shop\MyCSS\NavView\NavView.css" />
     <Content Include="Areas\Shop\MyCSS\ProductList\ProductList.css" />
+    <Content Include="Areas\Shop\MyCSS\ProductList\SaleProductList.css" />
     <Content Include="Areas\Shop\MyJS\Buyer\ShopCar.js" />
     <Content Include="Areas\Shop\MyJS\ChatOnline\ChatOnline.js" />
     <Content Include="Areas\Shop\MyJS\constant.js" />
@@ -233,6 +234,7 @@
     <Content Include="Areas\Shop\MyJS\MyGen.js" />
     <Content Include="Areas\Shop\MyJS\NavView\NavView.js" />
     <Content Include="Areas\Shop\MyJS\ProductList\ProductList.js" />
+    <Content Include="Areas\Shop\MyJS\ProductList\SaleProductList.js" />
     <Content Include="dist\css\bootstrap-grid.css" />
     <Content Include="dist\css\bootstrap-grid.min.css" />
     <Content Include="dist\css\bootstrap-reboot.css" />
@@ -382,7 +384,10 @@
     <Content Include="Icon\NavView\search.png" />
     <Content Include="Icon\NavView\soul.png" />
     <Content Include="Icon\NavView\市.png" />
+    <Content Include="Icon\NavView\我.png" />
     <Content Include="Icon\NavView\省.png" />
+    <Content Include="Icon\NavView\购物车.png" />
+    <Content Include="Icon\NavView\退出.png" />
     <Content Include="Icon\ProductList\arrow-down.png" />
     <Content Include="Icon\ProductList\arrow-up.png" />
     <Content Include="Icon\ProductList\勾.png" />
@@ -654,6 +659,7 @@
     <Content Include="Areas\Shop\Views\Shop\ProductList.cshtml" />
     <Content Include="Areas\Shop\Views\Shop\Detail.cshtml" />
     <Content Include="Areas\Shop\Views\Shop\ShopCar.cshtml" />
+    <Content Include="Areas\Shop\Views\Shop\SaleProductList.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

@@ -143,6 +143,7 @@
 
     /*标签总样式*/
     .two-wrap .nav {
+        width: 100%;
         position: relative;
         border-bottom: none;
         margin-bottom: 1rem;

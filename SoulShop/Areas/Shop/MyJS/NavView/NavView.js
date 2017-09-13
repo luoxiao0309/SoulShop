@@ -5,6 +5,15 @@ $(function () {
     $(".wrap").addClass("myBlur");//背景玻璃
     $("body").css("overflow", "hidden");*/
 
+    //状态栏工具箱响应
+    $(".user-info").click(function () {
+        if ($(".buyer-operation").hasClass("active")) {
+            $(".buyer-operation").removeClass("active");
+        } else {
+            $(".buyer-operation").addClass("active");
+        }   
+    });
+
     //模态框按钮响应
     $(".soul-btn-modal").click(function () {
         var modalId = $(this).data("target");//获取目标模态框
@@ -114,10 +123,25 @@ $(function () {
             function (data, status) {
                 if (data.code == 1) {
                     alert("登录成功 欢迎 会员");
+                    location.href = "/Shop/Shop/Main";
                 } else if (data.code == 2) {
                     alert("登录成功 欢迎 店铺管理员");
+                } else if (data.code == 3) {
+                    alert("登录成功 欢迎 超级管理员");
                 } else {
                     alert("登录失败");
+                }
+            });
+    });
+
+    //取消的登录
+    $("#cancelLoginBtn").click(function () {
+        $.post("/Shop/Shop/CancelLogin",
+            {
+            },
+            function (data, status) {
+                if (data.code == 1) {
+                    location.href = "/Shop/Shop/Main";
                 }
             });
     });

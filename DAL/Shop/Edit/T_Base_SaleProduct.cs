@@ -82,5 +82,25 @@ namespace SoulShop.DAL
 
             return listSaleProduct;
         }
+
+        //根据V_SaleProduct_ShopProduct_Product视图获取Model数据
+        public int GetRecordCountbyVSSPFS(string strWhere)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) FROM V_SaleShopProduct_ShopProduct_Product ");
+            if (strWhere.Trim() != "")
+            {
+                strSql.Append(" where " + strWhere);
+            }
+            object obj = DbHelperSQL.GetSingle(strSql.ToString());
+            if (obj == null)
+            {
+                return 0;
+            }
+            else
+            {
+                return Convert.ToInt32(obj);
+            }
+        }
     }
 }

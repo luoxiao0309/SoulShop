@@ -56,8 +56,19 @@
                     @if (buyer != null)
                     {
                         <div class="user-info">
-                        <img class="user-info-icon" src="~/Image/Main/img-sales7.jpg" />
-                        <div class="user-info-nickname text-oneline-overhidden">@buyer.NickName</div>
+                            <div class="user-info-icon"><img src="~/Image/Main/img-sales7.jpg" /></div>
+                            <div class="user-info-nickname text-oneline-overhidden">@buyer.NickName</div>
+                        </div>
+                        <div class="buyer-operation">            
+                            <div class="buyer-operation-item" style="background-image: url(/Icon/NavView/购物车.png); background-size: 2rem 2rem; background-position: left 0.8rem top 0.6rem">
+                                 购物车
+                            </div>
+                            <div class="buyer-operation-item" style="background-image: url(/Icon/NavView/我.png);">
+                                个人中心
+                            </div>
+                            <div id="cancelLoginBtn" class="buyer-operation-item" style="background-image: url(/Icon/NavView/退出.png);">
+                                退出
+                            </div>
                         </div>
                     }
                     else
