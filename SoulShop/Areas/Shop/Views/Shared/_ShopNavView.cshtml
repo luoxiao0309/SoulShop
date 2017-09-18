@@ -60,15 +60,15 @@
                             <div class="user-info-nickname text-oneline-overhidden">@buyer.NickName</div>
                         </div>
                         <div class="buyer-operation">            
-                            <div class="buyer-operation-item" style="background-image: url(/Icon/NavView/购物车.png); background-size: 2rem 2rem; background-position: left 0.8rem top 0.6rem">
+                            <a href="/Shop/Shop/ShopCar" class="buyer-operation-item" style="background-image: url(/Icon/NavView/购物车.png); background-size: 2rem 2rem; background-position: left 0.8rem top 0.6rem">
                                  购物车
-                            </div>
-                            <div class="buyer-operation-item" style="background-image: url(/Icon/NavView/我.png);">
+                            </a>
+                            <a class="buyer-operation-item" style="background-image: url(/Icon/NavView/我.png);">
                                 个人中心
-                            </div>
-                            <div id="cancelLoginBtn" class="buyer-operation-item" style="background-image: url(/Icon/NavView/退出.png);">
+                            </a>
+                            <duv id="cancelLoginBtn" class="buyer-operation-item" style="background-image: url(/Icon/NavView/退出.png);">
                                 退出
-                            </div>
+                            </duv>
                         </div>
                     }
                     else
@@ -104,29 +104,34 @@
         <div class="soul-modal-body">
             <div class="login-Header"><img class="login-band" src="/Image/NavView/welcome.png"></div>
             <nav class="soul-type-btn-group">
-                <div class="soul-type-btn" href="#normalSignUp" data-toggle="tab" role="tab" aria-controls="normalSignUp" aria-expanded="false">会员</div>
-                <div class="soul-type-btn active" href="#adminSignUp" data-toggle="tab" role="tab" aria-controls="adminSignUp" aria-expanded="true">店铺</div>
+                <div class="soul-type-btn active" href="#normalSignUp" data-toggle="tab" role="tab" aria-controls="normalSignUp" aria-expanded="true">会员</div>
+                <div class="soul-type-btn" href="#adminSignUp" data-toggle="tab" role="tab" aria-controls="adminSignUp" aria-expanded="false">店铺</div>
             </nav>
             <div class="tab-content">
-                <div id="normalSignUp" class="tab-pane fade">
-                    <div class="sign-input"><div class="sign-label">账号</div><input type="text" /></div>
-                    <div class="sign-input"><div class="sign-label">密码</div><input type="text" /></div>
-                    <div class="sign-input"><div class="sign-label">昵称</div><input type="text" /></div>
-                    <div class="sign-input"><div class="sign-label">QQ</div><input type="text" /></div>
-                    <div class="sign-input"><div class="sign-label">电话</div><input type="text" /></div>
+                <div id="normalSignUp" class="tab-pane fade show active">
+                    <div id="normalID" class="sign-input">
+                        <div class="sign-label">账号</div>
+                        <input type="text" />                   
+                    </div>
+                    <div id="normalPassword" class="sign-input"><div class="sign-label">密码</div><input type="text" /></div>
+                    <div id="normalNickname" class="sign-input"><div class="sign-label">昵称</div><input type="text" /></div>
+                    <div id="normalQQ" class="sign-input"><div class="sign-label">QQ</div><input type="text" /></div>
+                    <div id="normalPhone" class="sign-input"><div class="sign-label">电话</div><input type="text" /></div>
                     <div class="login-btng-group">
-                        <div class="btn" data-soulmodalmiss="true">确认</div>
+                        <div class="normal-sign-surebtn btn">确认</div>
                         <div class="btn" data-soulmodalmiss="true">关闭</div>
                     </div>
                 </div>
-                <div id="adminSignUp" class="tab-pane fade show active">
-                    <div class="sign-input"><div class="sign-label">账号</div><input type="text" /></div>
-                    <div class="sign-input"><div class="sign-label">密码</div><input type="text" /></div>
-                    <div class="sign-input"><div class="sign-label">店铺名</div><input type="text" /></div>
-                    <div class="sign-input"><div class="sign-label">身份证</div><input type="text" /></div>
-                    <div class="sign-input"><div class="sign-label">姓名</div><input type="text" /></div>
-                    <div class="sign-input"><div class="sign-label">电话</div><input type="text" /></div>
-                    <div class="sign-input">
+                <div id="adminSignUp" class="tab-pane fade">
+                    <div id="adminID" class="sign-input"><div class="sign-label">账号</div><input type="text" /></div>
+                    <div id="adminPassword" class="sign-input"><div class="sign-label">密码</div><input type="text" /></div>
+                    <div id="adminShopName" class="sign-input"><div class="sign-label">店铺名</div><input type="text" /></div>
+                    <div id="adminOwnerID" class="sign-input"><div class="sign-label">身份证</div><input type="text" /></div>
+                    <div id="adminOwnerName" class="sign-input"><div class="sign-label">姓名</div><input type="text" /></div>
+                    <div id="adminOwnerQQ" class="sign-input"><div class="sign-label">QQ</div><input type="text" /></div>
+                    <div id="adminOwnerPhone" class="sign-input"><div class="sign-label">电话</div><input type="text" /></div>
+                    <div id="adminOwnerAddress" class="sign-input"><div class="sign-label">详细地址</div><input type="text" /></div>
+                    <div id="adminArea" class="sign-input">
                         <div class="sign-label">地址</div>
                         <div class="sign-area">
                             <div id="sign-province" class="text-oneline-overhidden" style="background-image: url(/Icon/NavView/省.png)">北京市</div>
@@ -194,7 +199,7 @@
                         </div>
                     </div>
                     <div class="login-btng-group">
-                        <div class="btn" data-soulmodalmiss="true">确认</div>
+                        <div class="normal-sign-surebtn btn">确认</div>
                         <div class="btn" data-soulmodalmiss="true">关闭</div>
                     </div>
                 </div>

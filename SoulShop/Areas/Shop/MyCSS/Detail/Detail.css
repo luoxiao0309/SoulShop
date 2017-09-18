@@ -49,7 +49,6 @@
             min-width: 25%;
             padding-left: 2% !important;
             padding-right: 2% !important;
-            transition: all 0.5s 0s;
         }
 
             .main-info-smallimg div.active {
@@ -245,7 +244,7 @@
             border-left: #e1e1e1 5px solid;
             position: relative;
             margin-top: 0.25rem;
-            padding: 1.5rem 1.5rem 2.5rem 3rem;
+            padding: 1.5rem 1.5rem 2.5rem 4rem;
             line-height: 1;
             background: #ffffff;
             background: #ffffff linear-gradient(to right, #ffffff 50%, #ededed);
@@ -264,7 +263,7 @@
 
         .comment-item-star {
             top: 3.4rem;
-            left: 3rem;
+            left: 4rem;
             position: absolute;
             color: #cdcdcd;
             font-size: 0.8rem;
@@ -283,6 +282,26 @@
                     width: 0.9rem;
                     vertical-align: middle;
                 }
+
+    /*没有评论Img*/
+    .no-comment {
+        opacity: 0.5;
+        width: 30%;
+        height: 100%;
+        margin: 0 auto;
+    }
+
+@media (max-width: 768px) {
+    .no-comment {
+       width: 50%;
+    }
+}
+
+@media (max-width: 576px) {
+    .no-comment {
+       width: 60%;
+    }
+}
 
     /*页足*/
     .footer-wrap {

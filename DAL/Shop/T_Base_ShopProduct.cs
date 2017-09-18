@@ -6,7 +6,7 @@
 *
 * Ver    变更日期             负责人  变更内容
 * ───────────────────────────────────
-* V0.01  2017/8/1 11:47:53   N/A    初版
+* V0.01  2017/9/14 17:29:29   N/A    初版
 *
 * Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
 *┌──────────────────────────────────┐
@@ -72,7 +72,7 @@ namespace SoulShop.DAL
 					new SqlParameter("@Stock", SqlDbType.Int,4),
 					new SqlParameter("@Price", SqlDbType.Decimal,9),
 					new SqlParameter("@MonthlySale", SqlDbType.Int,4),
-					new SqlParameter("@ShopID", SqlDbType.NVarChar,20),
+					new SqlParameter("@ShopID", SqlDbType.NVarChar,50),
 					new SqlParameter("@ProductID", SqlDbType.Int,4)};
 			parameters[0].Value = model.Size;
 			parameters[1].Value = model.Color;
@@ -113,7 +113,7 @@ namespace SoulShop.DAL
 					new SqlParameter("@Stock", SqlDbType.Int,4),
 					new SqlParameter("@Price", SqlDbType.Decimal,9),
 					new SqlParameter("@MonthlySale", SqlDbType.Int,4),
-					new SqlParameter("@ShopID", SqlDbType.NVarChar,20),
+					new SqlParameter("@ShopID", SqlDbType.NVarChar,50),
 					new SqlParameter("@ProductID", SqlDbType.Int,4),
 					new SqlParameter("@ID", SqlDbType.Int,4)};
 			parameters[0].Value = model.Size;

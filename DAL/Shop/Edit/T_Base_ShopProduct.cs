@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -113,6 +114,35 @@ namespace SoulShop.DAL
             else
             {
                 return Convert.ToInt32(obj);
+            }
+        }
+
+        //通过部分商品信息获取Model
+        public Model.T_Base_ShopProduct GetModelByInfo(string shopID, Int32 productID, string size, string color)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select  top 1 ID,Size,Color,Stock,Price,MonthlySale,ShopID,ProductID from T_Base_ShopProduct ");
+            strSql.Append(" where ShopID=@ShopID and ProductID=@ProductID and Color=@Color and Size=@Size");
+            SqlParameter[] parameters = {
+                    new SqlParameter("@ShopID", SqlDbType.NVarChar,50),
+                    new SqlParameter("@ProductID", SqlDbType.Int,4),
+                    new SqlParameter("@Size", SqlDbType.NVarChar,50),
+                    new SqlParameter("@Color", SqlDbType.NVarChar,50)
+            };
+            parameters[0].Value = shopID;
+            parameters[1].Value = productID;
+            parameters[2].Value = size;
+            parameters[3].Value = color;
+
+            SoulShop.Model.T_Base_ShopProduct model = new SoulShop.Model.T_Base_ShopProduct();
+            DataSet ds = DbHelperSQL.Query(strSql.ToString(), parameters);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                return DataRowToModel(ds.Tables[0].Rows[0]);
+            }
+            else
+            {
+                return null;
             }
         }
     }

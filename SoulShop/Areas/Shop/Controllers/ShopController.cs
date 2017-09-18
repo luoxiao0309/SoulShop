@@ -259,8 +259,11 @@ namespace SoulShop.Areas.Shop.Controllers
 
         /*4.商品详情页*/
         //Detail 商品详情页
-        public ActionResult Detail(string size, string color, string shopId="14211160225", Int32 productId=1)
+        public ActionResult Detail(string size, string color, string shopId, Int32 productId)
         {
+            //店铺ID
+            ViewBag.shopID = shopId;
+
             /*Color And Size*/
             ViewBag.size = size;
             ViewBag.color = color;
@@ -271,7 +274,7 @@ namespace SoulShop.Areas.Shop.Controllers
 
             ViewBag.product = product;
 
-            //根据商品ID和店铺ID获取商品信息
+            //根据商品ID和店铺ID获取店铺商品信息
             DAL.T_Base_ShopProduct dalShopProduct = new DAL.T_Base_ShopProduct();
             List<Model.T_Base_ShopProduct> listShopProduct = dalShopProduct.GetModelList("ShopID='" + shopId + "' and productID=" + productId);
 
@@ -296,6 +299,24 @@ namespace SoulShop.Areas.Shop.Controllers
             ViewBag.listColor = listColor;
 
             return View();
+        }
+
+        //根据商品信息获取评论信息
+        public JsonResult GetCommentByProductInfo(string shopID, Int32 productID,
+             string size, string color)
+        {
+            //根据商品信息获取店铺商品ID
+            DAL.T_Base_ShopProduct dalShopProduct = new DAL.T_Base_ShopProduct();
+            Model.T_Base_ShopProduct shopProduct = dalShopProduct.GetModelByInfo(shopID, productID, size, color);
+
+            //根据店铺商品的ID获取商品评论
+            DAL.T_Product_Comment dalProductComment = new DAL.T_Product_Comment();
+            List<Model.T_Product_Comment> listProductComment;
+            listProductComment = dalProductComment.GetModelListByView("ShopProductID=" + shopProduct.ID);
+
+            string result = JsonConvert.SerializeObject(listProductComment);
+
+            return Json(new { result = result });
         }
 
         /*5.购物篮页*/
@@ -389,7 +410,13 @@ namespace SoulShop.Areas.Shop.Controllers
             return Json(new { code = 1 });
         }
 
-        /*6.登陆与注册*/
+        /*6.订单生成页*/
+        public ActionResult Order()
+        {
+            return View();
+        }
+
+        /*7.登陆与注册*/
         //登录验证
         public JsonResult CheackLogin(string id, string password)
         {
@@ -444,7 +471,55 @@ namespace SoulShop.Areas.Shop.Controllers
             return Json(new { code = 1 });
         }
 
-        /*7.在线聊天*/
+        //会员注册
+        public JsonResult BuyerSignUp(string id, string password,
+            string nickname, string qq, string phone)
+        {
+            Model.T_Base_Buyer buyer = new Model.T_Base_Buyer();
+            buyer.ID = id;
+            buyer.Password = password;
+            buyer.NickName = nickname;
+            buyer.QQ = qq;
+            buyer.Phone = phone;
+            buyer.Freeze = 0;
+            buyer.HeadIcon = "/Icon/Default/我.png";
+
+            DAL.T_Base_Buyer dalBuyer = new DAL.T_Base_Buyer();
+            dalBuyer.Add(buyer);
+
+            return Json(new { code = 1 });
+        }
+
+        //店铺管理员注册
+        public JsonResult ShopAdminSignUp(string id, string password,
+            string shopName, string ownerID, string ownerName, 
+            string ownerQQ, string ownerPhone, string ownerAddress,
+            int areaID)
+        {
+            Model.T_Base_ShopAdmin shopAdmin = new Model.T_Base_ShopAdmin();
+            shopAdmin.ID = id;
+            shopAdmin.Password = password;
+            shopAdmin.ShopName = shopName;
+            shopAdmin.OwnerID = ownerID;
+            shopAdmin.OwnerName = ownerName;
+            shopAdmin.OwnerQQ = ownerQQ;
+            shopAdmin.OwnerPhone = ownerPhone;
+            shopAdmin.OwnerAddress = ownerAddress;
+            shopAdmin.Checking = 0;
+            shopAdmin.Freeze = 0;
+            shopAdmin.HeadIcon = "/Icon/Default/店铺.png";
+            shopAdmin.AreaID = areaID;
+            //店铺编号构造
+            string shopIDTime = DateTime.Now.ToFileTime().ToString();
+            shopAdmin.ShopID = shopName.Substring(0, 6) + shopIDTime;
+
+            DAL.T_Base_ShopAdmin dalShopAdmin = new DAL.T_Base_ShopAdmin();
+            dalShopAdmin.Add(shopAdmin);
+
+            return Json(new { code = 1 });
+        }
+
+        /*8.在线聊天*/
         //聊天服务 跨域ajax获取用户信息
         public void GetUserInfo()
         {

@@ -78,6 +78,8 @@ nav.soul-nav {
     }
 
         .buyer-operation .buyer-operation-item {
+            color: #000;
+            text-decoration: none;
             padding: 0.8rem 1.5rem;
             padding-left: 4rem;
             text-align: center;
@@ -395,6 +397,25 @@ body.soul-modal-backdrop:after {
         #modalSignUp .soul-modal-body .sign-input {
             width: 100%;
         }
+    }
+
+    /*注册输入提示*/
+    .signup-info-point {
+        position: relative;
+        margin-top: -2rem;
+        text-align: center;
+        width: 100%;
+        height: 2rem;
+        line-height: 2rem;
+        color: #b59595;
+    }
+
+    .signup-info-img {
+        position: absolute;
+        top: 10%;
+        right: 0.25rem;
+        height: 80%;
+        opacity: 0.6;
     }
 
     #modalSignUp .soul-modal-body .sign-input .sign-label {

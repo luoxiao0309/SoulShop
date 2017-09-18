@@ -202,6 +202,7 @@
     <Compile Include="Areas\Travels\TravelsAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IndexController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -365,6 +366,8 @@
     <Content Include="Icon\Cover\arrow-up.png" />
     <Content Include="Icon\Cover\choose-button-active.png" />
     <Content Include="Icon\Cover\choose-button.png" />
+    <Content Include="Icon\Default\店铺.png" />
+    <Content Include="Icon\Default\我.png" />
     <Content Include="Icon\Detail\star.png" />
     <Content Include="Icon\Detail\右箭头.png" />
     <Content Include="Icon\Detail\左箭头.png" />
@@ -385,9 +388,11 @@
     <Content Include="Icon\NavView\soul.png" />
     <Content Include="Icon\NavView\市.png" />
     <Content Include="Icon\NavView\我.png" />
+    <Content Include="Icon\NavView\正确.png" />
     <Content Include="Icon\NavView\省.png" />
     <Content Include="Icon\NavView\购物车.png" />
     <Content Include="Icon\NavView\退出.png" />
+    <Content Include="Icon\NavView\错误.png" />
     <Content Include="Icon\ProductList\arrow-down.png" />
     <Content Include="Icon\ProductList\arrow-up.png" />
     <Content Include="Icon\ProductList\勾.png" />
@@ -397,6 +402,7 @@
     <Content Include="Image\Cover\bg4.png" />
     <Content Include="Image\Cover\bg5.jpeg" />
     <Content Include="Image\Cover\welcome.png" />
+    <Content Include="Image\Detail\cry.jpg" />
     <Content Include="Image\Detail\price-background.jpg" />
     <Content Include="Image\Main\bg-body.jpg" />
     <Content Include="Image\Main\bg-body.png" />
@@ -660,6 +666,7 @@
     <Content Include="Areas\Shop\Views\Shop\Detail.cshtml" />
     <Content Include="Areas\Shop\Views\Shop\ShopCar.cshtml" />
     <Content Include="Areas\Shop\Views\Shop\SaleProductList.cshtml" />
+    <None Include="Properties\PublishProfiles\webconfig.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -673,6 +680,8 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="SQL\sql_View_ShopProduct_Product.txt" />
+    <Content Include="Text\Cover\new-address.png" />
+    <Content Include="Text\Cover\old-address.png" />
     <Content Include="Text\NavView\传统美食.png" />
     <Content Include="Text\NavView\养生补品.png" />
     <Content Include="Text\NavView\木制工艺.png" />
@@ -811,6 +820,7 @@
     <Folder Include="Areas\Travels\Controllers\" />
     <Folder Include="Areas\Travels\Models\" />
     <Folder Include="Areas\Travels\Views\Shared\" />
+    <Folder Include="Views\Index\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

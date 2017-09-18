@@ -1,5 +1,7 @@
 var currentSize = null;
 var currentColor = null;
+var theShopID = null;
+var theProductID = null;
 var smallNowPosition = 0;//当前在可视区内行首缩略图的序号
 var maxSmallNowPosition = 0;
 
@@ -84,6 +86,65 @@ function setCurrentBigImgShowBySC() {
             break;
         }
     }
+}
+
+//根据当前样式 获取评论
+function getCommentByStyle(shopID, productID, size, color) {
+    $.post("/Shop/Shop/GetCommentByProductInfo",
+        {
+            shopID: shopID,
+            productID: productID,
+            size: size,
+            color: color
+        },
+        function (data, status) {
+            var listComment = eval("(" + data.result + ")");
+
+            addCommentToDom(listComment);
+        });
+}
+
+//根据ajax获取到的评论数据 添加至DOM模型
+function addCommentToDom(listComment) {
+
+    var objPCommentWrap = $("#productCommentWrap");
+
+    var length = listComment.length;
+    var i;
+    for (var i = 0; i < length; i++) {
+        addCommentItemToDom(objPCommentWrap, listComment[i]);
+    }
+    if (length <= 0) {
+        addNoCommentToDOM(objPCommentWrap);
+    }
+}
+
+//添加comment item到DOM
+function addCommentItemToDom(objPCommentWrap, comment) {
+    var objComment = $('<div class="col-12 comment-item text-oneline-overhidden">' +
+            comment.Contents +
+            '<div class="comment-item-icon" style="background-image: url(' + comment.HeadIcon + ')"></div>' +
+            '<div class="comment-item-star">' +
+                '<div>' +
+                    '<span>星级&nbsp;</span>' +
+                '</div>' +
+            '</div>' +
+        '</div>');
+    var objStarText = "";
+    var starLength = comment.StarLevel;
+    var i;
+    for (i = 0; i < starLength; i++) {
+        objStarText += '<img src="/Icon/Detail/star.png" />';
+    }
+    
+    objComment.find(".comment-item-star div").append(objStarText);
+    objPCommentWrap.append(objComment);
+}
+
+//添加no-comment到DOM
+function addNoCommentToDOM(objPCommentWrap) {
+    var objNoComment = $('<img class="no-comment" src="/Image/Detail/cry3.png">');
+    objPCommentWrap.append(objNoComment);
 }
 
 $(function () {
@@ -178,6 +239,10 @@ $(function () {
        
     });
 
+    //获取初始化的源商品ID和店铺ID
+    theShopID = $(".init-data").data("shopid");
+    theProductID = $(".init-data").data("productid");
+
     //获取初始化的size和color
     var initSize = $(".init-data").data("productsize");
     var initColor = $(".init-data").data("productcolor");
@@ -203,4 +268,7 @@ $(function () {
     setStockBySizeAndColor();//根据当前的的size和color设定库存
     setColorStyleBySize();//根据当前选择的size重置颜色框样式  
     setCurrentBigImgShowBySC();  //根据当前颜色和Size设置初始图片
+
+    //根据初始化的商品信息 获取商品评论
+    getCommentByStyle(theShopID, theProductID, currentSize, currentColor);
 })

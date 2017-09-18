@@ -75,3 +75,21 @@
         opacity: 0.8;
     }
 
+
+.cover-address {
+    cursor: pointer;
+    display:block;
+    opacity:0.6;
+    width: 60%;
+    position:absolute;
+    top: 30%; 
+    left:20%
+}
+
+#newAddress:hover {
+    opacity: 1;
+}
+
+#oldAddress:hover {
+    opacity: 1;
+}

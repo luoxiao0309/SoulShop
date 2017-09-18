@@ -2,6 +2,7 @@ var intervalId_Carouse3d;
 var nowrotatey = 0, nowrotatex = 0;
 var rotatey = 0, rotatex = 0;
 var isLoad = false;
+var fixWidthCardNumber = 9;//固定宽度的卡片
 
 function setMainCarouse3d() {
     var objCarouse = $("#MainCarouse");
@@ -16,7 +17,7 @@ function setMainCarouse3d() {
 //调整热销和活动商品块的高度 根据图片的长宽设置其位置
 function setShopProductCardHeight() {
     var objProductImgWraps = $(".product-img-wrap");
-    objProductImgWraps.height(objProductImgWraps.width());
+    objProductImgWraps.height($(objProductImgWraps[fixWidthCardNumber]).width());
     var lengthProductWrap = objProductImgWraps.length;
     var iPW;
     for (iPW = 0; iPW < lengthProductWrap; iPW++) {
@@ -70,10 +71,12 @@ $(function () {
 
     //活动商品切换按钮
     $("#Tab-SaleTabPre").click(function () {
-        setTimeout(function () { setNowPayFontSize(); }, 200);       
+        setTimeout(function () { setNowPayFontSize(); }, 200);
+        setTimeout(function () { setShopProductCardHeight(); }, 200);
     });
     $("#Tab-SaleTabNow").click(function () {
         setTimeout(function () { setNowPayFontSize(); }, 200);
+        setTimeout(function () { setShopProductCardHeight(); }, 200);
     });
 
     //调整热销和活动商品块的高度 根据图片的长宽设置其位置
@@ -91,13 +94,21 @@ $(function () {
     $(".one-ad > div:last-child > a").height(classHeight / 4);
     $(".one-ad2 > a").width(classHeight / 3);
 
-    //intervalId_Carouse3d = setInterval(setMainCarouse3d, 20);
+    //广告区纸片效果
+    intervalId_Carouse3d = setInterval(setMainCarouse3d, 20);
 
     $("body").mousemove(function (e) {
         var objCarouse = $("#MainCarouse");
         var objCarouseThis = document.getElementById("MainCarouse");
-        //获取carouse相对页面的位置
-        var carouseRectSize = objCarouseThis.getBoundingClientRect();
+        //获取carouse相对的当前窗口位置
+        //var carouseRectSize = objCarouseThis.getBoundingClientRect();
+        //获取鼠标相对于carouse左、上边界的距离
+        //var mouseDx = e.pageX - carouseRectSize.left;
+        //var mouseDy = e.pageY - carouseRectSize.top;
+        //获取carouse相对的当前页面位置
+        var carouseRectSize = {};
+        carouseRectSize.left = getElementLeft(objCarouseThis);
+        carouseRectSize.top = getElementTop(objCarouseThis);
         //获取鼠标相对于carouse左、上边界的距离
         var mouseDx = e.pageX - carouseRectSize.left;
         var mouseDy = e.pageY - carouseRectSize.top;

@@ -1,0 +1,14 @@
+create view V_ProductComment_Buyer as
+select
+		T_Product_Comment.BuyerID as BuyerID,
+		T_Product_Comment.OrderHeadID as OrderHeadID,
+		T_Product_Comment.ShopProductID as ShopProductID,
+		T_Product_Comment.Contents as Contents,
+		T_Product_Comment.CreateTime as CreateTime,
+		T_Product_Comment.StarLevel as StarLevel,
+		T_Base_Buyer.NickName as NickName,
+		T_Base_Buyer.HeadIcon as HeadIcon
+from T_Product_Comment left outer join T_Base_Buyer on T_Product_Comment.BuyerID = T_Base_Buyer.ID 
+						
+
+	

@@ -6,7 +6,7 @@
 *
 * Ver    变更日期             负责人  变更内容
 * ───────────────────────────────────
-* V0.01  2017/8/1 11:47:51   N/A    初版
+* V0.01  2017/9/14 17:29:26   N/A    初版
 *
 * Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
 *┌──────────────────────────────────┐
@@ -39,7 +39,7 @@ namespace SoulShop.DAL
 			strSql.Append("select count(1) from T_Base_ShopAdmin");
 			strSql.Append(" where ShopID=@ShopID and ID=@ID ");
 			SqlParameter[] parameters = {
-					new SqlParameter("@ShopID", SqlDbType.NVarChar,20),
+					new SqlParameter("@ShopID", SqlDbType.NVarChar,50),
 					new SqlParameter("@ID", SqlDbType.NVarChar,20)			};
 			parameters[0].Value = ShopID;
 			parameters[1].Value = ID;
@@ -59,7 +59,7 @@ namespace SoulShop.DAL
 			strSql.Append(" values (");
 			strSql.Append("@ShopID,@ID,@Password,@ShopName,@OwnerID,@OwnerName,@OwnerPhone,@OwnerQQ,@OwnerAddress,@AreaID,@Freeze,@Checking,@HeadIcon)");
 			SqlParameter[] parameters = {
-					new SqlParameter("@ShopID", SqlDbType.NVarChar,20),
+					new SqlParameter("@ShopID", SqlDbType.NVarChar,50),
 					new SqlParameter("@ID", SqlDbType.NVarChar,20),
 					new SqlParameter("@Password", SqlDbType.NVarChar,20),
 					new SqlParameter("@ShopName", SqlDbType.NVarChar,50),
@@ -127,7 +127,7 @@ namespace SoulShop.DAL
 					new SqlParameter("@Freeze", SqlDbType.Int,4),
 					new SqlParameter("@Checking", SqlDbType.Int,4),
 					new SqlParameter("@HeadIcon", SqlDbType.NVarChar,300),
-					new SqlParameter("@ShopID", SqlDbType.NVarChar,20),
+					new SqlParameter("@ShopID", SqlDbType.NVarChar,50),
 					new SqlParameter("@ID", SqlDbType.NVarChar,20)};
 			parameters[0].Value = model.Password;
 			parameters[1].Value = model.ShopName;
@@ -164,7 +164,7 @@ namespace SoulShop.DAL
 			strSql.Append("delete from T_Base_ShopAdmin ");
 			strSql.Append(" where ShopID=@ShopID and ID=@ID ");
 			SqlParameter[] parameters = {
-					new SqlParameter("@ShopID", SqlDbType.NVarChar,20),
+					new SqlParameter("@ShopID", SqlDbType.NVarChar,50),
 					new SqlParameter("@ID", SqlDbType.NVarChar,20)			};
 			parameters[0].Value = ShopID;
 			parameters[1].Value = ID;
@@ -191,7 +191,7 @@ namespace SoulShop.DAL
 			strSql.Append("select  top 1 ShopID,ID,Password,ShopName,OwnerID,OwnerName,OwnerPhone,OwnerQQ,OwnerAddress,AreaID,Freeze,Checking,HeadIcon from T_Base_ShopAdmin ");
 			strSql.Append(" where ShopID=@ShopID and ID=@ID ");
 			SqlParameter[] parameters = {
-					new SqlParameter("@ShopID", SqlDbType.NVarChar,20),
+					new SqlParameter("@ShopID", SqlDbType.NVarChar,50),
 					new SqlParameter("@ID", SqlDbType.NVarChar,20)			};
 			parameters[0].Value = ShopID;
 			parameters[1].Value = ID;

@@ -49,6 +49,7 @@
     <Compile Include="Shop\Edit\T_Base_ShopCart.cs" />
     <Compile Include="Shop\Edit\T_Base_ShopProduct.cs" />
     <Compile Include="Shop\Edit\T_Base_SysAdmin.cs" />
+    <Compile Include="Shop\Edit\T_Product_Comment.cs" />
     <Compile Include="Shop\Edit\T_ShopProduct_Pic.cs" />
     <Compile Include="Shop\T_Base_Address.cs" />
     <Compile Include="Shop\T_Base_Advertisement.cs" />
@@ -77,6 +78,8 @@
     <Compile Include="Shop\T_TravelNote_Comment.cs" />
     <Compile Include="Shop\T_TravelNote_Pic.cs" />
     <Compile Include="Shop\T_TravelNote_Praise.cs" />
+    <Compile Include="Shop\V_SaleShopProduct_ShopProduct_Product.cs" />
+    <Compile Include="Shop\V_ShopProduct_Product.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Admin\" />
