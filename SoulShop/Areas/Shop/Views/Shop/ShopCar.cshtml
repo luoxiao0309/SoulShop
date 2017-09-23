@@ -13,40 +13,59 @@
 }
 
 <!--购物车信息包围盒-->
-<div class="shop-car-wrap container container-lowlg-width-p100 container-lowlg-nop">
-    @foreach (T_Base_ShopCart item in listShopCart)
-    {
-        <div class="shop-car-wrap-item">
-            <div class="item-pic">
-                <img src="@item.ShopProduct.PicList[0].Path" />
-                <img class="item-choose-sign" src="~/Icon/Buyer/打勾.png" />
-            </div>
-            <div class="item-info">
-                <div class="item-info-id" style="display: none;">@item.ShopProductID</div>
-                <div class="item-info-name">@item.ShopProduct.OrProduct.Name</div>
-                <div class="item-info-description">@item.ShopProduct.OrProduct.Description</div>
-                <div class="item-info-style"><span>规格：</span>@item.ShopProduct.Size<span>&nbsp;&nbsp;</span><span>颜色：</span>@item.ShopProduct.Color</div>
-                <div class="item-info-price">￥<span class="item-info-price-value">@item.ShopProduct.Price</span>&nbsp;<span class="item-info-small-amount">X @item.Amount</span></div>
-            </div>
-            <div class="item-count my-count-input-group">
-                <img src="~/Icon/Detail/右箭头.png" />
-                <div><input type="text" value="@item.Amount" /></div>
-                <img src="~/Icon/Detail/左箭头.png" />
-            </div>
-            <div class="item-edit-btn">
-                <div class="btn btn-outline-secondary">编辑</div>
-            </div>
-            <div class="item-edit">   
-                <div class="item-edit-count my-count-input-group">
+@if (listShopCart.Count == 0)
+{
+    <div class="container container-lowlg-width-p100 container-lowlg-nop" style="margin-top: 4rem; display: flex; justify-content: center;">
+        <img class="no-comment" src="~/Image/Buyer/cry.png">
+    </div>
+}
+else
+{
+    <div class="shop-car-wrap container container-lowlg-width-p100 container-lowlg-nop">
+        @foreach (T_Base_ShopCart item in listShopCart)
+        {
+            <div class="shop-car-wrap-item">
+                <div class="item-pic">
+                    <img class="item-pic-img" src="@item.ShopProduct.PicList[0].Path" />
+                    <img class="item-choose-sign" src="~/Icon/Buyer/打勾.png" />
+                </div>
+                <div class="item-info">
+                    <div class="item-info-id" style="display: none;">@item.ShopProductID</div>
+                    <div class="item-info-name">@item.ShopProduct.OrProduct.Name</div>
+                    <div class="item-info-description">@item.ShopProduct.OrProduct.Description</div>
+                    <div class="item-info-style">
+                        <span class="item-info-style-size">规格：</span>
+                        <span class="item-info-style-size-value">@item.ShopProduct.Size</span>
+                        <span>&nbsp;&nbsp;</span>
+                        <span class="item-info-style-color">颜色：</span>
+                        <span class="item-info-style-color-value">@item.ShopProduct.Color</span>
+                    </div>
+                    <div class="item-info-price">￥<span class="item-info-price-value">@item.ShopProduct.Price</span>&nbsp;<span class="item-info-small-amount">X @item.Amount</span></div>
+                </div>
+                <div class="item-count my-count-input-group">
                     <img src="~/Icon/Detail/右箭头.png" />
                     <div><input type="text" value="@item.Amount" /></div>
                     <img src="~/Icon/Detail/左箭头.png" />
-                </div>    
-                <div class="item-edit-count-secceed">完成</div>       
+                </div>
+                <div class="item-edit-btn">
+                    <div class="btn btn-outline-secondary">编辑</div>
+                </div>
+                <div class="item-edit">
+                    <div class="item-edit-count my-count-input-group">
+                        <img src="~/Icon/Detail/右箭头.png" />
+                        <div><input type="text" value="@item.Amount" /></div>
+                        <img src="~/Icon/Detail/左箭头.png" />
+                    </div>
+                    <div class="item-edit-count-opration item-edit-count-secceed">完成</div>
+                    <div class="item-edit-count-opration item-edit-count-delete">删除</div>
+                </div>
+                <div class="item-delete">
+                    <img src="~/Icon/Buyer/取消.png"/> 
+                </div>
             </div>
-        </div>
-    }
-</div>
+        }
+    </div>
+}
 
 <!--购物车工具栏-->
 <div class="shop-car-tools container container-lowlg-width-p100 container-lowlg-nop mt-3">
@@ -60,3 +79,71 @@
         结算
     </div>
 </div>
+
+@section modal{
+    <!--订单模态框-->
+    <div id="modalOrder" class="soul-modal">
+        <div class="container container-lowlg-width-p100 container-lowlg-nop order-head-wrap mt-2 mt-md-4 pr-0 pl-0">
+            <div class="order-head-edit">
+                <div class="order-head-edit-btn order-head-edit-create-btn" data-id=""><div style="background-image: url(/Icon/Buyer/新建.png);">新建</div></div>
+                <div class="order-head-edit-btn order-head-edit-choose-btn"><div style="background-image: url('/Icon/Buyer/选择.png');">选择</div></div>
+            </div>
+            <div class="order-head-border-wrap">
+                <div class="order-head" data-id="">
+                    <div class="order-address text-oneline-overhidden">
+                        <span>收货地址：</span><span class="value"></span>
+                    </div>
+                    <div class="order-phone text-oneline-overhidden">
+                        <span>联系电话：</span><span class="value"></span>
+                    </div>
+                    <div class="order-receiver-name text-oneline-overhidden">
+                        <span>收件人姓名：</span><span class="value"></span>
+                    </div>
+                </div>
+            </div>                    
+        </div>
+        <!--地址新建区-->
+        <div class="container container-lowlg-width-p100 container-lowlg-nop order-address-edit order-address-create pl-0 pr-0">
+            <div class="order-address-create-border-wrap">
+                <div class="order-address-create-item order-address-create-address">
+                    <div class="item-label">收货地址</div><div class="item-input-wrap"><input type="text" /></div>
+                </div>
+                <div class="order-address-create-item order-address-create-phone">
+                    <div class="item-label">联系电话</div><div class="item-input-wrap"><input type="text" /></div>
+                </div>
+                <div class="order-address-create-item order-address-create-name" style="padding-bottom: 1rem;">
+                    <div class="item-label">收件人姓名</div>
+                    <div class="item-input-wrap"><input type="text" /></div>
+                </div>
+                <img class="order-address-create-ok-btn" src="~/Icon/Buyer/完成.png" />
+            </div>
+        </div>
+        <!--地址选择区-->
+        <div class="container container-lowlg-width-p100 container-lowlg-nop order-address-edit order-address-choose pl-0 pr-0">
+            <!--例子-->
+            <div class="order-address-choose-border-wrap" data-id="">
+                <div class="order-address-choose-item">
+                    <div class="item-address text-oneline-overhidden">
+                        <span>收货地址：</span><span class="value"></span>
+                    </div>
+                    <div class="item-phone text-oneline-overhidden">
+                        <span>联系电话：</span><span class="value"></span>
+                    </div>
+                    <div class="item-receiver-name text-oneline-overhidden">
+                        <span>收件人姓名：</span><span class="value"></span>
+                    </div>
+                </div>
+                <img class="order-address-choose-item-sign" src="~/Icon/Buyer/绿打勾.png" />
+            </div>
+        </div>
+        <!--条目区-->
+        <div class="container container-lowlg-width-p100 container-lowlg-nop order-wrap mt-3">
+          
+        </div>
+        <div class="container container-lowlg-width-p100 container-lowlg-nop order-tools mt-3">
+            <div class="order-btn order-close-btn">关闭</div>
+            <div class="order-sumprice">总金额：<span class="order-sumprice-sign">￥</span><span class="order-sumprice-value">100</span></div>
+            <div class="order-btn order-sure-btn">确认</div>
+        </div>
+    </div>
+}

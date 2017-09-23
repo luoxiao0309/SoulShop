@@ -6,7 +6,7 @@
 *
 * Ver    变更日期             负责人  变更内容
 * ───────────────────────────────────
-* V0.01  2017/9/14 17:29:16   N/A    初版
+* V0.01  2017/9/20 16:09:55   N/A    初版
 *
 * Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
 *┌──────────────────────────────────┐
@@ -62,19 +62,21 @@ namespace SoulShop.DAL
 		{
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("insert into T_Base_Address(");
-			strSql.Append("Address,Name,Phone,BuyerID)");
+			strSql.Append("Address,Name,Phone,BuyerID,IsDefault)");
 			strSql.Append(" values (");
-			strSql.Append("@Address,@Name,@Phone,@BuyerID)");
+			strSql.Append("@Address,@Name,@Phone,@BuyerID,@IsDefault)");
 			strSql.Append(";select @@IDENTITY");
 			SqlParameter[] parameters = {
 					new SqlParameter("@Address", SqlDbType.NVarChar,100),
 					new SqlParameter("@Name", SqlDbType.NVarChar,20),
 					new SqlParameter("@Phone", SqlDbType.NVarChar,20),
-					new SqlParameter("@BuyerID", SqlDbType.NVarChar,20)};
+					new SqlParameter("@BuyerID", SqlDbType.NVarChar,20),
+					new SqlParameter("@IsDefault", SqlDbType.Int,4)};
 			parameters[0].Value = model.Address;
 			parameters[1].Value = model.Name;
 			parameters[2].Value = model.Phone;
 			parameters[3].Value = model.BuyerID;
+			parameters[4].Value = model.IsDefault;
 
 			object obj = DbHelperSQL.GetSingle(strSql.ToString(),parameters);
 			if (obj == null)
@@ -96,19 +98,22 @@ namespace SoulShop.DAL
 			strSql.Append("Address=@Address,");
 			strSql.Append("Name=@Name,");
 			strSql.Append("Phone=@Phone,");
-			strSql.Append("BuyerID=@BuyerID");
+			strSql.Append("BuyerID=@BuyerID,");
+			strSql.Append("IsDefault=@IsDefault");
 			strSql.Append(" where ID=@ID");
 			SqlParameter[] parameters = {
 					new SqlParameter("@Address", SqlDbType.NVarChar,100),
 					new SqlParameter("@Name", SqlDbType.NVarChar,20),
 					new SqlParameter("@Phone", SqlDbType.NVarChar,20),
 					new SqlParameter("@BuyerID", SqlDbType.NVarChar,20),
+					new SqlParameter("@IsDefault", SqlDbType.Int,4),
 					new SqlParameter("@ID", SqlDbType.Int,4)};
 			parameters[0].Value = model.Address;
 			parameters[1].Value = model.Name;
 			parameters[2].Value = model.Phone;
 			parameters[3].Value = model.BuyerID;
-			parameters[4].Value = model.ID;
+			parameters[4].Value = model.IsDefault;
+			parameters[5].Value = model.ID;
 
 			int rows=DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
 			if (rows > 0)
@@ -172,7 +177,7 @@ namespace SoulShop.DAL
 		{
 			
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select  top 1 ID,Address,Name,Phone,BuyerID from T_Base_Address ");
+			strSql.Append("select  top 1 ID,Address,Name,Phone,BuyerID,IsDefault from T_Base_Address ");
 			strSql.Append(" where ID=@ID");
 			SqlParameter[] parameters = {
 					new SqlParameter("@ID", SqlDbType.Int,4)
@@ -220,6 +225,10 @@ namespace SoulShop.DAL
 				{
 					model.BuyerID=row["BuyerID"].ToString();
 				}
+				if(row["IsDefault"]!=null && row["IsDefault"].ToString()!="")
+				{
+					model.IsDefault=int.Parse(row["IsDefault"].ToString());
+				}
 			}
 			return model;
 		}
@@ -230,7 +239,7 @@ namespace SoulShop.DAL
 		public DataSet GetList(string strWhere)
 		{
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select ID,Address,Name,Phone,BuyerID ");
+			strSql.Append("select ID,Address,Name,Phone,BuyerID,IsDefault ");
 			strSql.Append(" FROM T_Base_Address ");
 			if(strWhere.Trim()!="")
 			{
@@ -250,7 +259,7 @@ namespace SoulShop.DAL
 			{
 				strSql.Append(" top "+Top.ToString());
 			}
-			strSql.Append(" ID,Address,Name,Phone,BuyerID ");
+			strSql.Append(" ID,Address,Name,Phone,BuyerID,IsDefault ");
 			strSql.Append(" FROM T_Base_Address ");
 			if(strWhere.Trim()!="")
 			{

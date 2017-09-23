@@ -357,7 +357,13 @@
     <Content Include="grunt\change-version.js" />
     <Content Include="grunt\postcss.js" />
     <Content Include="Icon\Buyer\headicon.jpg" />
+    <Content Include="Icon\Buyer\取消.png" />
+    <Content Include="Icon\Buyer\完成.png" />
     <Content Include="Icon\Buyer\打勾.png" />
+    <Content Include="Icon\Buyer\新建.png" />
+    <Content Include="Icon\Buyer\绿打勾.png" />
+    <Content Include="Icon\Buyer\编辑.png" />
+    <Content Include="Icon\Buyer\选择.png" />
     <Content Include="Icon\ChatOnline\发送.png" />
     <Content Include="Icon\ChatOnline\文件.png" />
     <Content Include="Icon\ChatOnline\笑脸.png" />
@@ -396,6 +402,8 @@
     <Content Include="Icon\ProductList\arrow-down.png" />
     <Content Include="Icon\ProductList\arrow-up.png" />
     <Content Include="Icon\ProductList\勾.png" />
+    <Content Include="Image\Buyer\cry.jpg" />
+    <Content Include="Image\Buyer\no-shopcart.png" />
     <Content Include="Image\Cover\bg1.jpg" />
     <Content Include="Image\Cover\bg2.jpg" />
     <Content Include="Image\Cover\bg3.jpg" />
@@ -403,6 +411,7 @@
     <Content Include="Image\Cover\bg5.jpeg" />
     <Content Include="Image\Cover\welcome.png" />
     <Content Include="Image\Detail\cry.jpg" />
+    <Content Include="Image\Detail\cry3.png" />
     <Content Include="Image\Detail\price-background.jpg" />
     <Content Include="Image\Main\bg-body.jpg" />
     <Content Include="Image\Main\bg-body.png" />

@@ -150,8 +150,6 @@ nav.soul-nav {
         .user-info:hover {
             cursor: pointer;
             opacity: 0.8;
-            border-top: 1px solid #cdcdcd;
-            border-bottom: 1px solid #cdcdcd;
             box-shadow: 0 0 5px 1px #cdcdcd;
         }
 

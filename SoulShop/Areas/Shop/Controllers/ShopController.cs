@@ -10,6 +10,14 @@ namespace SoulShop.Areas.Shop.Controllers
 {
     public class ShopController : Controller
     {
+        /*0.工具函数*/
+        private Model.T_Base_Buyer GetBuyerInfo()
+        {
+            Model.T_Base_Buyer buyer = (Model.T_Base_Buyer)Session["buyer"];
+
+            return buyer;
+        }
+
         /*1.首页*/
         // GET: Shop/Shop
         //Cover 首页
@@ -323,26 +331,26 @@ namespace SoulShop.Areas.Shop.Controllers
         //购物篮页
         public ActionResult ShopCar()
         {
-            //伪造买家数据
-            Model.T_Base_Buyer buyer = new Model.T_Base_Buyer();
-            buyer.ID = "756384199@qq.com";
-            buyer.Password = "123456";
-            buyer.NickName = "soul101";
-            buyer.QQ = "756384199";
-            buyer.Phone = "18857731599";
-            buyer.Freeze = 0;
-            buyer.HeadIcon = "/Icon/Buyer/headicon.jpg";
+            //买家数据
+            Model.T_Base_Buyer buyer = (Model.T_Base_Buyer)Session["buyer"];
 
             //根据买家ID获取购物车条目 并获取商品信息
             DAL.T_Base_ShopCart dalShopCar = new DAL.T_Base_ShopCart();
             List<Model.T_Base_ShopCart> listShopCart = dalShopCar.GetModelList("BuyerID='" + buyer.ID + "' order by createTime desc");
 
-            /*购物篮商品列表*/
-            ViewBag.listShopCart = listShopCart;
-        
+            Int32 listShopCartCount = listShopCart.Count;
+            if (listShopCartCount <= 0)
+            {
+                //如果该用户没有加入购物篮中的商品
+                /*购物篮商品列表*/
+                ViewBag.listShopCart = listShopCart;
+
+                return View();
+            }
+
             //根据购物篮信息获取店铺商品信息
             string sqlShopProduct = "ID in ("; 
-            for (int i = 0; i < listShopCart.Count; i++)
+            for (int i = 0; i < listShopCartCount; i++)
             {
                 sqlShopProduct += listShopCart[i].ShopProductID;
                 if(i < (listShopCart.Count -1))
@@ -367,6 +375,7 @@ namespace SoulShop.Areas.Shop.Controllers
                 }
             }
 
+            /*购物篮商品列表*/
             ViewBag.listShopCart = listShopCart;
 
             return View();
@@ -410,10 +419,169 @@ namespace SoulShop.Areas.Shop.Controllers
             return Json(new { code = 1 });
         }
 
-        /*6.订单生成页*/
-        public ActionResult Order()
+        //删除购物篮条目
+        public JsonResult DeleteShopCarItem(Int32 shopProductID)
         {
-            return View();
+            //获取买家信息
+            Model.T_Base_Buyer buyer = GetBuyerInfo();
+
+            //根据买家信息和店铺商品信息删除数据
+            DAL.T_Base_ShopCart dalShopCart = new DAL.T_Base_ShopCart();    
+            dalShopCart.Delete(buyer.ID, shopProductID);
+
+            return Json(new { code = 1, shopProductID = shopProductID });
+        }
+
+        /*6.订单生成*/
+        public void CreateOrder(string shopProductIDs, string amounts)
+        {
+            DAL.T_Base_OrderHead dalOrderHead = new DAL.T_Base_OrderHead();
+            //新建订单头
+            Model.T_Base_OrderHead orderHead = new Model.T_Base_OrderHead();
+            orderHead.TotalPrice = 0;
+            orderHead.Status = 0;//待发货
+            orderHead.BuyerID = ((Model.T_Base_Buyer)Session["buyer"]).ID;
+            orderHead.AddressID = 1;
+            orderHead.DeleteBuyer = 0;
+            orderHead.DeleteShop = 0;
+            orderHead.SalesReturn = 0;
+            orderHead.TrackingNumver = "";//暂时为空
+            orderHead.CreateTime = DateTime.Now;
+      
+            //保存订单头 1
+            Int32 orderHeadID = dalOrderHead.Add(orderHead);
+
+            //订单体
+            DAL.T_Base_OrderItem dalOrderItem = new DAL.T_Base_OrderItem();
+            DAL.T_Base_ShopProduct dalShopProduct = new DAL.T_Base_ShopProduct();
+
+            string[] listShopProductID = shopProductIDs.Split(';');
+            string[] listAmount = amounts.Split(';');
+
+            //总价
+            decimal sumPrice = 0;
+
+            Int32 length = listShopProductID.Length;
+            for (int i = 0; i < length; i++)
+            {
+                //根据数据创建订单项
+                Int32 shopProductID = Convert.ToInt32(listShopProductID[i]);
+                Model.T_Base_OrderItem orderItem = new Model.T_Base_OrderItem();
+                orderItem.OrderHeadID = orderHeadID;
+                orderItem.ShopProductID = shopProductID;
+                orderItem.Amount = Convert.ToInt32(listAmount[i]);
+                orderItem.Discount = 1;
+                //保存订单体 2
+                dalOrderItem.Add(orderItem);
+                //获取商品价格并添加至总价 3
+                Model.T_Base_ShopProduct shopProduct = dalShopProduct.GetModel(shopProductID);
+                sumPrice += (decimal)shopProduct.Price;
+            }
+
+            //更新总价 4
+            Model.T_Base_OrderHead orOrderHead = dalOrderHead.GetModel(orderHeadID);
+            orOrderHead.TotalPrice = sumPrice;
+            dalOrderHead.Update(orderHead);
+        }
+
+        //获取地址信息
+        public JsonResult GetBuyerAddress()
+        {
+            //获取BuyerID
+            string buyerID = ((Model.T_Base_Buyer)Session["buyer"]).ID;
+
+            DAL.T_Base_Address dalAddress = new DAL.T_Base_Address();
+
+            List<Model.T_Base_Address> listAddress = dalAddress.GetModelList("BuyerID='" + buyerID + "'");
+
+            //如果没有地址 返回code = 0
+            if (listAddress.Count == 0)
+            {
+                return Json(new { code = 0 });
+            }
+
+            //遍历地址列表 如果没有默认地址 将第一个地址设置为默认
+            int isHas = 0;
+            foreach (Model.T_Base_Address cAddress in listAddress)
+            {
+                if (cAddress.IsDefault == 1)
+                {
+                    isHas = 1;
+                }
+            }
+            if (isHas == 0)
+            {
+                setDefaultAddress(listAddress[0]);
+            }
+
+            string result = JsonConvert.SerializeObject(listAddress);
+
+            return Json(new { result = result, code = 1 });
+        }
+
+        //设置默认地址
+        public void setDefaultAddress(Model.T_Base_Address address)
+        {
+            DAL.T_Base_Address dalAddress = new DAL.T_Base_Address();
+            address.IsDefault = 1;
+            dalAddress.Update(address);
+        }
+
+        //地址信息创建
+        public JsonResult CreateNewAddress(string name, string phone, string address)
+        {
+            //获取买家信息
+            Model.T_Base_Buyer buyer = (Model.T_Base_Buyer)Session["buyer"];
+
+            Model.T_Base_Address addressModel = new Model.T_Base_Address();
+            addressModel.Address = address;
+            addressModel.Phone = phone;
+            addressModel.Name = name;
+            addressModel.BuyerID = buyer.ID;
+            addressModel.IsDefault = 1;
+
+            //将当前用户的原默认地址信息设置为非默认信息
+            DAL.T_Base_Address dalAddress = new DAL.T_Base_Address();
+            //取数据
+            Model.T_Base_Address orAddress = null;
+            orAddress = dalAddress.GetModelByIsDefault(buyer.ID);
+            //更新数据
+            if (orAddress != null)
+            {
+                orAddress.IsDefault = 0;
+                dalAddress.Update(orAddress);
+            }
+            else
+            {
+                //如果没有默认信息 不执行任何操作
+            }    
+
+            //添加新增地址 该地址设置为默认地址
+            dalAddress.Add(addressModel);
+
+            return Json(new { code = 1 });
+        }
+
+        public JsonResult ChangeDefaultByID(Int32 id)
+        {
+            //获取买家信息
+            Model.T_Base_Buyer buyer = (Model.T_Base_Buyer)Session["buyer"];
+
+            //将当前用户的原默认地址信息设置为非默认信息
+            DAL.T_Base_Address dalAddress = new DAL.T_Base_Address();
+            //取数据
+            Model.T_Base_Address orAddress = dalAddress.GetModelByIsDefault(buyer.ID);
+            //更新数据
+            orAddress.IsDefault = 0;
+            dalAddress.Update(orAddress);
+
+            //获取新的默认地址
+            Model.T_Base_Address nowAddress = dalAddress.GetModel(id);
+            //设置新地址为默认地址
+            nowAddress.IsDefault = 1;
+            dalAddress.Update(nowAddress);
+
+            return Json(new { code = 1 });
         }
 
         /*7.登陆与注册*/

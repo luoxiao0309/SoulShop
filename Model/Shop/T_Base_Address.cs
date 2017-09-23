@@ -6,7 +6,7 @@
 *
 * Ver    变更日期             负责人  变更内容
 * ───────────────────────────────────
-* V0.01  2017/9/14 17:29:16   N/A    初版
+* V0.01  2017/9/20 16:09:55   N/A    初版
 *
 * Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
 *┌──────────────────────────────────┐
@@ -31,6 +31,7 @@ namespace SoulShop.Model
 		private string _name;
 		private string _phone;
 		private string _buyerid;
+		private int? _isdefault;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -70,6 +71,14 @@ namespace SoulShop.Model
 		{
 			set{ _buyerid=value;}
 			get{return _buyerid;}
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? IsDefault
+		{
+			set{ _isdefault=value;}
+			get{return _isdefault;}
 		}
 		#endregion Model
 

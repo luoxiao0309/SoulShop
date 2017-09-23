@@ -80,7 +80,7 @@ $(function () {
     });
 
     //调整热销和活动商品块的高度 根据图片的长宽设置其位置
-    setShopProductCardHeight();
+    isImgRead(setShopProductCardHeight);
 
     //调整类别选择区高度 根据其宽度等比例放大
     var classWidth = $(".one-classification").width();
@@ -238,7 +238,7 @@ $(function () {
 
     //商品卡片查看加入购物车按钮响应
     $(".join-shopcar").click(function () {
-        var hotCard = $(this).parents(".hot-product-card") && $(this).parents(".sale-product-card");
+        var hotCard = ($(this).parents(".hot-product-card").length != 0) ? $(this).parents(".hot-product-card") : $(this).parents(".sale-product-card");
         var shopProductID = hotCard.data("id");
         //获取加入购物篮所需的卡片中的信息 amount=1 shopProductID
         $.post("/Shop/Shop/AddInfoToShopCar",
