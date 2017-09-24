@@ -117,6 +117,7 @@
     display: block;
 }
 
+/*查看详情样式*/
 .check-detail {
     width: 75%;
     color: #cccccc !important;
@@ -128,6 +129,22 @@
 }
 
 .check-detail.activeshow {
+    display: block;
+}
+
+/*立即购买样式*/
+.now-shopping {
+    margin-bottom: 1rem;
+    width: 75%;
+    color: #cccccc !important;
+    display: none;
+}
+
+.now-shopping:hover {
+    color: #ffffff !important;
+}
+
+.now-shopping.activeshow {
     display: block;
 }
 
@@ -160,4 +177,9 @@
     .my-count-input-group div input {} 
     .my-count-input-group img {} 
 
-    
+/*商品标识*/
+.shop-product-sign {
+    position: fixed;
+    width: 2rem;
+    height: 2rem;
+}

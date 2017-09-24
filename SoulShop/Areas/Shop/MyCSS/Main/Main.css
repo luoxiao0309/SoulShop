@@ -252,6 +252,10 @@
             font-size: 0.8rem;
         }
 
+        .two-wrap .tab-content .tab-pane .card-block .card-text-style {
+            font-size: 0.8rem;
+        }
+
         @media (max-width: 576px) {
 
             .two-wrap .tab-content .tab-pane .card-block .card-text,
@@ -343,6 +347,11 @@
         align-items: baseline;
         width: 100%;
     }
+
+    .three-wrap .card .card .card-block .card-text-style {
+        font-size: 0.8rem;
+    }
+
 
         @media (max-width: 576px) {
 

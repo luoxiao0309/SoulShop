@@ -10,9 +10,11 @@
 
 @section css{
     <title>商品分类页</title>
+    <link href="~/Areas/Shop/MyCSS/Buyer/Order.css" rel="stylesheet" />
     <link href="~/Areas/Shop/MyCSS/ProductList/SaleProductList.css" rel="stylesheet" />
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=M1mt3fUZntsnljyuaZ4mBVN0qtNgwgOe"></script>
     <script src="~/Areas/Shop/MyJS/Main/BaiduMap.js"></script>
+    <script src="~/Areas/Shop/MyJS/Buyer/Order.js"></script>
     <script src="~/Areas/Shop/MyJS/ProductList/SaleProductList.js"></script>
     <style>
     </style>
@@ -85,6 +87,74 @@
                     <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">取消</button>
                 </div>
             </div>
+        </div>
+    </div>
+}
+
+@section modal{
+    <!--订单模态框-->
+    <div id="modalOrder" class="soul-modal">
+        <div class="container container-lowlg-width-p100 container-lowlg-nop order-head-wrap mt-2 mt-md-4 pr-0 pl-0">
+            <div class="order-head-edit">
+                <div class="order-head-edit-btn order-head-edit-create-btn" data-id=""><div style="background-image: url(/Icon/Buyer/新建.png);">新建</div></div>
+                <div class="order-head-edit-btn order-head-edit-choose-btn"><div style="background-image: url('/Icon/Buyer/选择.png');">选择</div></div>
+            </div>
+            <div class="order-head-border-wrap">
+                <div class="order-head" data-id="">
+                    <div class="order-address text-oneline-overhidden">
+                        <span>收货地址：</span><span class="value"></span>
+                    </div>
+                    <div class="order-phone text-oneline-overhidden">
+                        <span>联系电话：</span><span class="value"></span>
+                    </div>
+                    <div class="order-receiver-name text-oneline-overhidden">
+                        <span>收件人姓名：</span><span class="value"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--地址新建区-->
+        <div class="container container-lowlg-width-p100 container-lowlg-nop order-address-edit order-address-create pl-0 pr-0">
+            <div class="order-address-create-border-wrap">
+                <div class="order-address-create-item order-address-create-address">
+                    <div class="item-label">收货地址</div><div class="item-input-wrap"><input type="text" /></div>
+                </div>
+                <div class="order-address-create-item order-address-create-phone">
+                    <div class="item-label">联系电话</div><div class="item-input-wrap"><input type="text" /></div>
+                </div>
+                <div class="order-address-create-item order-address-create-name" style="padding-bottom: 1rem;">
+                    <div class="item-label">收件人姓名</div>
+                    <div class="item-input-wrap"><input type="text" /></div>
+                </div>
+                <img class="order-address-create-ok-btn" src="~/Icon/Buyer/完成.png" />
+            </div>
+        </div>
+        <!--地址选择区-->
+        <div class="container container-lowlg-width-p100 container-lowlg-nop order-address-edit order-address-choose pl-0 pr-0">
+            <!--例子-->
+            <div class="order-address-choose-border-wrap" data-id="">
+                <div class="order-address-choose-item">
+                    <div class="item-address text-oneline-overhidden">
+                        <span>收货地址：</span><span class="value"></span>
+                    </div>
+                    <div class="item-phone text-oneline-overhidden">
+                        <span>联系电话：</span><span class="value"></span>
+                    </div>
+                    <div class="item-receiver-name text-oneline-overhidden">
+                        <span>收件人姓名：</span><span class="value"></span>
+                    </div>
+                </div>
+                <img class="order-address-choose-item-sign" src="~/Icon/Buyer/绿打勾.png" />
+            </div>
+        </div>
+        <!--条目区-->
+        <div class="container container-lowlg-width-p100 container-lowlg-nop order-wrap mt-3">
+
+        </div>
+        <div class="container container-lowlg-width-p100 container-lowlg-nop order-tools mt-3">
+            <div class="order-btn order-close-btn">关闭</div>
+            <div class="order-sumprice">总金额：<span class="order-sumprice-sign">￥</span><span class="order-sumprice-value">100</span></div>
+            <div class="order-btn order-sure-btn">确认</div>
         </div>
     </div>
 }

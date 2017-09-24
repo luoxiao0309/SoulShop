@@ -2483,3 +2483,58 @@ function initMyCountInputGroup() {
         $(this).val(inputVal);
     });
 }
+
+function setAnimateForShopProductSign(objJoinBtn/*js 元素*/) {
+    //根据当前传入的按钮位置 设置商品标志的位置
+    var boundingRect = objJoinBtn.getBoundingClientRect();
+    var top = boundingRect.top;
+    var right = boundingRect.right;
+    var left = boundingRect.left;
+
+    var shopProductSign = $('<img src="/Icon/Main/礼品.png" class="shop-product-sign" />');
+    shopProductSign.css("top", top + "px").css("left", (right + left) / 2 + "px");
+    $("body").append(shopProductSign);
+ 
+    var objtarget = document.querySelector(".user-info-icon");
+    var boundingRectTarget = objtarget.getBoundingClientRect();
+    var targetTop = boundingRectTarget.top;
+    var targetCLeft = (boundingRectTarget.left + boundingRectTarget.right) / 2;
+
+    shopProductSign.animate({
+            top: targetTop + "px",
+            left: targetCLeft + "px"
+        },
+        {
+            easing: "easeInQuad",
+            duration: 1000,
+            complete: function () {
+                $(this).remove();
+            }
+        });
+}
+
+//指定图片是否加载完毕 第一个参数为指定图片jq对象 后续为待执行的函数组 函数引用置于一个Array内
+function isTheImgReady(objImg, arrayFunction) {
+    //判断图片是否加载完成
+    if (objImg[0].complete) {//如果完成了
+        //根据图片的宽高比例设置属性
+        var height = objImg.height();
+        var width = objImg.width();
+        if (width > height) {
+            objImg.css("height", "100%");
+            objImg.css("width", "auto");
+        } else {
+            objImg.css("width", "100%");
+            objImg.css("height", "auto");
+        }
+    } else {//如果未完成
+        setTimeout(function () {//继续判断
+            isTheImgReady(objImg, arrayFunction)
+        }, 500);
+    }
+}
+
+//保留两位小数
+function getFloatToFixedTwo(price) {
+    return price.toFixed(2);
+}

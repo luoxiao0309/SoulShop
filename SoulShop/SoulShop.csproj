@@ -216,6 +216,7 @@
   <ItemGroup>
     <Content Include=".gitattributes" />
     <Content Include=".gitignore" />
+    <Content Include="Areas\Shop\MyCSS\Buyer\Order.css" />
     <Content Include="Areas\Shop\MyCSS\Buyer\ShopCar.css" />
     <Content Include="Areas\Shop\MyCSS\ChatOnline\ChatOnline.css" />
     <Content Include="Areas\Shop\MyCSS\Cover\Cover.css" />
@@ -225,6 +226,7 @@
     <Content Include="Areas\Shop\MyCSS\NavView\NavView.css" />
     <Content Include="Areas\Shop\MyCSS\ProductList\ProductList.css" />
     <Content Include="Areas\Shop\MyCSS\ProductList\SaleProductList.css" />
+    <Content Include="Areas\Shop\MyJS\Buyer\Order.js" />
     <Content Include="Areas\Shop\MyJS\Buyer\ShopCar.js" />
     <Content Include="Areas\Shop\MyJS\ChatOnline\ChatOnline.js" />
     <Content Include="Areas\Shop\MyJS\constant.js" />
@@ -381,6 +383,7 @@
     <Content Include="Icon\Main\HOT.png" />
     <Content Include="Icon\Main\Map坐标.png" />
     <Content Include="Icon\Main\人参.png" />
+    <Content Include="Icon\Main\商品.png" />
     <Content Include="Icon\Main\坐标.png" />
     <Content Include="Icon\Main\树.png" />
     <Content Include="Icon\Main\水果.png" />
@@ -463,6 +466,7 @@
     <Content Include="js\dist\tooltip.js" />
     <Content Include="js\dist\util.js" />
     <Content Include="js\jquery-3.2.1.min.js" />
+    <Content Include="js\jquery.easing.min.js" />
     <Content Include="js\src\alert.js" />
     <Content Include="js\src\button.js" />
     <Content Include="js\src\carousel.js" />

@@ -303,6 +303,7 @@ function setCartBtnGroupActive(objProduct/*目标商品card对象*/) {
     objProduct.find(".join-shopcar").click(function () {
         var hotCard = $(this).parents(".product-card");
         var shopProductID = hotCard.data("id");
+        var that = this;
         //获取加入购物篮所需的卡片中的信息 amount=1 shopProductID
         $.post("/Shop/Shop/AddInfoToShopCar",
             {
@@ -311,9 +312,11 @@ function setCartBtnGroupActive(objProduct/*目标商品card对象*/) {
             },
             function (data, status) {
                 if (data.code == 1) {
-                    alert("已加入购物车");
+                    setAnimateForShopProductSign(that);
                 } else if (data.code == 0) {
                     alert("请先登录");
+                } else if (data.code == 2) {
+                    alert("添加过这件商品了噢~");
                 }
             });
     });
@@ -326,6 +329,11 @@ function addProductToDOM(index) {
         '<img class="card-img-top w-100 h-100" src='+ product.imgPath +'>' +
         '<div class="card-block">' +
         '<div class="card-title text-oneline-overhidden">' + product.name + '</div>' +
+        '<p class="card-text-style">' +
+        '<span class="card-text-size">' + product.size + '</span>' + 
+             '<span>&nbsp;&nbsp;</span>' + 
+             '<span class="card-text-color">' + product.color + '</span>' + 
+        '</p>' +
         '<p class="card-text card-text-description text-oneline-overhidden">' + product.description + '</p>' +
         '<p class="card-text text-oneline-overhidden"><span class="mr-auto hot-money">￥' + product.price + '</span><span class="my-smaller-font sales-count">' + product.monthlySale + '人已购</span></p>' +
         '</div>' +

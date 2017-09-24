@@ -50,6 +50,10 @@
             width: 100%;
         }
 
+        .product-card .card-block .card-text-style {
+            font-size: 0.8rem;
+        }
+
         @media (max-width: 576px) {
 
             .product-card .card-block .card-text,
@@ -63,7 +67,10 @@
 
             .product-card .card-block .card-text span:last-child {
                 font-size: 0.5rem;
+            }
 
+            .product-card .card-block .card-text-style {
+                font-size: 0.8rem;
             }
         }
 

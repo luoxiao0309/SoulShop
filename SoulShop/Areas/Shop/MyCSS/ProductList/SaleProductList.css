@@ -47,6 +47,11 @@
             width: 100%;
         }
 
+        .product-card .card-block .card-text-style {
+            font-size: 0.8rem;
+        }
+
+
         @media (max-width: 576px) {
 
             .product-card .card-block .card-text,

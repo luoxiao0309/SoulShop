@@ -391,13 +391,20 @@ namespace SoulShop.Areas.Shop.Controllers
                 return Json(new { code = 0 });//0为无用户登录
             }
 
+            DAL.T_Base_ShopCart dalShopCar = new DAL.T_Base_ShopCart();
+
+            //监测该条目数据是否已存在
+            if (dalShopCar.Exists(buyer.ID, shopProductID)) {
+                return Json(new { code = 2 });//数据已存在
+            }
+
+            //添加数据
             Model.T_Base_ShopCart shopCartItem = new Model.T_Base_ShopCart();
             shopCartItem.ShopProductID = shopProductID;
             shopCartItem.Amount = amount;
             shopCartItem.CreateTime = DateTime.Now;
             shopCartItem.BuyerID = buyer.ID;
 
-            DAL.T_Base_ShopCart dalShopCar = new DAL.T_Base_ShopCart();
             dalShopCar.Add(shopCartItem);
 
             return Json(new { code = 1 });//操作完成
@@ -433,15 +440,19 @@ namespace SoulShop.Areas.Shop.Controllers
         }
 
         /*6.订单生成*/
-        public void CreateOrder(string shopProductIDs, string amounts)
+        //购物篮结算订单生成
+        public void CreateOrderByShopCart(string shopProductIDs, string amounts, Int32 addressID)
         {
+            //获取买家信息
+            Model.T_Base_Buyer buyer = GetBuyerInfo();
+
             DAL.T_Base_OrderHead dalOrderHead = new DAL.T_Base_OrderHead();
             //新建订单头
             Model.T_Base_OrderHead orderHead = new Model.T_Base_OrderHead();
             orderHead.TotalPrice = 0;
             orderHead.Status = 0;//待发货
-            orderHead.BuyerID = ((Model.T_Base_Buyer)Session["buyer"]).ID;
-            orderHead.AddressID = 1;
+            orderHead.BuyerID = buyer.ID;
+            orderHead.AddressID = addressID;
             orderHead.DeleteBuyer = 0;
             orderHead.DeleteShop = 0;
             orderHead.SalesReturn = 0;
@@ -467,10 +478,10 @@ namespace SoulShop.Areas.Shop.Controllers
                 //根据数据创建订单项
                 Int32 shopProductID = Convert.ToInt32(listShopProductID[i]);
                 Model.T_Base_OrderItem orderItem = new Model.T_Base_OrderItem();
-                orderItem.OrderHeadID = orderHeadID;
-                orderItem.ShopProductID = shopProductID;
-                orderItem.Amount = Convert.ToInt32(listAmount[i]);
-                orderItem.Discount = 1;
+                orderItem.OrderHeadID = orderHeadID;//订单头
+                orderItem.ShopProductID = shopProductID;//店铺商品ID
+                orderItem.Amount = Convert.ToInt32(listAmount[i]);//商品数量
+                orderItem.Discount = 1;//折扣
                 //保存订单体 2
                 dalOrderItem.Add(orderItem);
                 //获取商品价格并添加至总价 3
@@ -481,7 +492,70 @@ namespace SoulShop.Areas.Shop.Controllers
             //更新总价 4
             Model.T_Base_OrderHead orOrderHead = dalOrderHead.GetModel(orderHeadID);
             orOrderHead.TotalPrice = sumPrice;
-            dalOrderHead.Update(orderHead);
+            dalOrderHead.Update(orOrderHead);
+
+            //删除购物车条目
+            shopProductIDs = shopProductIDs.Replace(";", ",");
+            DAL.T_Base_ShopCart dalShopCart = new DAL.T_Base_ShopCart();
+            dalShopCart.DeleteList(buyer.ID, shopProductIDs);
+        }
+
+        //根据打折商品SaleID 生成订单
+        public JsonResult CreateOrderRightNow(Int32 saleProductID, Int32 addressID)
+        {
+            DAL.T_Base_SaleProduct dalSaleProduct = new DAL.T_Base_SaleProduct();
+            Model.T_Base_SaleProduct saleProduct = dalSaleProduct.GetModelByView(saleProductID);
+
+            //获取买家信息
+            Model.T_Base_Buyer buyer = GetBuyerInfo();
+
+            DAL.T_Base_OrderHead dalOrderHead = new DAL.T_Base_OrderHead();
+            //新建订单头
+            Model.T_Base_OrderHead orderHead = new Model.T_Base_OrderHead();
+            orderHead.TotalPrice = saleProduct.ShopProduct.Price * saleProduct.Discount;
+            orderHead.Status = 0;//待发货
+            orderHead.BuyerID = buyer.ID;
+            orderHead.AddressID = addressID;
+            orderHead.DeleteBuyer = 0;
+            orderHead.DeleteShop = 0;
+            orderHead.SalesReturn = 0;
+            orderHead.TrackingNumver = "";//暂时为空
+            orderHead.CreateTime = DateTime.Now;
+
+            //保存订单头 1
+            Int32 orderHeadID = dalOrderHead.Add(orderHead);
+
+            //订单体
+            DAL.T_Base_OrderItem dalOrderItem = new DAL.T_Base_OrderItem();
+            DAL.T_Base_ShopProduct dalShopProduct = new DAL.T_Base_ShopProduct();
+
+            //根据数据创建订单项    
+            Model.T_Base_OrderItem orderItem = new Model.T_Base_OrderItem();
+            orderItem.OrderHeadID = orderHeadID;//订单头
+            orderItem.ShopProductID = saleProduct.ShopProduct.ID;//店铺商品ID
+            orderItem.Amount = 1;//商品数量
+            orderItem.Discount = saleProduct.Discount;//折扣
+            //保存订单体 2
+            dalOrderItem.Add(orderItem);
+
+            return Json(new { code = 1 });
+        }
+
+        //打折商品信息获取
+        public JsonResult GetSaleProductByID(Int32 saleProductID)
+        {
+            Model.T_Base_Buyer buyer = GetBuyerInfo();
+            if (buyer == null)//如果buyer为null 说明没有用户登录
+            {
+                return Json(new { code = 0 });//0为无用户登录
+            }
+
+            DAL.T_Base_SaleProduct dalSaleProduct = new DAL.T_Base_SaleProduct();
+            Model.T_Base_SaleProduct saleProduct = dalSaleProduct.GetModelByView(saleProductID);
+
+            string result = JsonConvert.SerializeObject(saleProduct);
+
+            return Json(new { code = 1 ,result = result });
         }
 
         //获取地址信息

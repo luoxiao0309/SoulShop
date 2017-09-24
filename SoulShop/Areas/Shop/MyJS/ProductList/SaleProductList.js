@@ -27,9 +27,107 @@ var conSearch = {
 
 $(function () {
 
-    //是否为展示活动正在进行商品标识
-    saleType = $("#getHttpData").data("saletype");
+    /*功能及按钮*/
+        //是否为展示活动正在进行商品标识
+        saleType = $("#getHttpData").data("saletype");
 
+        /*初始化功能按钮*/
+        initBtnForSaleProduct();
+
+        //初始化界面
+        initUserShow();
+
+        //百度地图和初始商品初始化
+        initBaiduMapAndSaleProudct();
+
+    /*初始化订单*/
+        //初始化订单提交按钮
+        initSubmintOrder(createOrderByOne);
+});
+
+$(window).resize(function () {
+    resertAll();
+});
+
+$(window).scroll(function () {
+    console.log(getDocHeight());//显示当前窗口底部到页面上顶端的高度
+    console.log(getMaxColHeight());//显示最大列高
+    if (checkScrollToBottom()) {
+
+        if (!isLoad || (nowProductShowIndex + colCount) > nowHaveMaxImg) {
+            if ((nowProductShowIndex + colCount) > nowHaveMaxImg) {
+                //若为图片数量不足 尝试获取
+                if (SQLServerMaxImg > nowHaveMaxImg) {
+                    //如果还能从数据库获取数据
+                    getShopProductDataByAjax();
+                }
+            }
+            return;
+        }
+        isLoad = false;
+
+        addProduct(colCount);
+        isImgRead(setProductPosition);
+    }
+});
+
+function initBaiduMapAndSaleProudct() {
+    initMap();
+    getShopProductDataTimeOut();
+
+    //城市搜索按钮侦听
+    $("#MapCitySearchBtn").click(function () {
+        var i, j;
+        //清空searchedCitys 和 DOM响应内容
+        searchedCitys = [];
+        var objCityWrap = $(".citys-wrap .list-group");
+        objCityWrap.empty();
+        //根据输入框信息 进行检索
+        var inputCityName = $("#MapCitySearchInput").val();
+        for (i = 0; i < provincesList.length; i++) {
+            var province = provincesList[i];
+            var cityList = province.citys;
+            for (j = 0; j < cityList.length; j++) {
+                if (cityList[j].name.indexOf(inputCityName) != -1) {//找到包含关键字的城市
+                    searchedCitys.push(createCity(province.name, cityList[j].name));
+                }
+            }
+        }
+        for (i = 0; i < searchedCitys.length; i++) {
+            var objCity = searchedCitys[i];
+            objCityWrap.append("<li class=\"list-group-item\"><span class='province-name'>" + objCity.province + "</span><span>-</span><span class='city-name'>" + objCity.city + "</span></li>");
+        }
+        //搜索结果列表项监听
+        $(".citys-wrap .list-group .list-group-item").click(function () {
+            var cityName = $(this).find(".city-name").text();
+            setPositionByCityName(cityName);
+            $(".citys-wrap").css("display", "none");
+        });
+        $(".citys-wrap").css("display", "block");//显示搜索结果
+    });
+
+    //当前位置
+    $("#MapCurrentCity").click(function () {
+        $("#MapCurrentCP").addClass("active");
+    });
+
+    $("#MapCurrentCP").click(function () {
+        $(this).removeClass("active");
+    });
+}
+
+//初始化界面
+function initUserShow() {
+    //商品类型初始化
+    var productCategory = $("#getHttpData").data("productcategory");
+    $("#kindsWrap div").removeClass("active");
+    $($("#kindsWrap div")[productCategory + 1]).addClass("active");
+    conSearch.nowProductCategory = productCategory;
+    conSearch.productCategory = productCategory;
+}
+
+//功能按钮初始化
+function initBtnForSaleProduct() {
     //商品类别
     $("#kindsWrap div").click(function () {
 
@@ -92,98 +190,7 @@ $(function () {
         $(".arrow-up").css("display", "none");
         $(".arrow-down").css("display", "block");
     });
-
-    //商品类型初始化
-    var productCategory = $("#getHttpData").data("productcategory");
-    $("#kindsWrap div").removeClass("active");
-    $($("#kindsWrap div")[productCategory + 1]).addClass("active");
-    conSearch.nowProductCategory = productCategory;
-    conSearch.productCategory = productCategory;
-
-    //百度地图初始化
-    initMap();
-    getShopProductDataTimeOut();
-
-    //城市搜索按钮侦听
-    $("#MapCitySearchBtn").click(function () {
-        var i, j;
-        //清空searchedCitys 和 DOM响应内容
-        searchedCitys = [];
-        var objCityWrap = $(".citys-wrap .list-group");
-        objCityWrap.empty();
-        //根据输入框信息 进行检索
-        var inputCityName = $("#MapCitySearchInput").val();
-        for (i = 0; i < provincesList.length; i++) {
-            var province = provincesList[i];
-            var cityList = province.citys;
-            for (j = 0; j < cityList.length; j++) {
-                if (cityList[j].name.indexOf(inputCityName) != -1) {//找到包含关键字的城市
-                    searchedCitys.push(createCity(province.name, cityList[j].name));
-                }
-            }
-        }
-        for (i = 0; i < searchedCitys.length; i++) {
-            var objCity = searchedCitys[i];
-            objCityWrap.append("<li class=\"list-group-item\"><span class='province-name'>" + objCity.province + "</span><span>-</span><span class='city-name'>" + objCity.city + "</span></li>");
-        }
-        //搜索结果列表项监听
-        $(".citys-wrap .list-group .list-group-item").click(function () {
-            var cityName = $(this).find(".city-name").text();
-            setPositionByCityName(cityName);
-            $(".citys-wrap").css("display", "none");
-        });
-        $(".citys-wrap").css("display", "block");//显示搜索结果
-    });
-
-    //当前位置
-    $("#MapCurrentCity").click(function () {
-        $("#MapCurrentCP").addClass("active");
-    });
-
-    $("#MapCurrentCP").click(function () {
-        $(this).removeClass("active");
-    });
-
-
-    /*//计算列数
-    calColCountAndCardMargin();
-    //计算列宽
-    calEveryColWidth();
-    //初始化列高
-    resertColHeight();
-    //初始化当前已加载图片数量信息
-    resertNowPosition();
-
-    //根据当前列宽添加初始化的商品 添加两排
-    addProduct(firstAddProductCount);
-    isImgRead(setProductPosition);*/
-});
-
-$(window).resize(function () {
-    resertAll();
-});
-
-$(window).scroll(function () {
-    console.log(getDocHeight());//显示当前窗口底部到页面上顶端的高度
-    console.log(getMaxColHeight());//显示最大列高
-    if (checkScrollToBottom()) {
-
-        if (!isLoad || (nowProductShowIndex + colCount) > nowHaveMaxImg) {
-            if ((nowProductShowIndex + colCount) > nowHaveMaxImg) {
-                //若为图片数量不足 尝试获取
-                if (SQLServerMaxImg > nowHaveMaxImg) {
-                    //如果还能从数据库获取数据
-                    getShopProductDataByAjax();
-                }
-            }
-            return;
-        }
-        isLoad = false;
-
-        addProduct(colCount);
-        isImgRead(setProductPosition);
-    }
-});
+}
 
 //延时启动数据获取
 function getShopProductDataTimeOut() {
@@ -253,7 +260,7 @@ function getShopProductDataByAjax() {
 }
 
 //ShopProductCardData构造函数 用于productArray的数据成员
-function createShopProduct(imgPath, name, price, monthlySale, description, id, shopID, productID, size, color, discount) {
+function createShopProduct(imgPath, name, price, monthlySale, description, id, shopID, productID, size, color, discount, saleID) {
     var shopProduct = {
         imgPath: imgPath,
         name: name,
@@ -265,7 +272,8 @@ function createShopProduct(imgPath, name, price, monthlySale, description, id, s
         productID: productID,
         size: size,
         color: color,
-        discount: discount
+        discount: discount,
+        saleID: saleID
     };
 
     return shopProduct;
@@ -281,7 +289,7 @@ function addAjaxDataToSPArray(listShopProduct) {
             sp.ShopProduct.OrProduct.Name, sp.ShopProduct.Price,
             sp.ShopProduct.MonthlySale, sp.ShopProduct.OrProduct.Description,
             sp.ShopProduct.ID, sp.ShopProduct.ShopID, sp.ShopProduct.OrProduct.ID,
-            sp.ShopProduct.Size, sp.ShopProduct.Color, sp.Discount));
+            sp.ShopProduct.Size, sp.ShopProduct.Color, sp.Discount, sp.ID));
     }
 }
 
@@ -303,11 +311,13 @@ function setCartBtnGroupActive(objProduct/*目标商品card对象*/) {
     objProduct.mouseenter(function () {
         $(this).find(".join-shopcar").addClass("activeshow");
         $(this).find(".check-detail").addClass("activeshow");
+        $(this).find(".now-shopping").addClass("activeshow");
     });
 
     objProduct.mouseleave(function () {
         $(this).find(".join-shopcar").removeClass("activeshow");
         $(this).find(".check-detail").removeClass("activeshow");
+        $(this).find(".now-shopping").removeClass("activeshow");
     });
 
     //商品卡片查看加入购物车按钮响应
@@ -334,40 +344,30 @@ function setCartBtnGroupActive(objProduct/*目标商品card对象*/) {
 function addProductToDOM(index) {
     var product = productArray[index];
     var nowpay = (product.discount * product.price).toFixed(0);
-    var objProduct = $('<div class="product-card card" data-id=' + product.id + '>' +
+    var objProduct = $('<div class="product-card card" data-id="' + product.id + '" data-saleid="' + product.saleID + '">' +
        '<img class="card-img-top w-100 h-100" src=' + product.imgPath + '>' +
        '<div class="card-block">' +
        '<div class="card-title text-oneline-overhidden">' + product.name + '</div>' +
+       '<p class="card-text-style">' + 
+       '<span class="card-text-size">'+ product.size + '</span>' + 
+       '<span>&nbsp;&nbsp;</span>' + 
+       '<span class="card-text-color">' + product.color + '</span>' +
+       '</p>' +
        '<p class="card-text card-text-description text-oneline-overhidden">' + product.description + '</p>' +
        '<p class="card-text text-oneline-overhidden"><span class="mr-auto money-cancel">￥' + product.price + '</span><span class="my-smaller-font sales-count">' + product.monthlySale + '人已购</span></p>' +
        '</div>' +
        '<div class="now-pay">￥' + nowpay + '</div>' +
        '<div class="card-btn-group">' +
-       '<a class="join-shopcar btn btn-outline-secondary">加入购物车</a>' +
+       ' <a class="now-shopping btn btn-outline-secondary">立即购买</a>' +
        '<a href="/Shop/Shop/Detail?shopId=' + product.shopID + '&productId=' + product.productID + '&size=' + product.size + '&color=' + product.color + '" class="check-detail btn btn-outline-secondary">查看详情</a>' +
        '</div>' +
        '</div>');
-
-    /*var objProduct = $('<div class="product-card card" data-id=' + product.id + '>' +
-        '<img class="card-img-top w-100 h-100" src=' + product.imgPath + '>' +
-        '<div class="card-block">' +
-        '<div class="card-title text-oneline-overhidden">' + product.name + '</div>' +
-        '<p class="card-text card-text-description text-oneline-overhidden">' + product.description + '</p>' +
-        '<p class="card-text text-oneline-overhidden"><span class="mr-auto hot-money">￥' + product.price + '</span><span class="my-smaller-font sales-count">' + product.monthlySale + '人已购</span></p>' +
-        '</div>' +
-        '<div class="card-btn-group">' +
-        '<a class="join-shopcar btn btn-outline-secondary">加入购物车</a>' +
-        '<a href="/Shop/Shop/Detail?shopId=' + product.shopID + '&productId=' + product.productID + '&size=' + product.size + '&color=' + product.color + '" class="check-detail btn btn-outline-secondary">查看详情</a>' +
-        '</div>' +
-        '</div>');*/
-    /* '<div class="card-btn-group">' +
-        '<div class="join-shopcar btn btn-outline-secondary">加入购物车</div>' +
-        '</div>' +*/
 
     //设置元素宽
     objProduct.width(everyProductWidth);
     $(".product-falls-wrap").append(objProduct);
     setCartBtnGroupActive(objProduct);
+    setNowShppingBtnClickSingle(objProduct.find(".now-shopping"));
 }
 
 //根据卡片大小 和 字符串长度 计算字体大小（NowPay块）

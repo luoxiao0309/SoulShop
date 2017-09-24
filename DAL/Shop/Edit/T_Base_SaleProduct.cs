@@ -49,6 +49,7 @@ namespace SoulShop.DAL
                 saleProduct.StartTime = Convert.ToDateTime(dr["StartTime"]);
                 saleProduct.EndTime = Convert.ToDateTime(dr["EndTime"]);
                 saleProduct.Discount = Convert.ToDecimal(dr["Discount"]);
+                saleProduct.ID = Convert.ToInt32(dr["SaleID"]);
 
                 //1.店铺商品数据
                 Model.T_Base_ShopProduct shopProduct = new Model.T_Base_ShopProduct();
@@ -81,6 +82,15 @@ namespace SoulShop.DAL
             }
 
             return listSaleProduct;
+        }
+
+        //获取单个SaleProduct Model
+        public Model.T_Base_SaleProduct GetModelByView(Int32 saleProductID)
+        {
+            DAL.T_Base_SaleProduct dalSaleProduct = new DAL.T_Base_SaleProduct();
+            Model.T_Base_SaleProduct saleProduct = GetModelListByPageByView("SaleID=" + saleProductID, "SaleID", 1, 1)[0];
+
+            return saleProduct;
         }
 
         //根据V_SaleProduct_ShopProduct_Product视图获取Model数据
