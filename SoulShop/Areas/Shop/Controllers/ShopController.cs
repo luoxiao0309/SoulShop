@@ -561,6 +561,12 @@ namespace SoulShop.Areas.Shop.Controllers
         //获取地址信息
         public JsonResult GetBuyerAddress()
         {
+            //获取Buyer
+            Model.T_Base_Buyer buyer = GetBuyerInfo();
+            if (buyer == null) {
+                return Json(new { code = 0 });
+            }
+
             //获取BuyerID
             string buyerID = ((Model.T_Base_Buyer)Session["buyer"]).ID;
 

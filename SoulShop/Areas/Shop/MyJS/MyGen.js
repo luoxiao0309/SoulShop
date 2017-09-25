@@ -2534,7 +2534,156 @@ function isTheImgReady(objImg, arrayFunction) {
     }
 }
 
+function isImgRead(callback) {
+    isLoad = false;
+    var allComplete = true;
+    $(".product-img-wrap img").each(function () {
+        if (!this.complete) {
+            allComplete = false;
+        }
+    });
+
+    if (allComplete) {
+        isLoad = true;
+    }
+
+    if (!isLoad) {//未完毕
+        setTimeout(function () {
+            isImgRead(callback);
+        }, 500);
+    } else {
+        callback();
+    }
+}
+
+//根据选择器判断图片是否加载完毕
+function isImgReadBySelector(selector, callback) {
+    isLoad = false;
+    var allComplete = true;
+    $(selector).each(function () {
+        if (!this.complete) {
+            allComplete = false;
+        }
+    });
+
+    if (allComplete) {
+        isLoad = true;
+    }
+
+    if (!isLoad) {//未完毕
+        setTimeout(function () {
+            isImgRead(callback);
+        }, 500);
+    } else {
+        callback();
+    }
+}
+
 //保留两位小数
 function getFloatToFixedTwo(price) {
     return price.toFixed(2);
 }
+
+/*魄罗载入*/
+    /*加载动画块HTMLCode：
+    <div id="" class="load-aminate">
+        <div class="load-aminate-item load-aminate-item-one"><img src="~/Image/NavView/load.png"></div>
+        <div class="load-aminate-item load-aminate-item-two"><img src="~/Image/NavView/load.png"></div>
+        <div class="load-aminate-item load-aminate-item-three"><img src="~/Image/NavView/load.png"></div>
+        <div class="load-aminate-item load-aminate-item-four"><img src="~/Image/NavView/load.png"></div>
+    </div>*/
+
+    //载入动画
+    function moveToUpAndDown() {
+        $(".load-aminate").animate({
+            top: "-=40%",
+        },
+        {
+            easing: "easeOutQuad",
+            duration: 1000,
+            complete: function () {
+                $(".load-aminate").animate({
+                    top: "+=40%",
+                },
+                {
+                    easing: "easeInQuad",
+                    duration: 1000,
+                    complete: function () {
+
+                    }
+                });
+            }
+        });
+    }
+
+    //根据选择器和百分比设置起跳高度
+    function moveToUpAndDownBySeletor(seletor, perHeight) {
+        $(seletor + " img").animate({
+            bottom: "+=" + perHeight + "%",
+        },
+        {
+            easing: "easeOutQuad",
+            duration: 1000,
+            complete: function () {
+                $(seletor + " img").animate({
+                    bottom: "-=" + perHeight + "%",
+                },
+                {
+                    easing: "easeInQuad",
+                    duration: 1000,
+                    complete: function () {
+
+                    }
+                });
+            }
+        });
+    }
+
+    //根据ID初始化载入动画：通过ID找到加载块 并对每个组进行动画启动 和高度设置
+    function initMoveToUpAndDownByID(idName, perHeight) {
+        moveToUpAndDownBySeletor("#" + idName + " .load-aminate-item-one", perHeight);
+        timer = setInterval('moveToUpAndDownBySeletor("#' + idName + ' .load-aminate-item-one", ' + perHeight + ')', 2000);
+        setTimeout(function () {
+            moveToUpAndDownBySeletor("#" + idName + " .load-aminate-item-two", perHeight);
+            timer = setInterval('moveToUpAndDownBySeletor("#' + idName + ' .load-aminate-item-two", ' + perHeight + ')', 2000);
+        }, 500);
+        setTimeout(function () {
+            moveToUpAndDownBySeletor("#" + idName + " .load-aminate-item-three", perHeight);
+            timer = setInterval('moveToUpAndDownBySeletor("#' + idName + ' .load-aminate-item-three", ' + perHeight + ')', 2000);
+        }, 1000);
+        setTimeout(function () {
+            moveToUpAndDownBySeletor("#" + idName + " .load-aminate-item-four", perHeight);
+            timer = setInterval('moveToUpAndDownBySeletor("#' + idName + ' .load-aminate-item-four", ' + perHeight + ')', 2000);
+        }, 1500);
+    }
+
+    //初始化魄罗加载: 根据加载块的名字 进行加载块的初始化
+    function initPoluoLoadImg(arguments) {
+        var i;
+        var length = arguments.length;
+        var per = arguments[0];
+        for (i = 1; i < length; i++) {
+            initMoveToUpAndDownByID(arguments[i], per);
+        }
+    }
+
+    //初始化魄罗尺寸: 根据宽度 设置其高度
+    function initPoluoSize() {
+        $(".load-aminate-item img").each(function () {
+            $(this).height($(this).width());
+        });
+    }
+
+    //初始化魄罗：所需参数 第一个参数为跳跃高度百分比 后续参数为加载块的ID
+    function initPoluoLoadAll() {
+        //初始化魄罗尺寸
+        initPoluoSize();
+
+        //加载等候效果    
+        initPoluoLoadImg(arguments);
+    }
+
+    //根据ID删除加载块
+    function removeAminateByID(idName) {
+        $("#" + idName).remove();
+    }

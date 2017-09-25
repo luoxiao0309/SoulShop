@@ -43,28 +43,6 @@ function setNowPayFontSize() {
     } 
 }
 
-function isImgRead(callback) {
-    isLoad = false;
-    var allComplete = true;
-    $(".product-img-wrap img").each(function () {
-        if (!this.complete) {
-            allComplete = false;
-        }
-    });
-
-    if (allComplete) {
-        isLoad = true;
-    }
-
-    if (!isLoad) {//未完毕
-        setTimeout(function () {
-            isImgRead(callback);
-        }, 500);
-    } else {
-        callback();
-    }
-}
-
 function initBtnForMain() {
     //活动商品切换按钮
     $("#Tab-SaleTabPre").click(function () {
@@ -207,17 +185,39 @@ function initAdPaperE() {
 
 $(function () {
     /*特效与尺寸*/
+        //初始化魄罗
+        initPoluoLoadAll(40, "SaleTabNowLoadAminate", "SaleTabPreLoadAminate", "HotWrapLoadAminate");
+       
+        //商品区加载
+        var selectorSaleTabNowImg = "#SaleTabNow .sale-product-card .product-img-wrap img";
+        isImgReadBySelector(selectorSaleTabNowImg, function () {
+            removeAminateByID("SaleTabNowLoadAminate");
+            $("#SaleTabNow .sale-product-card").addClass("succeedload");
+        });
+
+        var selectorSaleTabNowImg = "#SaleTabPre .sale-product-card .product-img-wrap img";
+        isImgReadBySelector(selectorSaleTabNowImg, function () {
+            removeAminateByID("SaleTabPreLoadAminate");
+            $("#SaleTabPre .sale-product-card").addClass("succeedload");
+        });
+
+        var selectorSaleTabNowImg = ".three-wrap .card .hot-product-card .product-img-wrap img";
+        isImgReadBySelector(selectorSaleTabNowImg, function () {
+            removeAminateByID("HotWrapLoadAminate");
+            $(".three-wrap .card .hot-product-card").addClass("succeedload");
+        });
+
         //调整广告区尺寸
         initAdPartSize();
 
         //广告区纸片效果
         initAdPaperE();
 
-        //初始化nowpay中字体宽度
-        isImgRead(setNowPayFontSize);
-
         //调整热销和活动商品块的高度 根据图片的长宽设置其位置
-        isImgRead(setShopProductCardHeight);
+        setShopProductCardHeight();
+
+        //初始化nowpay中字体宽度
+        setNowPayFontSize();     
 
     /*功能及按钮*/
         //初始化功能按钮
@@ -260,15 +260,6 @@ $(window).resize(function () {
     //调整热销和活动商品块的高度 根据图片的长宽设置其位置
     setShopProductCardHeight();
 
-    //调整类别选择区高度 根据其宽度等比例放大
-    var classWidth = $(".one-classification").width();
-    var objClass = $(".one-classification");//获取目标块
-    var classHeight = classWidth * 1.78;//计算高度
-    objClass.height(classHeight);
-
-    //调整广告区高度和类别选择区一致
-    $(".one-ad").height(classHeight);
-    $(".one-ad2").height(classHeight);
-    $(".one-ad > div:last-child > a").height(classHeight / 4);
-    $(".one-ad2 > a").width(classHeight / 3);
+    //初始化广告区尺寸
+    initAdPartSize();
 });

@@ -216,6 +216,10 @@
     }
 
     /*第二部分的卡片样式*/
+    .two-wrap .tab-content .tab-pane {
+        position: relative;
+    }
+
     .two-wrap .tab-content .tab-pane .card {
         border: 1px solid #ededed;
     }
@@ -238,6 +242,15 @@
     .two-wrap .tab-content .tab-pane .card:hover {
 
     }
+
+    /*活动商品*/
+    .two-wrap .tab-content .tab-pane .sale-product-card {
+        visibility: hidden;
+    }
+
+        .two-wrap .tab-content .tab-pane .sale-product-card.succeedload {
+            visibility: visible;
+        }
 
         .two-wrap .tab-content .tab-pane .card-block .card-text {
             width: 100%;
@@ -316,6 +329,10 @@
 
 }
 
+    .three-wrap .card .card-block {
+        position: relative;
+    }
+
     .three-wrap .card .card {
         border-right: 2px #ededed solid !important;
         border-bottom: 2px #ededed solid !important;
@@ -339,6 +356,14 @@
     .three-wrap .card .card:last-child {
         border-right: none !important;
     }
+
+    .three-wrap .card .hot-product-card {
+        visibility: hidden;
+    }
+
+        .three-wrap .card .hot-product-card.succeedload {
+            visibility:visible;
+        }
 
     .three-wrap .card .card .card-block .card-text {
         position: relative;
@@ -404,4 +429,3 @@
     .product-img-wrap img {
         display: none;
     }
-

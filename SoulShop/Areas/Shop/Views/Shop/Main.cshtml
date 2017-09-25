@@ -122,6 +122,12 @@
     </nav>
     <div class="tab-content">
         <div id="SaleTabNow" class="tab-pane row no-gutters fade show active" aria-labelledby="Tab-SaleTabNow" aria-expanded="true">
+            <div id="SaleTabNowLoadAminate" class="load-aminate">
+                <div class="load-aminate-item load-aminate-item-one"><img src="~/Image/NavView/load.png"></div>
+                <div class="load-aminate-item load-aminate-item-two"><img src="~/Image/NavView/load.png"></div>
+                <div class="load-aminate-item load-aminate-item-three"><img src="~/Image/NavView/load.png"></div>
+                <div class="load-aminate-item load-aminate-item-four"><img src="~/Image/NavView/load.png"></div>
+            </div>
             @if (listSaleProduct != null)
             {
                     foreach (T_Base_SaleProduct item in listSaleProduct)
@@ -153,7 +159,13 @@
             }      
         </div>
         <div id="SaleTabPre" class="tab-pane row no-gutters fade" aria-labelledby="Tab-SaleTabPre" aria-expanded="false">
-           @if (listSaleProductPre != null)
+            <div id="SaleTabPreLoadAminate" class="load-aminate">
+                <div class="load-aminate-item load-aminate-item-one"><img src="~/Image/NavView/load.png"></div>
+                <div class="load-aminate-item load-aminate-item-two"><img src="~/Image/NavView/load.png"></div>
+                <div class="load-aminate-item load-aminate-item-three"><img src="~/Image/NavView/load.png"></div>
+                <div class="load-aminate-item load-aminate-item-four"><img src="~/Image/NavView/load.png"></div>
+            </div>
+            @if (listSaleProductPre != null)
            {
                  foreach (T_Base_SaleProduct item in listSaleProductPre)
                  {
@@ -195,6 +207,12 @@
             热销商品
         </div>
         <div class="card-block row no-gutters p-0">
+            <div id="HotWrapLoadAminate" class="load-aminate">
+                <div class="load-aminate-item load-aminate-item-one"><img src="~/Image/NavView/load.png"></div>
+                <div class="load-aminate-item load-aminate-item-two"><img src="~/Image/NavView/load.png"></div>
+                <div class="load-aminate-item load-aminate-item-three"><img src="~/Image/NavView/load.png"></div>
+                <div class="load-aminate-item load-aminate-item-four"><img src="~/Image/NavView/load.png"></div>
+            </div>
             @foreach (T_Base_ShopProduct item in listShopProduct)
             {
                 <div class="hot-product-card card col-6 col-sm-4 col-md-3 p-0 radius-0 border-0" data-id="@item.ID">         

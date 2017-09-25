@@ -216,6 +216,7 @@
   <ItemGroup>
     <Content Include=".gitattributes" />
     <Content Include=".gitignore" />
+    <Content Include="Areas\Shop\MyCSS\Animate.css" />
     <Content Include="Areas\Shop\MyCSS\Buyer\Order.css" />
     <Content Include="Areas\Shop\MyCSS\Buyer\ShopCar.css" />
     <Content Include="Areas\Shop\MyCSS\ChatOnline\ChatOnline.css" />
@@ -432,6 +433,7 @@
     <Content Include="Image\Main\img-sales6.jpg" />
     <Content Include="Image\Main\img-sales7.jpg" />
     <Content Include="Image\Main\img-sales8.jpg" />
+    <Content Include="Image\NavView\load.png" />
     <Content Include="Image\NavView\welcome.png" />
     <Content Include="Image\ProductList\img1.jpg" />
     <Content Include="Image\ProductList\img10.jpg" />

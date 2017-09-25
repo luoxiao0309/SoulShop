@@ -26,133 +26,15 @@ var conSearch = {
 
 $(function () {
 
-    //商品类别
-    $("#kindsWrap div").click(function () {
+    /*功能及按钮*/
+        /*初始化功能按钮*/
+        initBtnForShopProduct();
 
-        var objThis = $(this);
-        var objs = $("#kindsWrap div");
+        //初始化界面
+        initUserShow();
 
-        //在检索变量中 设置商品排序类型
-        conSearch.nowProductCategory = objThis.data("categoryid");
-
-        if(this == objs[0])
-            return;
-
-        if(objThis.hasClass("active")) {
-            return;
-        }
-
-        objs.removeClass("active");
-        objThis.addClass("active");
-    });
-
-    //商品排序类型
-    $("#orderWrap div").click(function () {
-
-        var objThis = $(this);
-        var objs = $("#orderWrap div");
-
-        //在检索变量中 设置商品类别
-        conSearch.nowSortTypes = objThis.data("sorttypes");
-
-        if(this == objs[0])
-            return;
-
-        if(objThis.hasClass("active")) {
-            return;
-        }
-
-        objs.removeClass("active");
-        objThis.addClass("active");
-    });
-    
-    //检索按钮相应
-    $(".search-btn").click(function () {
-        //在检索变量中 设置商品排序类型
-        conSearch.sortTypes = conSearch.nowSortTypes;
-        //在检索变量中 设置商品类别
-        conSearch.productCategory = conSearch.nowProductCategory;
-
-        getShopProductDataByAjaxInit();
-    });
-
-    //搜索栏按钮
-    $(".arrow-down").click(function () {
-        $(".search-wrap").css("height", "3rem").css("overflow", "hidden");
-        $(".arrow-down").css("display", "none");
-        $(".arrow-up").css("display", "block");
-    });
-
-    $(".arrow-up").click(function () {
-        $(".search-wrap").css("height", "").css("overflow", "auto");
-        $(".arrow-up").css("display", "none");
-        $(".arrow-down").css("display", "block");
-    });
-
-    //商品类型初始化
-    var productCategory = $("#getHttpData").data("productcategory");
-    $("#kindsWrap div").removeClass("active");
-    $($("#kindsWrap div")[productCategory + 1]).addClass("active");
-    conSearch.nowProductCategory = productCategory;
-    conSearch.productCategory = productCategory;
-
-    //百度地图初始化
-    initMap();
-    getShopProductDataTimeOut();
-
-    //城市搜索按钮侦听
-    $("#MapCitySearchBtn").click(function () {
-        var i, j;
-        //清空searchedCitys 和 DOM响应内容
-        searchedCitys = [];
-        var objCityWrap = $(".citys-wrap .list-group");
-        objCityWrap.empty();
-        //根据输入框信息 进行检索
-        var inputCityName = $("#MapCitySearchInput").val();
-        for(i = 0; i < provincesList.length; i ++) {
-            var province = provincesList[i];
-            var cityList = province.citys;
-            for(j = 0; j < cityList.length; j ++) {
-                if(cityList[j].name.indexOf(inputCityName) != -1) {//找到包含关键字的城市
-                    searchedCitys.push(createCity(province.name, cityList[j].name));
-                }
-            }
-        }
-        for(i = 0; i < searchedCitys.length; i ++) {
-            var objCity = searchedCitys[i];
-            objCityWrap.append("<li class=\"list-group-item\"><span class='province-name'>" + objCity.province + "</span><span>-</span><span class='city-name'>" + objCity.city + "</span></li>");
-        }
-        //搜索结果列表项监听
-        $(".citys-wrap .list-group .list-group-item").click(function () {
-            var cityName = $(this).find(".city-name").text();
-            setPositionByCityName(cityName);
-            $(".citys-wrap").css("display", "none");
-        });
-        $(".citys-wrap").css("display", "block");//显示搜索结果
-    });
-
-    //当前位置
-    $("#MapCurrentCity").click(function () {
-        $("#MapCurrentCP").addClass("active");
-    });
-
-    $("#MapCurrentCP").click(function () {
-        $(this).removeClass("active");
-    });
-
-   
-    /*//计算列数
-    calColCountAndCardMargin();
-    //计算列宽
-    calEveryColWidth();
-    //初始化列高
-    resertColHeight();
-    //初始化当前已加载图片数量信息
-    resertNowPosition();
-
-    //根据当前列宽添加初始化的商品 添加两排
-    addProduct(firstAddProductCount);
-    isImgRead(setProductPosition);*/
+        //百度地图和初始商品初始化
+        initBaiduMapAndShopProudct();
 });
 
 $(window).resize(function () {
@@ -180,6 +62,128 @@ $(window).scroll(function () {
         isImgRead(setProductPosition);
     }
 });
+
+function initBaiduMapAndShopProudct() {
+    //百度地图初始化
+    initMap();
+    getShopProductDataTimeOut();
+
+    //城市搜索按钮侦听
+    $("#MapCitySearchBtn").click(function () {
+        var i, j;
+        //清空searchedCitys 和 DOM响应内容
+        searchedCitys = [];
+        var objCityWrap = $(".citys-wrap .list-group");
+        objCityWrap.empty();
+        //根据输入框信息 进行检索
+        var inputCityName = $("#MapCitySearchInput").val();
+        for (i = 0; i < provincesList.length; i++) {
+            var province = provincesList[i];
+            var cityList = province.citys;
+            for (j = 0; j < cityList.length; j++) {
+                if (cityList[j].name.indexOf(inputCityName) != -1) {//找到包含关键字的城市
+                    searchedCitys.push(createCity(province.name, cityList[j].name));
+                }
+            }
+        }
+        for (i = 0; i < searchedCitys.length; i++) {
+            var objCity = searchedCitys[i];
+            objCityWrap.append("<li class=\"list-group-item\"><span class='province-name'>" + objCity.province + "</span><span>-</span><span class='city-name'>" + objCity.city + "</span></li>");
+        }
+        //搜索结果列表项监听
+        $(".citys-wrap .list-group .list-group-item").click(function () {
+            var cityName = $(this).find(".city-name").text();
+            setPositionByCityName(cityName);
+            $(".citys-wrap").css("display", "none");
+        });
+        $(".citys-wrap").css("display", "block");//显示搜索结果
+    });
+
+    //当前位置
+    $("#MapCurrentCity").click(function () {
+        $("#MapCurrentCP").addClass("active");
+    });
+
+    $("#MapCurrentCP").click(function () {
+        $(this).removeClass("active");
+    });
+}
+
+//初始化界面
+function initUserShow() {
+    //商品类型初始化
+    var productCategory = $("#getHttpData").data("productcategory");
+    $("#kindsWrap div").removeClass("active");
+    $($("#kindsWrap div")[productCategory + 1]).addClass("active");
+    conSearch.nowProductCategory = productCategory;
+    conSearch.productCategory = productCategory;
+}
+
+//功能按钮初始化
+function initBtnForShopProduct() {
+    //商品类别
+    $("#kindsWrap div").click(function () {
+
+        var objThis = $(this);
+        var objs = $("#kindsWrap div");
+
+        //在检索变量中 设置商品排序类型
+        conSearch.nowProductCategory = objThis.data("categoryid");
+
+        if (this == objs[0])
+            return;
+
+        if (objThis.hasClass("active")) {
+            return;
+        }
+
+        objs.removeClass("active");
+        objThis.addClass("active");
+    });
+
+    //商品排序类型
+    $("#orderWrap div").click(function () {
+
+        var objThis = $(this);
+        var objs = $("#orderWrap div");
+
+        //在检索变量中 设置商品类别
+        conSearch.nowSortTypes = objThis.data("sorttypes");
+
+        if (this == objs[0])
+            return;
+
+        if (objThis.hasClass("active")) {
+            return;
+        }
+
+        objs.removeClass("active");
+        objThis.addClass("active");
+    });
+
+    //检索按钮相应
+    $(".search-btn").click(function () {
+        //在检索变量中 设置商品排序类型
+        conSearch.sortTypes = conSearch.nowSortTypes;
+        //在检索变量中 设置商品类别
+        conSearch.productCategory = conSearch.nowProductCategory;
+
+        getShopProductDataByAjaxInit();
+    });
+
+    //搜索栏按钮
+    $(".arrow-down").click(function () {
+        $(".search-wrap").css("height", "3rem").css("overflow", "hidden");
+        $(".arrow-down").css("display", "none");
+        $(".arrow-up").css("display", "block");
+    });
+
+    $(".arrow-up").click(function () {
+        $(".search-wrap").css("height", "").css("overflow", "auto");
+        $(".arrow-up").css("display", "none");
+        $(".arrow-down").css("display", "block");
+    });
+}
 
 //延时启动数据获取
 function getShopProductDataTimeOut() {

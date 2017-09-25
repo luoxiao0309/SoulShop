@@ -162,6 +162,7 @@
                         //创建成功
                         alert("成功添加");
                         toggleAddressEdit($(".order-address-create"), $(".order-address-choose"));
+                    } else if (data.code == 0) {//用户未登陆
                     }
                 });
         });

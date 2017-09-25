@@ -20,6 +20,7 @@
           user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
     <link href="~/dist/css/bootstrap.css" rel="stylesheet" />
     <link href="~/Areas/Shop/MyCSS/MyGen.css" rel="stylesheet" />
+    <link href="~/Areas/Shop/MyCSS/Animate.css" rel="stylesheet" />
     <link href="~/Areas/Shop/MyCSS/NavView/NavView.css" rel="stylesheet" />
     <script src="~/js/jquery-3.2.1.min.js"></script>
     <script src="~/js/jquery.easing.min.js"></script>
@@ -31,6 +32,10 @@
     @RenderSection("css", false)<!--包括title style 和 独立样式表或Js文件-->
 </head>
 <body style="background: #ededed;">
+    <!--预加载IMG块-->
+    <div class="pre-load" style="display: none;">
+        <img id="poluoLoadImg" src="~/Image/NavView/load.png" />
+    </div>
     <div class="wrap" style="background: #ededed;">
         <!--导航条-->
         <nav class="soul-nav navbar navbar-toggleable-md navbar-light bg-light fixed-top" style="background-color: #ffffff">
