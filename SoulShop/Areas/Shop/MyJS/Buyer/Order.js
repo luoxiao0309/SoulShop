@@ -35,7 +35,7 @@
     var length = objOrderItemPics.length;
     for (i = 0; i < length; i++) {
         var objOrderItemPicImg = $(objOrderItemPics[i]).find(".order-item-pic-img");
-        isTheImgReady(objOrderItemPicImg);
+        isTheImgReady(objOrderItemPicImg, setHAndWBaseOnSize);
     }
 }
 

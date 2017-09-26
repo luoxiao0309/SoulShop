@@ -48,10 +48,12 @@ function initBtnForMain() {
     $("#Tab-SaleTabPre").click(function () {
         setTimeout(function () { setNowPayFontSize(); }, 200);
         setTimeout(function () { setShopProductCardHeight(); }, 200);
+        setTimeout(function () { initPoluoSize(); }, 200);
     });
     $("#Tab-SaleTabNow").click(function () {
         setTimeout(function () { setNowPayFontSize(); }, 200);
         setTimeout(function () { setShopProductCardHeight(); }, 200);
+        setTimeout(function () { initPoluoSize(); }, 200);
     });
 
     //抢购商品按钮激活
@@ -73,7 +75,7 @@ function initBtnForMain() {
     });
     $(".three-wrap .card .card").mouseleave(function () {
         $(this).find(".join-shopcar").removeClass("activeshow");
-        $(this).find(".check-detail").removeClass("activeshow");
+        $(this).find(".check-detail").removeClass("activeshow");   
     });
 }
 

@@ -132,7 +132,7 @@
             {
                     foreach (T_Base_SaleProduct item in listSaleProduct)
                     {
-                        <div class="sale-product-card card col-6 col-sm-4 col-md-3 pb-1 p-sm-0" data-id="@item.ShopProduct.ID" data-saleid="@item.ID">       
+                        <div class="sale-product-card product-card card col-6 col-sm-4 col-md-3 pb-1 p-sm-0" data-id="@item.ShopProduct.ID" data-saleid="@item.ID">       
                             <div class="product-img-wrap card-img-top w-100" style="background-image: url(@item.ShopProduct.PicList[0].Path)">
                                 <img src="@item.ShopProduct.PicList[0].Path" />
                             </div>
@@ -169,7 +169,7 @@
            {
                  foreach (T_Base_SaleProduct item in listSaleProductPre)
                  {
-                    <div class="sale-product-card card col-6 col-sm-4 col-md-3 pb-1 p-sm-0" data-id="@item.ID" data-saleid="@item.ID">       
+                    <div class="sale-product-card product-card card col-6 col-sm-4 col-md-3 pb-1 p-sm-0" data-id="@item.ID" data-saleid="@item.ID">       
                         <div class="product-img-wrap card-img-top w-100" style="background-image: url(@item.ShopProduct.PicList[0].Path)">
                             <img src="@item.ShopProduct.PicList[0].Path" />
                         </div>

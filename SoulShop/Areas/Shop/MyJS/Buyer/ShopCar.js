@@ -70,7 +70,7 @@
         var length = objShopCartItemPics.length;
         for(i = 0; i < length; i++) {
             var objShopCartItemPicImg = $(objShopCartItemPics[i]).find(".item-pic-img");
-            isTheImgReady(objShopCartItemPicImg);
+            isTheImgReady(objShopCartItemPicImg, setHAndWBaseOnSize);
         }
     }
 

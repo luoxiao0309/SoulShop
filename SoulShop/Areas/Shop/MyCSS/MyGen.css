@@ -183,3 +183,19 @@
     height: 2rem;
 }
 
+/*更多 按钮*/
+.more-btn-wrap {
+    display: flex;
+}
+
+.more-btn {
+    margin-left: auto;
+    margin-right: 0;
+    background-color: #ccc;
+    color: #fff;
+}
+
+.more-btn:hover {
+    background-color: #ddd;
+    color: #fff;
+}

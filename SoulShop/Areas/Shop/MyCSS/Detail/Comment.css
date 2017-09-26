@@ -1,0 +1,57 @@
+﻿ /*评论*/
+    .comment-wrap {
+
+    }
+        
+        .comment-wrap .comment-item {
+            border-left: #e1e1e1 5px solid;
+            position: relative;
+            margin-top: 0.25rem;
+            padding: 3rem 1.5rem 2.5rem 4rem;
+            line-height: 1;
+            background: #ffffff;
+            color: #999;
+            background: #ffffff linear-gradient(to right, #ffffff 50%, #ededed);
+        }
+
+        .comment-item-icon {
+            top: 1rem;
+            left: 0.6rem;
+            position: absolute;
+            width: 2rem;
+            height: 2rem;
+            background: #ffffff;
+            background-size: 100%;
+            border-radius: 50%;
+        }
+
+        .comment-item-star {
+            bottom: 0.7rem;
+            left: 4rem;
+            position: absolute;
+            color: #cdcdcd;
+            font-size: 0.8rem;
+            z-index: 3;
+        }
+
+            .comment-item-star div {
+                display: inline;
+            }
+
+                .comment-item-star div span {
+                    vertical-align: middle;
+                }
+
+                .comment-item-star div img {
+                    width: 0.9rem;
+                    vertical-align: middle;
+                }
+
+        .comment-item-time {
+            top: 1.6rem;
+            left: 4rem;
+            position: absolute;
+            color: #cdcdcd;
+            font-size: 0.8rem;
+            z-index: 3;
+        }

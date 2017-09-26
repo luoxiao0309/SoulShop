@@ -2513,23 +2513,28 @@ function setAnimateForShopProductSign(objJoinBtn/*js 元素*/) {
         });
 }
 
-//指定图片是否加载完毕 第一个参数为指定图片jq对象 后续为待执行的函数组 函数引用置于一个Array内
-function isTheImgReady(objImg, arrayFunction) {
+//根据图片的尺寸设置图片的位置
+function setHAndWBaseOnSize(objImg) {
+    //根据图片的宽高比例设置属性
+    var height = objImg.height();
+    var width = objImg.width();
+    if (width > height) {
+        objImg.css("height", "100%");
+        objImg.css("width", "auto");
+    } else {
+        objImg.css("width", "100%");
+        objImg.css("height", "auto");
+    }
+}
+
+//指定图片是否加载完毕 第一个参数为指定图片jq对象 后续为待执行的函数
+function isTheImgReady(objImg, callback) {
     //判断图片是否加载完成
     if (objImg[0].complete) {//如果完成了
-        //根据图片的宽高比例设置属性
-        var height = objImg.height();
-        var width = objImg.width();
-        if (width > height) {
-            objImg.css("height", "100%");
-            objImg.css("width", "auto");
-        } else {
-            objImg.css("width", "100%");
-            objImg.css("height", "auto");
-        }
+        callback(objImg);
     } else {//如果未完成
         setTimeout(function () {//继续判断
-            isTheImgReady(objImg, arrayFunction)
+            isTheImgReady(objImg, callback)
         }, 500);
     }
 }

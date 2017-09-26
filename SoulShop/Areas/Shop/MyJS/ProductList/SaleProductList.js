@@ -307,6 +307,10 @@ function addAjaxDataToSPArray(listShopProduct) {
     var i;
     for (i = 0; i < length; i++) {
         var sp = listShopProduct[i];
+        if (sp.ShopProduct.PicList[0] == undefined || sp.ShopProduct.PicList[0] == null)
+            sp.ShopProduct.PicList[0] = {
+                Path: ""
+            };
         productArray.push(createShopProduct(sp.ShopProduct.PicList[0].Path,
             sp.ShopProduct.OrProduct.Name, sp.ShopProduct.Price,
             sp.ShopProduct.MonthlySale, sp.ShopProduct.OrProduct.Description,
@@ -320,6 +324,9 @@ function addProduct(needCount) {
     var i;
     var beginIndex = nowProductShowIndex;
     var endIndex = nowProductShowIndex + needCount - 1;
+    if (endIndex >= nowHaveMaxImg) {
+        endIndex = nowHaveMaxImg - 1;
+    }
     for (i = beginIndex; i <= endIndex; i++) {
         addProductToDOM(i);
     }

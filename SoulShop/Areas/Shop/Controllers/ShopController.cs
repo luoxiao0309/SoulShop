@@ -117,7 +117,7 @@ namespace SoulShop.Areas.Shop.Controllers
             List<Model.T_Base_ProductCategory> listProductCategory = dalProductCategory.GetModelList("1=1");
 
             /*商品类别列表*/
-            ViewBag.listProductCategory = listProductCategory;         
+            ViewBag.listProductCategory = listProductCategory;
 
             /*商品类别*/
             ViewBag.productCategory = productType;
@@ -150,7 +150,7 @@ namespace SoulShop.Areas.Shop.Controllers
                     sql = "ProductCategoryID=" + productType;
                 }
                 else
-                {          
+                {
                     sql = sql + " and " + "ProductCategoryID=" + productType;
                 }
             }
@@ -218,7 +218,7 @@ namespace SoulShop.Areas.Shop.Controllers
             {
                 sqlWhereTime = "StartTime>CONVERT(datetime, '" + nowTime + "', 102)";
             }
-            else if(saleType == 1)/*活动已开始*/
+            else if (saleType == 1)/*活动已开始*/
             {
                 sqlWhereTime = "CONVERT(datetime, '" + nowTime + "', 102) between StartTime and EndTime";
             }
@@ -317,10 +317,72 @@ namespace SoulShop.Areas.Shop.Controllers
             DAL.T_Base_ShopProduct dalShopProduct = new DAL.T_Base_ShopProduct();
             Model.T_Base_ShopProduct shopProduct = dalShopProduct.GetModelByInfo(shopID, productID, size, color);
 
-            //根据店铺商品的ID获取商品评论
             DAL.T_Product_Comment dalProductComment = new DAL.T_Product_Comment();
             List<Model.T_Product_Comment> listProductComment;
-            listProductComment = dalProductComment.GetModelListByView("ShopProductID=" + shopProduct.ID);
+            //根据店铺商品的ID获取商品评论
+            if (shopProduct != null)
+            {
+                listProductComment = dalProductComment.GetModelListByView("ShopProductID=" + shopProduct.ID);
+
+            }
+            else
+            {
+                listProductComment = new List<Model.T_Product_Comment>();
+            }
+
+            string result = JsonConvert.SerializeObject(listProductComment);
+
+            return Json(new { result = result });
+        }
+
+        //评论页
+        public ActionResult ShopProductComment(string shopID, Int32 productID,
+             string size, string color)
+        {
+            //根据商品信息获取店铺商品ID
+            DAL.T_Base_ShopProduct dalShopProduct = new DAL.T_Base_ShopProduct();
+            Model.T_Base_ShopProduct shopProduct = dalShopProduct.GetModelByInfo(shopID, productID, size, color);
+
+            DAL.T_Product_Comment dalProductComment = new DAL.T_Product_Comment();
+            List<Model.T_Product_Comment> listProductComment;
+            //根据店铺商品的ID获取商品评论
+            if (shopProduct != null)
+            {
+                listProductComment = dalProductComment.GetModelListByView("ShopProductID=" + shopProduct.ID);
+
+            }
+            else
+            {
+                listProductComment = new List<Model.T_Product_Comment>();
+            }
+
+            ViewBag.listProductComment = listProductComment;
+            ViewBag.shopProductID = shopProduct.ID;
+
+            return View();
+        }
+
+        //分页获取评论
+        public JsonResult GetShopProductCommentByPage(Int32 shopProductID/*店铺商品ID*/, Int32 thePageNumber/*页码*/)
+        {
+            //每页的所包含的容量
+            Int32 perPageCount = 2;
+
+            //根据商品信息获取店铺商品ID
+            DAL.T_Base_ShopProduct dalShopProduct = new DAL.T_Base_ShopProduct();
+            Model.T_Base_ShopProduct shopProduct = dalShopProduct.GetModel(shopProductID);
+
+            DAL.T_Product_Comment dalProductComment = new DAL.T_Product_Comment();
+            List<Model.T_Product_Comment> listProductComment;
+            //根据店铺商品的ID获取商品评论
+            if (shopProduct != null)
+            {
+                listProductComment = dalProductComment.GetModelListByPageByView("ShopProductID=" + shopProduct.ID, "CreateTime", (thePageNumber - 1) * perPageCount + 1, thePageNumber * perPageCount);
+            }
+            else
+            {
+                listProductComment = new List<Model.T_Product_Comment>();
+            }
 
             string result = JsonConvert.SerializeObject(listProductComment);
 
@@ -349,11 +411,11 @@ namespace SoulShop.Areas.Shop.Controllers
             }
 
             //根据购物篮信息获取店铺商品信息
-            string sqlShopProduct = "ID in ("; 
+            string sqlShopProduct = "ID in (";
             for (int i = 0; i < listShopCartCount; i++)
             {
                 sqlShopProduct += listShopCart[i].ShopProductID;
-                if(i < (listShopCart.Count -1))
+                if (i < (listShopCart.Count - 1))
                     sqlShopProduct += ",";
             }
             sqlShopProduct += ")";
@@ -410,6 +472,40 @@ namespace SoulShop.Areas.Shop.Controllers
             return Json(new { code = 1 });//操作完成
         }
 
+        public JsonResult AddInfoToShopCarByMore(Int32 amount, string shopID, Int32 productID, string size, string color)
+        {
+            //完整的权限设置
+            Model.T_Base_Buyer buyer = (Model.T_Base_Buyer)Session["buyer"];
+            if (buyer == null)//如果buyer为null 说明没有用户登录
+            {
+                return Json(new { code = 0 });//0为无用户登录
+            }
+
+            //根据productID shopProductID size color获取shopProductID
+            DAL.T_Base_ShopProduct dalShopProduct = new DAL.T_Base_ShopProduct();
+            Model.T_Base_ShopProduct shopProduct = dalShopProduct.GetModelByInfo(shopID, productID, size, color);
+            Int32 shopProductID = shopProduct.ID;
+
+            DAL.T_Base_ShopCart dalShopCar = new DAL.T_Base_ShopCart();
+
+            //监测该条目数据是否已存在
+            if (dalShopCar.Exists(buyer.ID, shopProductID))
+            {
+                return Json(new { code = 2 });//数据已存在
+            }
+
+            //添加数据
+            Model.T_Base_ShopCart shopCartItem = new Model.T_Base_ShopCart();
+            shopCartItem.ShopProductID = shopProductID;
+            shopCartItem.Amount = amount;
+            shopCartItem.CreateTime = DateTime.Now;
+            shopCartItem.BuyerID = buyer.ID;
+
+            dalShopCar.Add(shopCartItem);
+
+            return Json(new { code = 1 });//操作完成
+        }
+
         //修改购物篮条目的数据
         public JsonResult UpdateShopCarItemAmount(Int32 shopProductID, Int32 amount)
         {
@@ -433,10 +529,40 @@ namespace SoulShop.Areas.Shop.Controllers
             Model.T_Base_Buyer buyer = GetBuyerInfo();
 
             //根据买家信息和店铺商品信息删除数据
-            DAL.T_Base_ShopCart dalShopCart = new DAL.T_Base_ShopCart();    
+            DAL.T_Base_ShopCart dalShopCart = new DAL.T_Base_ShopCart();
             dalShopCart.Delete(buyer.ID, shopProductID);
 
             return Json(new { code = 1, shopProductID = shopProductID });
+        }
+
+        //收藏商品
+        public JsonResult CollectShopProduct(string shopID, Int32 productID, string size, string color, string productLink)
+        {
+            //完整的权限设置
+            Model.T_Base_Buyer buyer = (Model.T_Base_Buyer)Session["buyer"];
+            if (buyer == null)//如果buyer为null 说明没有用户登录
+            {
+                return Json(new { code = 0 });//0为无用户登录
+            }
+
+            DAL.T_Base_ShopProduct dalShopProduct = new DAL.T_Base_ShopProduct();
+            Model.T_Base_ShopProduct shopProduct = dalShopProduct.GetModelByInfo(shopID, productID, size, color);
+            Int32 shopProductID = shopProduct.ID;
+   
+            DAL.T_Base_Collection dalCollection = new DAL.T_Base_Collection();
+
+            if (dalCollection.Exists(buyer.ID, shopProductID)) {
+                return Json(new { code = 2 });
+            }
+
+            Model.T_Base_Collection collection = new Model.T_Base_Collection();
+            collection.BuyerID = buyer.ID;
+            collection.ShopProductID = shopProductID;
+            collection.ProductLink = productLink;
+
+            dalCollection.Add(collection);
+
+            return Json(new { code = 1 });
         }
 
         /*6.订单生成*/

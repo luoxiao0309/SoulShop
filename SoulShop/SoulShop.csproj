@@ -221,6 +221,7 @@
     <Content Include="Areas\Shop\MyCSS\Buyer\ShopCar.css" />
     <Content Include="Areas\Shop\MyCSS\ChatOnline\ChatOnline.css" />
     <Content Include="Areas\Shop\MyCSS\Cover\Cover.css" />
+    <Content Include="Areas\Shop\MyCSS\Detail\Comment.css" />
     <Content Include="Areas\Shop\MyCSS\Detail\Detail.css" />
     <Content Include="Areas\Shop\MyCSS\Main\Main.css" />
     <Content Include="Areas\Shop\MyCSS\MyGen.css" />
@@ -233,6 +234,9 @@
     <Content Include="Areas\Shop\MyJS\ChatOnline\ChatOnline.js" />
     <Content Include="Areas\Shop\MyJS\constant.js" />
     <Content Include="Areas\Shop\MyJS\Cover\Cover.js" />
+    <Content Include="Areas\Shop\MyJS\Detail\Comment.js" />
+    <Content Include="Areas\Shop\MyCSS\Detail\CommentPage.css" />
+    <Content Include="Areas\Shop\MyJS\Detail\CommentPage.js" />
     <Content Include="Areas\Shop\MyJS\Detail\Detail.js" />
     <Content Include="Areas\Shop\MyJS\Main\BaiduMap.js" />
     <Content Include="Areas\Shop\MyJS\Main\Main.js" />
@@ -382,7 +386,11 @@
     <Content Include="Icon\Detail\star.png" />
     <Content Include="Icon\Detail\右箭头.png" />
     <Content Include="Icon\Detail\左箭头.png" />
+    <Content Include="Icon\Detail\收藏1.png" />
+    <Content Include="Icon\Detail\收藏.png" />
     <Content Include="Icon\Detail\标题.png" />
+    <Content Include="Icon\Detail\购物车1.png" />
+    <Content Include="Icon\Detail\购物车.png" />
     <Content Include="Icon\Main\HOT.png" />
     <Content Include="Icon\Main\Map坐标.png" />
     <Content Include="Icon\Main\人参.png" />
@@ -416,6 +424,7 @@
     <Content Include="Image\Cover\bg4.png" />
     <Content Include="Image\Cover\bg5.jpeg" />
     <Content Include="Image\Cover\welcome.png" />
+    <Content Include="Image\Buyer\cry.png" />
     <Content Include="Image\Detail\cry.jpg" />
     <Content Include="Image\Detail\cry3.png" />
     <Content Include="Image\Detail\price-background.jpg" />
@@ -685,6 +694,7 @@
     <Content Include="Areas\Shop\Views\Shop\Detail.cshtml" />
     <Content Include="Areas\Shop\Views\Shop\ShopCar.cshtml" />
     <Content Include="Areas\Shop\Views\Shop\SaleProductList.cshtml" />
+    <Content Include="Areas\Shop\Views\Shop\ShopProductComment.cshtml" />
     <None Include="Properties\PublishProfiles\webconfig.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

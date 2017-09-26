@@ -1,0 +1,39 @@
+﻿@using SoulShop.Model;
+@{
+    Layout = "~/Areas/Shop/Views/Shared/_ShopNavView.cshtml";
+
+    List<T_Product_Comment> listProductComment = ViewBag.listProductComment;
+    Int32 shopProductID = ViewBag.shopProductID;
+}
+
+@section css{
+    <title>评论页</title>
+    <link href="~/Areas/Shop/MyCSS/Detail/Comment.css" rel="stylesheet" />
+    <link href="~/Areas/Shop/MyCSS/Detail/CommentPage.css" rel="stylesheet" />
+    <script src="~/Areas/Shop/MyJS/Detail/Comment.js"></script>
+    <script src="~/Areas/Shop/MyJS/Detail/CommentPage.js"></script>
+    <style>
+    </style>
+}
+
+<div id="httpData" data-shopproductid="@shopProductID" style="display: none"></div>
+
+<div id="commentWrap" class="container container-lowlg-width-p100 container-lowlg-nop comment-wrap">
+    @foreach (T_Product_Comment item in listProductComment)
+    {
+        <div class="col-12 comment-item">
+            @item.Contents
+            <div class="comment-item-icon" style="background-image: url(@item.HeadIcon)"></div>
+            <div class="comment-item-star">
+                <div> 
+                    <span>星级&nbsp;</span>
+                    @for (int i = 0; i < item.StarLevel; i++)
+                    {
+                        <img src="/Icon/Detail/star.png" />
+                    }
+                </div> 
+            </div> 
+            <div class="comment-item-time">@(((DateTime)item.CreateTime).ToString("d"))</div>
+        </div>
+    }
+</div>

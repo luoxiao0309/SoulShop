@@ -18,6 +18,7 @@
 
 @section css{
     <title>详情页</title>
+    <link href="~/Areas/Shop/MyCSS/Detail/Comment.css" rel="stylesheet" />
     <link href="~/Areas/Shop/MyCSS/Detail/Detail.css" rel="stylesheet" />
     <script src="~/Areas/Shop/MyJS/Detail/Detail.js"></script>
     <style>
@@ -40,8 +41,10 @@
                 {
                     foreach (T_ShopProduct_Pic itemPic in item.PicList)
                     {
-                        <div data-size="@item.Size" data-color="@item.Color">
-                            <img src="@itemPic.Path" />
+                        <div class="img-outter-wrap" data-size="@item.Size" data-color="@item.Color">
+                            <div class="img-inner-wrap" style="width: 100%; height: 100%; overflow: hidden;">
+                                <img src="@itemPic.Path" />
+                            </div>
                         </div>
                     }
                 }            
@@ -58,9 +61,9 @@
                         <span>价格：</span><span class="red-price">￥99</span>
                     </div>
                     <!--运费-->
-                    <div class="main-info-freight">
+                    @*<div class="main-info-freight">
                         <span>运费：杭州&nbsp;至&nbsp;</span><span class="arrive-city">龙泉&nbsp;</span><span>&nbsp;快递：0.00</span>
-                    </div>
+                    </div>*@
                     <!--销售信息-->
                     <div class="main-info-saleinfo row text-center">
                         <div class="col-6 text-oneline-overhidden main-info-monthsale-show">月销量&nbsp;<span>99</span></div>
@@ -84,7 +87,7 @@
                         </div>
                         <div class="main-info-count">
                             <div>数量</div>
-                            <div class="input-group mr-1" style="width: 7rem;"><input class="form-control" type="number" value="1" /><div class="input-group-addon">件</div></div>
+                            <div class="input-group mr-1" style="width: 7rem;"><input id="nowInputAmount" class="form-control" type="number" value="1" /><div class="input-group-addon">件</div></div>
                             <div class="main-info-count-show ml-3">库存 0件</div>
                             <div id="mainInfoCountData" style="display:none">
                                 @foreach (T_Base_ShopProduct item in listShopProduct)
@@ -96,8 +99,8 @@
                     </div>
                     <!--按钮组-->
                     <div class="main-info-btngroup row m-0 text-center justify-content-around">
-                        <div class="col-5 btn btn-info">立即购买</div>
-                        <div class="col-5 btn btn-info">加入购物车</div>
+                        <div class="col-12 col-sm-5 mb-2 mb-sm-0 btn btn-info join-shopcar detail-product-btn" style="background-image: url(/Icon/Detail/购物车1.png);">加入购物车</div>
+                        <div id="collectBtn" class="col-12 col-sm-5 btn btn-info detail-product-btn" style="background-image: url('/Icon/Detail/收藏1.png');">收藏商品</div>
                     </div>
                 </div>
             </div>
@@ -108,5 +111,8 @@
 <div class="container container-lowlg-width-p100 container-lowlg-nop comment-wrap mt-3 mt-md-5">
     <div id="productCommentWrap" class="row no-gutters">
 
+    </div>
+    <div class="more-btn-wrap mt-3" style="display: none;">
+        <a id="moreBtn" href="#" class="more-btn btn btn-outline-secondary">更多</a>
     </div>
 </div>
