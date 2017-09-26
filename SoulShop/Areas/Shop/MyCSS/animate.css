@@ -1,9 +1,9 @@
 ﻿/*载入动画*/
 .load-aminate {
-    /*绝对定位 宽度固定 在父元素中部 高度百分百 flex布局*/
+    /*绝对定位 宽度为父元素的20% 在父元素中部 高度百分百 flex布局*/
     left: calc(50% - 10%);
     position: absolute;
-    width: 20%;
+    width: 15%;
     height: 100%;
     display: flex;
     flex-direction: row;
@@ -20,6 +20,10 @@
         .load-aminate-item img {
             position: absolute;
             bottom: calc(30% - 1.5rem);
+        }
+
+        .load-aminate.bottom-img .load-aminate-item img {
+             bottom: 0;
         }
 
     /*一号Poluo*/

@@ -186,7 +186,7 @@ function initAdPaperE() {
 $(function () {
     /*特效与尺寸*/
         //初始化魄罗
-        initPoluoLoadAll(40, "SaleTabNowLoadAminate", "SaleTabPreLoadAminate", "HotWrapLoadAminate");
+        initPoluoLoadAll(40, 2000, "SaleTabNowLoadAminate", "SaleTabPreLoadAminate", "HotWrapLoadAminate");
        
         //商品区加载
         var selectorSaleTabNowImg = "#SaleTabNow .sale-product-card .product-img-wrap img";
@@ -214,7 +214,7 @@ $(function () {
         initAdPaperE();
 
         //调整热销和活动商品块的高度 根据图片的长宽设置其位置
-        setShopProductCardHeight();
+        isImgReadBySelector(".product-img-wrap img", setShopProductCardHeight);
 
         //初始化nowpay中字体宽度
         setNowPayFontSize();     

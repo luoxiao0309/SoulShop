@@ -2617,20 +2617,20 @@ function getFloatToFixedTwo(price) {
     }
 
     //根据选择器和百分比设置起跳高度
-    function moveToUpAndDownBySeletor(seletor, perHeight) {
+    function moveToUpAndDownBySeletor(seletor, perHeight, timeSpan) {
         $(seletor + " img").animate({
             bottom: "+=" + perHeight + "%",
         },
         {
             easing: "easeOutQuad",
-            duration: 1000,
+            duration: timeSpan/2,
             complete: function () {
                 $(seletor + " img").animate({
                     bottom: "-=" + perHeight + "%",
                 },
                 {
                     easing: "easeInQuad",
-                    duration: 1000,
+                    duration: timeSpan/2,
                     complete: function () {
 
                     }
@@ -2640,21 +2640,21 @@ function getFloatToFixedTwo(price) {
     }
 
     //根据ID初始化载入动画：通过ID找到加载块 并对每个组进行动画启动 和高度设置
-    function initMoveToUpAndDownByID(idName, perHeight) {
-        moveToUpAndDownBySeletor("#" + idName + " .load-aminate-item-one", perHeight);
-        timer = setInterval('moveToUpAndDownBySeletor("#' + idName + ' .load-aminate-item-one", ' + perHeight + ')', 2000);
+    function initMoveToUpAndDownByID(idName, perHeight, timeSpan) {
+        moveToUpAndDownBySeletor("#" + idName + " .load-aminate-item-one", perHeight, timeSpan);
+        timer = setInterval('moveToUpAndDownBySeletor("#' + idName + ' .load-aminate-item-one", ' + perHeight + ', ' + timeSpan + ')', timeSpan);
         setTimeout(function () {
-            moveToUpAndDownBySeletor("#" + idName + " .load-aminate-item-two", perHeight);
-            timer = setInterval('moveToUpAndDownBySeletor("#' + idName + ' .load-aminate-item-two", ' + perHeight + ')', 2000);
-        }, 500);
+            moveToUpAndDownBySeletor("#" + idName + " .load-aminate-item-two", perHeight, timeSpan);
+            timer = setInterval('moveToUpAndDownBySeletor("#' + idName + ' .load-aminate-item-two", ' + perHeight + ', ' + timeSpan + ')', timeSpan);
+        }, timeSpan/4);
         setTimeout(function () {
-            moveToUpAndDownBySeletor("#" + idName + " .load-aminate-item-three", perHeight);
-            timer = setInterval('moveToUpAndDownBySeletor("#' + idName + ' .load-aminate-item-three", ' + perHeight + ')', 2000);
-        }, 1000);
+            moveToUpAndDownBySeletor("#" + idName + " .load-aminate-item-three", perHeight, timeSpan);
+            timer = setInterval('moveToUpAndDownBySeletor("#' + idName + ' .load-aminate-item-three", ' + perHeight + ', ' + timeSpan + ')', timeSpan);
+        }, timeSpan/2);
         setTimeout(function () {
-            moveToUpAndDownBySeletor("#" + idName + " .load-aminate-item-four", perHeight);
-            timer = setInterval('moveToUpAndDownBySeletor("#' + idName + ' .load-aminate-item-four", ' + perHeight + ')', 2000);
-        }, 1500);
+            moveToUpAndDownBySeletor("#" + idName + " .load-aminate-item-four", perHeight, timeSpan);
+            timer = setInterval('moveToUpAndDownBySeletor("#' + idName + ' .load-aminate-item-four", ' + perHeight + ', ' + timeSpan + ')', timeSpan);
+        }, timeSpan/4*3);
     }
 
     //初始化魄罗加载: 根据加载块的名字 进行加载块的初始化
@@ -2662,8 +2662,9 @@ function getFloatToFixedTwo(price) {
         var i;
         var length = arguments.length;
         var per = arguments[0];
+        var timeSpan = arguments[1];
         for (i = 1; i < length; i++) {
-            initMoveToUpAndDownByID(arguments[i], per);
+            initMoveToUpAndDownByID(arguments[i], per, timeSpan);
         }
     }
 
@@ -2674,7 +2675,7 @@ function getFloatToFixedTwo(price) {
         });
     }
 
-    //初始化魄罗：所需参数 第一个参数为跳跃高度百分比 后续参数为加载块的ID
+    //初始化魄罗：所需参数 第一个参数为跳跃高度百分比 第二个参数为跳跃间隔 后续参数为加载块的ID
     function initPoluoLoadAll() {
         //初始化魄罗尺寸
         initPoluoSize();
@@ -2686,4 +2687,14 @@ function getFloatToFixedTwo(price) {
     //根据ID删除加载块
     function removeAminateByID(idName) {
         $("#" + idName).remove();
+    }
+
+    //根据ID设置加载块为Display:none
+    function HiddenAminateByID(idName) {
+        $("#" + idName).css("visibility", "hidden");
+    }
+
+    //根据ID设置加载块为Display:block
+    function visibleAminateByID(idName) {
+        $("#" + idName).css("visibility", "visible");
     }

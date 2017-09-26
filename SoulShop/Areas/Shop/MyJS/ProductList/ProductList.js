@@ -2,6 +2,7 @@
 var productArray = [];
 
 var isLoad = false;//图片是否加载完毕
+var isGettingDataFromServer = false;//是否正在从服务器获取数据
 var nowHaveMaxImg = 0;//当前检索到的商品总数量
 var SQLServerMaxImg = 0;//能从数据库获取的该条件下最大的图片数量
 var firstAddProductCount = 0;//第一次添加商品的数量
@@ -26,6 +27,10 @@ var conSearch = {
 
 $(function () {
 
+    /*特效*/
+        //初始化魄罗
+        initPoluoLoadAll(100, 800, "ProductLoadAnimate");
+  
     /*功能及按钮*/
         /*初始化功能按钮*/
         initBtnForShopProduct();
@@ -44,12 +49,13 @@ $(window).resize(function () {
 $(window).scroll(function () {
     console.log(getDocHeight());//显示当前窗口底部到页面上顶端的高度
     console.log(getMaxColHeight());//显示最大列高
-    if(checkScrollToBottom()) {
+    if (checkScrollToBottom()) {
 
         if (!isLoad || (nowProductShowIndex + colCount) > nowHaveMaxImg) {
             if ((nowProductShowIndex + colCount) > nowHaveMaxImg) {
                 //若为图片数量不足 尝试获取
-                if (SQLServerMaxImg > nowHaveMaxImg) {
+                if (SQLServerMaxImg > nowHaveMaxImg && !isGettingDataFromServer) {
+                    isGettingDataFromServer = true;
                     //如果还能从数据库获取数据
                     getShopProductDataByAjax();
                 }
@@ -176,12 +182,14 @@ function initBtnForShopProduct() {
         $(".search-wrap").css("height", "3rem").css("overflow", "hidden");
         $(".arrow-down").css("display", "none");
         $(".arrow-up").css("display", "block");
+        $(".bottom-load-wrap").css("bottom", "3rem");
     });
 
     $(".arrow-up").click(function () {
         $(".search-wrap").css("height", "").css("overflow", "auto");
         $(".arrow-up").css("display", "none");
         $(".arrow-down").css("display", "block");
+        $(".bottom-load-wrap").css("bottom", "");
     });
 }
 
@@ -202,19 +210,25 @@ function getShopProductDataByAjaxInit() {
     //ajax获取商品数据
     $.post("/Shop/Shop/GetShopProductsMore",
         {
-            "getNumberStr": 100 + "",
+            "getNumberStr": 10 + "",
             "hasNumberStr": 0 + "",
             "sortTypesStr": conSearch.sortTypes + "", /*月销量*/
             "cityStr": areaID + "", /*全部*/
             "productTypeStr": conSearch.productCategory + "" /*全部*/
         }, function (data, status) {
             //获取该条件下能从数据库中获取的最大数据量
-            SQLServerMaxImg = data.hasNumber;
+            SQLServerMaxImg = data.SQLServerMaxImg;
             //获取传入的Json数据
             var jsonString = data.result;
             //将json数据实例化为店铺商品对象数据
             var listShopProduct = eval("(" + jsonString + ")")
             nowHaveMaxImg = listShopProduct.length;
+            //如果数据为0 那么将无商品提示置为可见
+            if (nowHaveMaxImg > 0) {
+                displayNoneForNoProduct();
+            } else {
+                displayShowForNoProduct();
+            }
             productArray = [];//清空数据列表
             addAjaxDataToSPArray(listShopProduct);
             if (nowHaveMaxImg > 10) {
@@ -223,30 +237,39 @@ function getShopProductDataByAjaxInit() {
                 firstAddProductCount = nowHaveMaxImg;
             }
             resertAll();
+            HiddenAminateByID("ProductLoadAnimate");
         });
 }
 
 //通过ajax从后端获取数据
 function getShopProductDataByAjax() {
     var areaID = $(".map-now-area-text").data("areaid");
+    //加载动画开始显示
+    visibleAminateByID("ProductLoadAnimate");
 
     //ajax获取商品数据
     $.post("/Shop/Shop/GetShopProductsMore",
         {
-            "getNumberStr": 100 + "",
+            "getNumberStr": 10 + "",
             "hasNumberStr": nowHaveMaxImg + "",
             "sortTypesStr": conSearch.sortTypes + "", /*月销量*/
-            "cityStr": conSearch.areaID + "", /*全部*/
+            "cityStr": areaID + "", /*全部*/
             "productTypeStr": conSearch.productCategory + "" /*全部*/
         }, function (data, status) {
             //获取该条件下能从数据库中获取的最大数据量
-            SQLServerMaxImg = data.hasNumber;
+            SQLServerMaxImg = data.SQLServerMaxImg;
             //获取传入的Json数据
             var jsonString = data.result;
             //将json数据实例化为店铺商品对象数据
             var listShopProduct = eval("(" + jsonString + ")")
             nowHaveMaxImg += listShopProduct.length;
             addAjaxDataToSPArray(listShopProduct);
+            //添加数据到DOM
+            addProduct(colCount);
+            isImgRead(setProductPosition);
+            //数据获取完毕
+            isGettingDataFromServer = false;
+            HiddenAminateByID("ProductLoadAnimate");
         });
 }
 

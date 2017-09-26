@@ -2,6 +2,7 @@
 var productArray = [];
 
 var saleType = 0;//是否为活动正在进行判定标识
+var isGettingDataFromServer = false;//是否正在从服务器获取数据
 var isLoad = false;//图片是否加载完毕
 var nowHaveMaxImg = 0;//当前检索到的商品总数量
 var SQLServerMaxImg = 0;//能从数据库获取的该条件下最大的图片数量
@@ -26,6 +27,11 @@ var conSearch = {
 };
 
 $(function () {
+
+    /*特效*/
+        //初始化魄罗
+        initPoluoLoadAll(100, 800, "ProductLoadAnimate");
+
 
     /*功能及按钮*/
         //是否为展示活动正在进行商品标识
@@ -57,7 +63,8 @@ $(window).scroll(function () {
         if (!isLoad || (nowProductShowIndex + colCount) > nowHaveMaxImg) {
             if ((nowProductShowIndex + colCount) > nowHaveMaxImg) {
                 //若为图片数量不足 尝试获取
-                if (SQLServerMaxImg > nowHaveMaxImg) {
+                if (SQLServerMaxImg > nowHaveMaxImg && !isGettingDataFromServer) {
+                    isGettingDataFromServer = true;
                     //如果还能从数据库获取数据
                     getShopProductDataByAjax();
                 }
@@ -217,12 +224,18 @@ function getShopProductDataByAjaxInit() {
             "saleTypeStr": saleType + "" /*活动是否开始标识*/
         }, function (data, status) {
             //获取该条件下能从数据库中获取的最大数据量
-            SQLServerMaxImg = data.hasNumber;
+            SQLServerMaxImg = data.SQLServerMaxImg;
             //获取传入的Json数据
             var jsonString = data.result;
             //将json数据实例化为店铺商品对象数据
             var listSaleProduct = eval("(" + jsonString + ")")
             nowHaveMaxImg = listSaleProduct.length;
+            //如果数据为0 那么将无商品提示置为可见
+            if (nowHaveMaxImg > 0) {
+                displayNoneForNoProduct();
+            } else {               
+                displayShowForNoProduct();
+            }
             productArray = [];//清空数据列表
             addAjaxDataToSPArray(listSaleProduct);
             if (nowHaveMaxImg > 10) {
@@ -231,12 +244,15 @@ function getShopProductDataByAjaxInit() {
                 firstAddProductCount = nowHaveMaxImg;
             }
             resertAll();
+            HiddenAminateByID("ProductLoadAnimate");
         });
 }
 
 //通过ajax从后端获取数据
 function getShopProductDataByAjax() {
     var areaID = $(".map-now-area-text").data("areaid");
+    //加载动画开始显示
+    visibleAminateByID("ProductLoadAnimate");
 
     //ajax获取商品数据
     $.post("/Shop/Shop/GetSaleProductsMore",
@@ -249,13 +265,19 @@ function getShopProductDataByAjax() {
             "saleTypeStr": saleType + "" /*活动是否开始标识*/
         }, function (data, status) {
             //获取该条件下能从数据库中获取的最大数据量
-            SQLServerMaxImg = data.hasNumber;
+            SQLServerMaxImg = data.SQLServerMaxImg;
             //获取传入的Json数据
             var jsonString = data.result;
             //将json数据实例化为店铺商品对象数据
             var listSaleProduct = eval("(" + jsonString + ")")
             nowHaveMaxImg += listSaleProduct.length;
             addAjaxDataToSPArray(listSaleProduct);
+            //添加数据到DOM
+            addProduct(colCount);
+            isImgRead(setProductPosition);
+            //数据获取完毕
+            isGettingDataFromServer = false;
+            HiddenAminateByID("ProductLoadAnimate");
         });
 }
 

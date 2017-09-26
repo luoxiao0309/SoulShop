@@ -173,7 +173,7 @@ namespace SoulShop.Areas.Shop.Controllers
             //json格式的店铺商品列表数据
             string result = JsonConvert.SerializeObject(listShopProduct);
 
-            return Json(new { result = result, hasNumber = hasNumber + getNumber });
+            return Json(new { result = result, SQLServerMaxImg = length });
         }
 
         //SaleProductList 抢购（活动商品浏览页）
@@ -262,7 +262,7 @@ namespace SoulShop.Areas.Shop.Controllers
             //json格式的店铺商品列表数据
             string result = JsonConvert.SerializeObject(listSaleProduct);
 
-            return Json(new { result = result, hasNumber = hasNumber + getNumber });
+            return Json(new { result = result, SQLServerMaxImg = length });
         }
 
         /*4.商品详情页*/

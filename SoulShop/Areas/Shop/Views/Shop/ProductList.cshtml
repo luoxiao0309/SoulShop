@@ -9,9 +9,11 @@
 
 @section css{
     <title>商品分类页</title>
+    <link href="~/Areas/Shop/MyCSS/ProductList/ProductBase.css" rel="stylesheet" />
     <link href="~/Areas/Shop/MyCSS/ProductList/ProductList.css" rel="stylesheet" />
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=M1mt3fUZntsnljyuaZ4mBVN0qtNgwgOe"></script>
     <script src="~/Areas/Shop/MyJS/Main/BaiduMap.js"></script>
+    <script src="~/Areas/Shop/MyJS/ProductList/ProductBase.js"></script>
     <script src="~/Areas/Shop/MyJS/ProductList/ProductList.js"></script>
     <style>
     </style>
@@ -23,6 +25,18 @@
 <div class="container container-lowlg-width-p100 container-lowlg-nop product-falls-wrap p-0">
 
 </div>
+<!--无商品提示-->
+<img class="no-product-sign" src="~/Image/ProductList/cry.png" />
+<!--魄罗加载-->
+<div class="bottom-load-wrap">
+    <div id="ProductLoadAnimate" class="load-aminate bottom-img">
+        <div class="load-aminate-item load-aminate-item-one"><img src="~/Image/NavView/load.png"></div>
+        <div class="load-aminate-item load-aminate-item-two"><img src="~/Image/NavView/load.png"></div>
+        <div class="load-aminate-item load-aminate-item-three"><img src="~/Image/NavView/load.png"></div>
+        <div class="load-aminate-item load-aminate-item-four"><img src="~/Image/NavView/load.png"></div>
+    </div>
+</div>
+<!--筛选工具栏-->
 <div class="search-wrap">
     <div class="container p-3">
         <div class="arrow arrow-up"><img src="/Icon/ProductList/arrow-up.png" /></div>

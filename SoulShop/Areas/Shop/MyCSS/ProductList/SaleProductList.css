@@ -51,7 +51,6 @@
             font-size: 0.8rem;
         }
 
-
         @media (max-width: 576px) {
 
             .product-card .card-block .card-text,
@@ -236,3 +235,13 @@
             margin-left: 0;
             border: none;
         }
+    
+    /*加载块*/
+    .bottom-load-wrap {
+        position: fixed;
+        left: 20%;
+        width: 60%;
+        height: 5%;
+        bottom: 30%;
+        transition: all 0.5s 0s;
+    }
