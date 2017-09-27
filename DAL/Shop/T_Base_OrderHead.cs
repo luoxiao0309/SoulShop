@@ -6,7 +6,7 @@
 *
 * Ver    变更日期             负责人  变更内容
 * ───────────────────────────────────
-* V0.01  2017/9/14 17:29:21   N/A    初版
+* V0.01  2017/9/27 20:39:11   N/A    初版
 *
 * Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
 *┌──────────────────────────────────┐
@@ -62,9 +62,9 @@ namespace SoulShop.DAL
 		{
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("insert into T_Base_OrderHead(");
-			strSql.Append("TotalPrice,Status,BuyerID,AddressID,DeleteBuyer,DeleteShop,SalesReturn,TrackingNumver,CreateTime,WaitReceiveTime,FreezeTime,WaitCommentTime,FinishTime)");
+			strSql.Append("TotalPrice,Status,BuyerID,AddressID,DeleteBuyer,DeleteShop,SalesReturn,TrackingNumver,CreateTime,WaitReceiveTime,FreezeTime,WaitCommentTime,FinishTime,ShopID)");
 			strSql.Append(" values (");
-			strSql.Append("@TotalPrice,@Status,@BuyerID,@AddressID,@DeleteBuyer,@DeleteShop,@SalesReturn,@TrackingNumver,@CreateTime,@WaitReceiveTime,@FreezeTime,@WaitCommentTime,@FinishTime)");
+			strSql.Append("@TotalPrice,@Status,@BuyerID,@AddressID,@DeleteBuyer,@DeleteShop,@SalesReturn,@TrackingNumver,@CreateTime,@WaitReceiveTime,@FreezeTime,@WaitCommentTime,@FinishTime,@ShopID)");
 			strSql.Append(";select @@IDENTITY");
 			SqlParameter[] parameters = {
 					new SqlParameter("@TotalPrice", SqlDbType.Decimal,9),
@@ -79,7 +79,8 @@ namespace SoulShop.DAL
 					new SqlParameter("@WaitReceiveTime", SqlDbType.DateTime),
 					new SqlParameter("@FreezeTime", SqlDbType.DateTime),
 					new SqlParameter("@WaitCommentTime", SqlDbType.DateTime),
-					new SqlParameter("@FinishTime", SqlDbType.DateTime)};
+					new SqlParameter("@FinishTime", SqlDbType.DateTime),
+					new SqlParameter("@ShopID", SqlDbType.NVarChar,50)};
 			parameters[0].Value = model.TotalPrice;
 			parameters[1].Value = model.Status;
 			parameters[2].Value = model.BuyerID;
@@ -93,6 +94,7 @@ namespace SoulShop.DAL
 			parameters[10].Value = model.FreezeTime;
 			parameters[11].Value = model.WaitCommentTime;
 			parameters[12].Value = model.FinishTime;
+			parameters[13].Value = model.ShopID;
 
 			object obj = DbHelperSQL.GetSingle(strSql.ToString(),parameters);
 			if (obj == null)
@@ -123,7 +125,8 @@ namespace SoulShop.DAL
 			strSql.Append("WaitReceiveTime=@WaitReceiveTime,");
 			strSql.Append("FreezeTime=@FreezeTime,");
 			strSql.Append("WaitCommentTime=@WaitCommentTime,");
-			strSql.Append("FinishTime=@FinishTime");
+			strSql.Append("FinishTime=@FinishTime,");
+			strSql.Append("ShopID=@ShopID");
 			strSql.Append(" where ID=@ID");
 			SqlParameter[] parameters = {
 					new SqlParameter("@TotalPrice", SqlDbType.Decimal,9),
@@ -139,6 +142,7 @@ namespace SoulShop.DAL
 					new SqlParameter("@FreezeTime", SqlDbType.DateTime),
 					new SqlParameter("@WaitCommentTime", SqlDbType.DateTime),
 					new SqlParameter("@FinishTime", SqlDbType.DateTime),
+					new SqlParameter("@ShopID", SqlDbType.NVarChar,50),
 					new SqlParameter("@ID", SqlDbType.Int,4)};
 			parameters[0].Value = model.TotalPrice;
 			parameters[1].Value = model.Status;
@@ -153,7 +157,8 @@ namespace SoulShop.DAL
 			parameters[10].Value = model.FreezeTime;
 			parameters[11].Value = model.WaitCommentTime;
 			parameters[12].Value = model.FinishTime;
-			parameters[13].Value = model.ID;
+			parameters[13].Value = model.ShopID;
+			parameters[14].Value = model.ID;
 
 			int rows=DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
 			if (rows > 0)
@@ -217,7 +222,7 @@ namespace SoulShop.DAL
 		{
 			
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select  top 1 ID,TotalPrice,Status,BuyerID,AddressID,DeleteBuyer,DeleteShop,SalesReturn,TrackingNumver,CreateTime,WaitReceiveTime,FreezeTime,WaitCommentTime,FinishTime from T_Base_OrderHead ");
+			strSql.Append("select  top 1 ID,TotalPrice,Status,BuyerID,AddressID,DeleteBuyer,DeleteShop,SalesReturn,TrackingNumver,CreateTime,WaitReceiveTime,FreezeTime,WaitCommentTime,FinishTime,ShopID from T_Base_OrderHead ");
 			strSql.Append(" where ID=@ID");
 			SqlParameter[] parameters = {
 					new SqlParameter("@ID", SqlDbType.Int,4)
@@ -301,6 +306,10 @@ namespace SoulShop.DAL
 				{
 					model.FinishTime=DateTime.Parse(row["FinishTime"].ToString());
 				}
+				if(row["ShopID"]!=null)
+				{
+					model.ShopID=row["ShopID"].ToString();
+				}
 			}
 			return model;
 		}
@@ -311,7 +320,7 @@ namespace SoulShop.DAL
 		public DataSet GetList(string strWhere)
 		{
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select ID,TotalPrice,Status,BuyerID,AddressID,DeleteBuyer,DeleteShop,SalesReturn,TrackingNumver,CreateTime,WaitReceiveTime,FreezeTime,WaitCommentTime,FinishTime ");
+			strSql.Append("select ID,TotalPrice,Status,BuyerID,AddressID,DeleteBuyer,DeleteShop,SalesReturn,TrackingNumver,CreateTime,WaitReceiveTime,FreezeTime,WaitCommentTime,FinishTime,ShopID ");
 			strSql.Append(" FROM T_Base_OrderHead ");
 			if(strWhere.Trim()!="")
 			{
@@ -331,7 +340,7 @@ namespace SoulShop.DAL
 			{
 				strSql.Append(" top "+Top.ToString());
 			}
-			strSql.Append(" ID,TotalPrice,Status,BuyerID,AddressID,DeleteBuyer,DeleteShop,SalesReturn,TrackingNumver,CreateTime,WaitReceiveTime,FreezeTime,WaitCommentTime,FinishTime ");
+			strSql.Append(" ID,TotalPrice,Status,BuyerID,AddressID,DeleteBuyer,DeleteShop,SalesReturn,TrackingNumver,CreateTime,WaitReceiveTime,FreezeTime,WaitCommentTime,FinishTime,ShopID ");
 			strSql.Append(" FROM T_Base_OrderHead ");
 			if(strWhere.Trim()!="")
 			{

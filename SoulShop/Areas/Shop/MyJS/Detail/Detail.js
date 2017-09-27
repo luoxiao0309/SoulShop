@@ -355,6 +355,23 @@ function initBtnForDetail() {
                 }
             });
     });
+
+    //聊天按钮响应
+    $(".chat-with-me").click(function () {
+
+        $.post("/Shop/Shop/AddContack",
+            {
+                "contackName": theShopID,//店铺ID
+            },
+            function (data, status) {
+                if (data.code == 1) {
+                    var hostname = window.location.hostname;                  
+                    location.href = "http://" + hostname + ":3000";
+                } else if (data.code == 0) {
+                    alert("您还没有登录噢~");
+                }
+            });
+    });
 }
 
 function initDetailData() {

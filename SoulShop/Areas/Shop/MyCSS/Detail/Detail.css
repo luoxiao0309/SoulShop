@@ -80,7 +80,22 @@
         /*主要信息标题*/
         .main-info-title {
             font-weight: bolder;
+            width: calc(100% - 3rem);
         }
+
+        /*和我联系*/
+        .chat-with-me {
+            top: 1.3rem;
+            right: 1.5rem;
+            width: 1.8rem;
+            opacity: 0.6;
+            position: absolute;
+            
+        }
+
+            .chat-with-me:hover {
+                cursor: pointer;
+            }
 
         /*商品描述信息*/
         .main-info-description:hover {

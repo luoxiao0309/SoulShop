@@ -572,54 +572,76 @@ namespace SoulShop.Areas.Shop.Controllers
             //获取买家信息
             Model.T_Base_Buyer buyer = GetBuyerInfo();
 
-            DAL.T_Base_OrderHead dalOrderHead = new DAL.T_Base_OrderHead();
-            //新建订单头
-            Model.T_Base_OrderHead orderHead = new Model.T_Base_OrderHead();
-            orderHead.TotalPrice = 0;
-            orderHead.Status = 0;//待发货
-            orderHead.BuyerID = buyer.ID;
-            orderHead.AddressID = addressID;
-            orderHead.DeleteBuyer = 0;
-            orderHead.DeleteShop = 0;
-            orderHead.SalesReturn = 0;
-            orderHead.TrackingNumver = "";//暂时为空
-            orderHead.CreateTime = DateTime.Now;
-      
-            //保存订单头 1
-            Int32 orderHeadID = dalOrderHead.Add(orderHead);
-
+            /*订单体获取*/
             //订单体
-            DAL.T_Base_OrderItem dalOrderItem = new DAL.T_Base_OrderItem();
+            List<Model.T_Base_OrderItem> listOrderItem = new List<Model.T_Base_OrderItem>();
             DAL.T_Base_ShopProduct dalShopProduct = new DAL.T_Base_ShopProduct();
 
-            string[] listShopProductID = shopProductIDs.Split(';');
-            string[] listAmount = amounts.Split(';');
+            string[] listShopProductID = shopProductIDs.Split(';');//商品ID列表
+            string[] listAmount = amounts.Split(';');//商品数量列表
 
-            //总价
-            decimal sumPrice = 0;
-
+            //店铺ID列表 保存相关的店铺ID
+            List<string> listShopID = new List<string>();
             Int32 length = listShopProductID.Length;
             for (int i = 0; i < length; i++)
-            {
+            {//遍历每个商品
                 //根据数据创建订单项
                 Int32 shopProductID = Convert.ToInt32(listShopProductID[i]);
                 Model.T_Base_OrderItem orderItem = new Model.T_Base_OrderItem();
-                orderItem.OrderHeadID = orderHeadID;//订单头
+                //订单头数据暂空
                 orderItem.ShopProductID = shopProductID;//店铺商品ID
                 orderItem.Amount = Convert.ToInt32(listAmount[i]);//商品数量
                 orderItem.Discount = 1;//折扣
-                //保存订单体 2
-                dalOrderItem.Add(orderItem);
-                //获取商品价格并添加至总价 3
+                //根据商品获取店铺ID
                 Model.T_Base_ShopProduct shopProduct = dalShopProduct.GetModel(shopProductID);
-                sumPrice += (decimal)shopProduct.Price;
+                orderItem.ShopProduct = shopProduct;
+                //添加订单条目至总订单条目列表
+                listOrderItem.Add(orderItem);
+                //保存店铺ID
+                if (listShopID.IndexOf(shopProduct.ShopID) < 0) {
+                    listShopID.Add(shopProduct.ShopID);
+                }
             }
 
-            //更新总价 4
-            Model.T_Base_OrderHead orOrderHead = dalOrderHead.GetModel(orderHeadID);
-            orOrderHead.TotalPrice = sumPrice;
-            dalOrderHead.Update(orOrderHead);
+            /*订单创建*/
+            DAL.T_Base_OrderHead dalOrderHead = new DAL.T_Base_OrderHead();
+            DAL.T_Base_OrderItem dalOrderItem = new DAL.T_Base_OrderItem();
+            //根据店铺ID列表 分别生成对应的店铺订单
+            foreach (string shopID in listShopID)
+            {         
+                //新建订单头
+                Model.T_Base_OrderHead orderHead = new Model.T_Base_OrderHead();
+                orderHead.TotalPrice = 0;
+                orderHead.Status = 0;//待发货
+                orderHead.BuyerID = buyer.ID;
+                orderHead.AddressID = addressID;
+                orderHead.DeleteBuyer = 0;
+                orderHead.DeleteShop = 0;
+                orderHead.SalesReturn = 0;
+                orderHead.TrackingNumver = "";//暂时为空
+                orderHead.CreateTime = DateTime.Now;
+                orderHead.ShopID = shopID;
 
+                //保存订单头 
+                Int32 orderHeadID = dalOrderHead.Add(orderHead);
+                //总价
+                decimal sumPrice = 0;
+                foreach (Model.T_Base_OrderItem item in listOrderItem)
+                {
+                    if (item.ShopProduct.ShopID == shopID)
+                    {
+                        item.OrderHeadID = orderHeadID;
+                        dalOrderItem.Add(item);
+                        sumPrice += (decimal)item.ShopProduct.Price;
+                    }
+                }
+                //更新总价 
+                Model.T_Base_OrderHead orOrderHead = dalOrderHead.GetModel(orderHeadID);
+                orOrderHead.TotalPrice = sumPrice;
+                dalOrderHead.Update(orOrderHead);
+            }
+            
+            /*清除选中的购物车项*/
             //删除购物车条目
             shopProductIDs = shopProductIDs.Replace(";", ",");
             DAL.T_Base_ShopCart dalShopCart = new DAL.T_Base_ShopCart();
@@ -927,7 +949,7 @@ namespace SoulShop.Areas.Shop.Controllers
 
             if (Session["buyer"] != null) {
                 Model.T_Base_Buyer buyer = (Model.T_Base_Buyer)Session["buyer"];
-                var msg = new { code = 1, nickName = buyer.NickName, icon = buyer.HeadIcon };
+                var msg = new { code = 1, nickName = buyer.ID, icon = buyer.HeadIcon };
                 result = new JavaScriptSerializer().Serialize(msg);
                 Response.Write(callback + "(" + result + ")");
 
@@ -990,49 +1012,98 @@ namespace SoulShop.Areas.Shop.Controllers
             string contacksName = Request.QueryString["contacksName"];
 
             DAL.T_Base_ChatOnline dalChatOnline = new DAL.T_Base_ChatOnline();
-            string sql = "SenderName in (" + contacksName +
-                ") and ReceiverName='" + nickName
-                + "' or SenderName='" + nickName
-                + "' and ReceiverName in (" + contacksName + ") order by CreateTime";
-            List<Model.T_Base_ChatOnline> listSumChatOnline = dalChatOnline.GetModelList(sql);
+            List<Model.T_Base_ChatOnline> listSumChatOnline = new List<Model.T_Base_ChatOnline>();
 
-            //联系人数组
-            contacksName = contacksName.Replace("'", "");
-            string[] contacksNameArray = contacksName.Split(',');
-            //联系人数目
-            int contacksLength = contacksNameArray.Length;
-            //聊天记录数目
-            int chatOnlineLength = listSumChatOnline.Count;
-
-            //新建聊天记录数据保存列表
-            List<Model.T_Base_ListContackChats> listChat = new List<Model.T_Base_ListContackChats>();
-
-            //根据contackName将数据分组
-            for (int i = 0; i < contacksLength; i++)
+            //根据联系人名获取聊天记录
+            if (contacksName == "" || contacksName == null)
             {
-                //获取联系人名 和 聊天记录列表
-                string contackName = contacksNameArray[i];
-                List<Model.T_Base_ChatOnline> newListChatOnline = new List<Model.T_Base_ChatOnline>();
-                for (int j = 0; j < chatOnlineLength; j++)
+                //新建聊天记录数据保存列表
+                List<Model.T_Base_ListContackChats> listChat = new List<Model.T_Base_ListContackChats>();
+
+                //json格式的联系人列表数据
+                string result = JsonConvert.SerializeObject(listChat);
+
+                Response.Write(callback + "(" + result + ")");
+            }
+            else
+            {
+                
+                string sql = "SenderName in (" + contacksName +
+                             ") and ReceiverName='" + nickName
+                             + "' or SenderName='" + nickName
+                             + "' and ReceiverName in (" + contacksName + ") order by CreateTime";
+                listSumChatOnline = dalChatOnline.GetModelList(sql);
+                
+                //联系人数组
+                contacksName = contacksName.Replace("'", "");
+                string[] contacksNameArray = contacksName.Split(',');
+                //联系人数目
+                int contacksLength = contacksNameArray.Length;
+                //聊天记录数目
+                int chatOnlineLength = listSumChatOnline.Count;
+
+                //新建聊天记录数据保存列表
+                List<Model.T_Base_ListContackChats> listChat = new List<Model.T_Base_ListContackChats>();
+
+                //根据contackName将数据分组
+                for (int i = 0; i < contacksLength; i++)
                 {
-                    Model.T_Base_ChatOnline newChatOnline = listSumChatOnline[j];
-                    if (newChatOnline.SenderName.Equals(contackName)
-                        || newChatOnline.ReceiverName.Equals(contackName))
+                    //获取联系人名 和 聊天记录列表
+                    string contackName = contacksNameArray[i];
+                    List<Model.T_Base_ChatOnline> newListChatOnline = new List<Model.T_Base_ChatOnline>();
+                    for (int j = 0; j < chatOnlineLength; j++)
                     {
-                        newListChatOnline.Add(newChatOnline);
+                        Model.T_Base_ChatOnline newChatOnline = listSumChatOnline[j];
+                        if (newChatOnline.SenderName.Equals(contackName)
+                            || newChatOnline.ReceiverName.Equals(contackName))
+                        {
+                            newListChatOnline.Add(newChatOnline);
+                        }
                     }
+                    //保存获取的数据
+                    Model.T_Base_ListContackChats listContackChats = new Model.T_Base_ListContackChats();
+                    listContackChats.ListChatOnline = newListChatOnline;
+                    listContackChats.ContackName = contackName;
+                    listChat.Add(listContackChats);
                 }
-                //保存获取的数据
-                Model.T_Base_ListContackChats listContackChats = new Model.T_Base_ListContackChats();
-                listContackChats.ListChatOnline = newListChatOnline;
-                listContackChats.ContackName = contackName;
-                listChat.Add(listContackChats);
+
+                //json格式的联系人列表数据
+                string result = JsonConvert.SerializeObject(listChat);
+
+                Response.Write(callback + "(" + result + ")");
+            }          
+        }
+
+        //添加联系人
+        public JsonResult AddContack(string contackName)
+        {
+            //我的信息获取
+            Model.T_Base_Buyer buyer = GetBuyerInfo();
+            if (buyer == null)
+            {
+                return Json(new { code = 0 });
+            }
+            string myName = buyer.ID;
+
+            //根据传输的数据 进行联系人添加
+            DAL.T_Base_ChatContacks dalChatContacks = new DAL.T_Base_ChatContacks();
+           
+            if (!dalChatContacks.ExistsByOwnerAndSender(myName, contackName))
+            {
+                Model.T_Base_ChatContacks chatContacks = new Model.T_Base_ChatContacks();
+                chatContacks.ConackName = contackName;
+                chatContacks.OwnerName = myName;
+                dalChatContacks.Add(chatContacks);
+            }
+            if (!dalChatContacks.ExistsByOwnerAndSender(contackName, myName))
+            {
+                Model.T_Base_ChatContacks chatContacks2 = new Model.T_Base_ChatContacks();
+                chatContacks2.ConackName = myName;
+                chatContacks2.OwnerName = contackName;
+                dalChatContacks.Add(chatContacks2);
             }
 
-            //json格式的联系人列表数据
-            string result = JsonConvert.SerializeObject(listChat);
-
-            Response.Write(callback + "(" + result + ")");
+            return Json(new { code = 1 });
         }
 
         //改变是否阅读状态

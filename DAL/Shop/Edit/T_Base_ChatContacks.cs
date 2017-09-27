@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,6 +45,21 @@ namespace SoulShop.DAL
             }
 
             return listChatContacks;
+        }
+
+        public bool ExistsByOwnerAndSender(string ownerName, string conackName)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) from T_Base_ChatContacks");
+            strSql.Append(" where OwnerName=@OwnerName and ConackName=@ConackName");
+            SqlParameter[] parameters = {
+                    new SqlParameter("@OwnerName", SqlDbType.NVarChar, 50),
+                    new SqlParameter("@ConackName", SqlDbType.NVarChar, 50)
+            };
+            parameters[0].Value = ownerName;
+            parameters[1].Value = conackName;
+
+            return DbHelperSQL.Exists(strSql.ToString(), parameters);
         }
     }
 }

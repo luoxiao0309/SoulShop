@@ -65,7 +65,10 @@
                             <div class="user-info-icon"><img src="@buyer.HeadIcon" /></div>
                             <div class="user-info-nickname text-oneline-overhidden">@buyer.NickName</div>
                         </div>
-                        <div class="buyer-operation">            
+                        <div class="buyer-operation">      
+                            <a id="myMessage" class="buyer-operation-item" style="background-image: url(/Icon/NavView/消息.png); background-size: 1.6rem 1.6rem; background-position: left 1.2rem top 0.8rem">
+                                消息
+                            </a>      
                             <a href="/Shop/Shop/ShopCar" class="buyer-operation-item" style="background-image: url(/Icon/NavView/购物车.png); background-size: 2rem 2rem; background-position: left 0.8rem top 0.6rem">
                                  购物车
                             </a>
@@ -87,6 +90,12 @@
                 </div>
             </div>
         </nav>
+        <script type="text/javascript">
+            $(function () {
+                var host = window.location.hostname;
+                $("#myMessage").attr("href", "http://" + host + ":3000");
+            });
+        </script>
         <!--填充部分-->
         @RenderBody()
         <!--页尾-->

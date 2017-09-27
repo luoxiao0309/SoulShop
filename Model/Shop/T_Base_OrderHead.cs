@@ -6,7 +6,7 @@
 *
 * Ver    变更日期             负责人  变更内容
 * ───────────────────────────────────
-* V0.01  2017/9/14 17:29:21   N/A    初版
+* V0.01  2017/9/27 20:39:11   N/A    初版
 *
 * Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
 *┌──────────────────────────────────┐
@@ -40,6 +40,7 @@ namespace SoulShop.Model
 		private DateTime? _freezetime;
 		private DateTime? _waitcommenttime;
 		private DateTime? _finishtime;
+		private string _shopid;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -151,6 +152,14 @@ namespace SoulShop.Model
 		{
 			set{ _finishtime=value;}
 			get{return _finishtime;}
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public string ShopID
+		{
+			set{ _shopid=value;}
+			get{return _shopid;}
 		}
 		#endregion Model
 
