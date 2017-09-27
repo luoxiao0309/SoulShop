@@ -409,6 +409,7 @@
     <Content Include="Icon\NavView\市.png" />
     <Content Include="Icon\NavView\我.png" />
     <Content Include="Icon\NavView\正确.png" />
+    <Content Include="Icon\NavView\消息.png" />
     <Content Include="Icon\NavView\省.png" />
     <Content Include="Icon\NavView\购物车.png" />
     <Content Include="Icon\NavView\退出.png" />
