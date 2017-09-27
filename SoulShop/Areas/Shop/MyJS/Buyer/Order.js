@@ -335,9 +335,15 @@
                     "addressID": addressID
                 },
                 function (data, status) {
-                    /*订单创建完成*/
-                    alert("订单创建完成~");
-                    closeOrderModal();
+                    if (data.code == 0) {
+                        /*已有该商品*/
+                        alert("你已经参加过该活动了噢~");
+                    } else {
+                        /*订单创建完成*/
+                        alert("订单创建完成~");
+                        closeOrderModal();
+                    }
+                   
                 });
         }
 

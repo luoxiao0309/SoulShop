@@ -635,7 +635,32 @@ namespace SoulShop.Areas.Shop.Controllers
             //获取买家信息
             Model.T_Base_Buyer buyer = GetBuyerInfo();
 
+            //根据saleProduct的信息 判断该买家是否买过该商品
             DAL.T_Base_OrderHead dalOrderHead = new DAL.T_Base_OrderHead();
+            DAL.T_Base_OrderItem dalOrderItem = new DAL.T_Base_OrderItem();
+            List< Model.T_Base_OrderHead> listOrder = dalOrderHead.GetModelList("BuyerID='" + buyer.ID + "'");
+            string sqlOrderID = "(";
+            foreach (Model.T_Base_OrderHead head in listOrder)
+            {
+                sqlOrderID += head.ID;
+                sqlOrderID += ",";
+            }
+            sqlOrderID = sqlOrderID.Substring(0, sqlOrderID.Length - 1);
+            sqlOrderID += ")";
+            //根据条件获取订单体
+            List<Model.T_Base_OrderItem> listOrderItem = dalOrderItem.GetModelList("OrderHeadID in " + sqlOrderID);
+            foreach (Model.T_Base_OrderItem item in listOrderItem)
+            {//遍历订单条目
+                if (item.ShopProductID == saleProduct.ShopProduct.ID)
+                {//如果有该店铺商品
+                    if (item.Discount == saleProduct.Discount)
+                    {//如果折扣一致
+                        return Json(new { code = 0 });
+                    }
+                }
+            }
+
+            //如果未买过该折扣商品
             //新建订单头
             Model.T_Base_OrderHead orderHead = new Model.T_Base_OrderHead();
             orderHead.TotalPrice = saleProduct.ShopProduct.Price * saleProduct.Discount;
@@ -652,7 +677,6 @@ namespace SoulShop.Areas.Shop.Controllers
             Int32 orderHeadID = dalOrderHead.Add(orderHead);
 
             //订单体
-            DAL.T_Base_OrderItem dalOrderItem = new DAL.T_Base_OrderItem();
             DAL.T_Base_ShopProduct dalShopProduct = new DAL.T_Base_ShopProduct();
 
             //根据数据创建订单项    
