@@ -1,0 +1,92 @@
+﻿@using SoulShop.Model;
+@{
+    Layout = null;
+
+    T_Base_ShopAdmin shopAdmin = null;
+
+    if (Session["shopAdmin"] != null)
+    {
+        shopAdmin = (T_Base_ShopAdmin)Session["shopAdmin"];
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="renderer" content="webkit">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,
+          user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+    <link href="~/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/Areas/Shop/MyCSS/NavView/NavView.css" rel="stylesheet" />
+    <script src="~/js/jquery-3.2.1.min.js"></script>
+    <script src="~/js/jquery.easing.min.js"></script>
+    <script src="~/js/tether.min.js"></script>
+    <script src="~/dist/js/bootstrap.js"></script>
+    <script src="~/Areas/Admin/MyJS/NavView.js"></script>
+    @RenderSection("css", false)<!--包括title style 和 独立样式表或Js文件-->
+</head>
+<body style="background: #ededed;">
+    <!--预加载IMG块-->
+    <div class="pre-load" style="display: none;">
+
+    </div>
+    <div class="wrap" style="background: #ededed;">
+        <!--导航条-->
+        <nav class="soul-nav navbar navbar-toggleable-md navbar-light bg-light fixed-top" style="background-color: #ffffff">
+            <div class="container">
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarToggler1" aria-controls="navbarToggler1" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <!--标志-->
+                <a class="navbar-brand" href="#"><img src="/Icon/NavView/soul.png" style="height: 2rem"></a>
+                <!--工具栏-->
+                <div class="collapse navbar-collapse" id="navbarToggler1">
+                    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                        <li class="nav-item">
+                            <div class="nav-search">
+                                <!--搜索输入框-->
+                                <input class="nav-search-input form-control mr-sm-2" type="text" placeholder="Yourt will, my hands">
+                                <!--搜索按钮-->
+                                <button class="nav-search-btn btn btn-outline-secondary my-2 my-lg-0">
+                                    <img src="/Icon/NavView/search.png" style="width: 1.25rem; height: 1.25rem; display: block;">
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                    @if (shopAdmin != null)
+                    {
+                        <div class="user-info">
+                            <div class="user-info-icon"><img src="~/Icon/Default/店铺.png" /></div>
+                            <div class="user-info-nickname text-oneline-overhidden">@shopAdmin.ShopName</div>
+                        </div>
+                        <div class="buyer-operation">
+                            <a id="myMessage" class="buyer-operation-item" style="background-image: url(/Icon/NavView/消息.png); background-size: 1.6rem 1.6rem; background-position: left 1.2rem top 0.8rem">
+                                消息
+                            </a>
+                            <div id="cancelLoginBtn" class="buyer-operation-item" style="background-image: url(/Icon/NavView/退出.png);">
+                                退出
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </nav>
+        <!--设置聊天服务域名-->
+        <script type="text/javascript">
+            $(function () {
+                var host = window.location.hostname;
+                $("#myMessage").attr("href", "http://" + host + ":3000");
+            });
+        </script>
+        <!--填充部分-->
+        @RenderBody()
+        <!--页尾-->
+        <div class="mt-3 mt-md-5"></div>
+    </div>
+    @RenderSection("modalPosition", false)
+    <!--模态框自定义区-->
+    @RenderSection("modal", false)
+</body>
+</html>

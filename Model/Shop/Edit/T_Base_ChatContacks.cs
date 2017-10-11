@@ -15,5 +15,13 @@ namespace SoulShop.Model
             set { _headicon = value; }
             get { return _headicon; }
         }
+
+        private string reNickName;
+
+        public string ReNickName
+        {
+            set { reNickName = value; }
+            get { return reNickName; }
+        }
     }
 }

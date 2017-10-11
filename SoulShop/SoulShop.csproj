@@ -196,6 +196,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
     <Compile Include="Areas\Buyer\BuyerAreaRegistration.cs" />
     <Compile Include="Areas\Shop\Controllers\ShopController.cs" />
     <Compile Include="Areas\Shop\ShopAreaRegistration.cs" />
@@ -216,6 +217,7 @@
   <ItemGroup>
     <Content Include=".gitattributes" />
     <Content Include=".gitignore" />
+    <Content Include="Areas\Admin\MyJS\NavView.js" />
     <Content Include="Areas\Shop\MyCSS\Animate.css" />
     <Content Include="Areas\Shop\MyCSS\Buyer\Order.css" />
     <Content Include="Areas\Shop\MyCSS\Buyer\ShopCar.css" />
@@ -698,7 +700,6 @@
     <Content Include="nuget\bootstrap.sass.nuspec" />
     <Content Include="nuget\MyGet.ps1" />
     <Content Include="Areas\Shop\Views\web.config" />
-    <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Buyer\Views\web.config" />
     <Content Include="Areas\Travels\Views\web.config" />
     <Content Include="Areas\Shop\Views\Shop\Index.cshtml" />
@@ -709,6 +710,9 @@
     <Content Include="Areas\Shop\Views\Shop\ShopCar.cshtml" />
     <Content Include="Areas\Shop\Views\Shop\SaleProductList.cshtml" />
     <Content Include="Areas\Shop\Views\Shop\ShopProductComment.cshtml" />
+    <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\Shared\_AdminNavView.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Index.cshtml" />
     <None Include="Properties\PublishProfiles\webconfig.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -874,9 +878,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Controllers\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Admin\Views\Shared\" />
+    <Folder Include="Areas\Admin\MyCSS\" />
     <Folder Include="Areas\Buyer\Controllers\" />
     <Folder Include="Areas\Buyer\Models\" />
     <Folder Include="Areas\Buyer\Views\Shared\" />

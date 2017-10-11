@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace SoulShop.Areas.Admin
+namespace SoulShop.Web.Areas.Admin
 {
     public class AdminAreaRegistration : AreaRegistration 
     {

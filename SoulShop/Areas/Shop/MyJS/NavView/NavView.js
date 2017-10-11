@@ -193,6 +193,7 @@ $(function () {
                     location.href = "/Shop/Shop/Main";
                 } else if (data.code == 2) {
                     alert("登录成功 欢迎 店铺管理员");
+                    location.href = "/Admin/Admin/Index";
                 } else if (data.code == 3) {
                     alert("登录成功 欢迎 超级管理员");
                 } else {
@@ -214,6 +215,7 @@ $(function () {
     });
 });
 
+//登录和注册相关函数
 function getNormalSignUpInfo() {
 
     var objSignUp = $("#normalSignUp");

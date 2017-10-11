@@ -6,7 +6,7 @@
 *
 * Ver    变更日期             负责人  变更内容
 * ───────────────────────────────────
-* V0.01  2017/9/27 20:02:49   N/A    初版
+* V0.01  2017/10/10 17:27:03   N/A    初版
 *
 * Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
 *┌──────────────────────────────────┐
@@ -184,29 +184,26 @@ namespace SoulShop.DAL
 		/// <summary>
 		/// 得到一个对象实体
 		/// </summary>
-		public SoulShop.Model.T_Base_ShopAdmin GetModel(string ShopID,string ID)
+		public SoulShop.Model.T_Base_ShopAdmin GetModel(string ShopID)
 		{
-			
-			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select  top 1 ShopID,ID,Password,ShopName,OwnerID,OwnerName,OwnerPhone,OwnerQQ,OwnerAddress,AreaID,Freeze,Checking,HeadIcon from T_Base_ShopAdmin ");
-			strSql.Append(" where ShopID=@ShopID and ID=@ID ");
-			SqlParameter[] parameters = {
-					new SqlParameter("@ShopID", SqlDbType.NVarChar,50),
-					new SqlParameter("@ID", SqlDbType.NVarChar,20)			};
-			parameters[0].Value = ShopID;
-			parameters[1].Value = ID;
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select  top 1 ShopID,ID,Password,ShopName,OwnerID,OwnerName,OwnerPhone,OwnerQQ,OwnerAddress,AreaID,Freeze,Checking,HeadIcon from T_Base_ShopAdmin ");
+            strSql.Append(" where ShopID=@ShopID ");
+            SqlParameter[] parameters = {
+                    new SqlParameter("@ShopID", SqlDbType.NVarChar,50)          };
+            parameters[0].Value = ShopID;
 
-			SoulShop.Model.T_Base_ShopAdmin model=new SoulShop.Model.T_Base_ShopAdmin();
-			DataSet ds=DbHelperSQL.Query(strSql.ToString(),parameters);
-			if(ds.Tables[0].Rows.Count>0)
-			{
-				return DataRowToModel(ds.Tables[0].Rows[0]);
-			}
-			else
-			{
-				return null;
-			}
-		}
+            SoulShop.Model.T_Base_ShopAdmin model = new SoulShop.Model.T_Base_ShopAdmin();
+            DataSet ds = DbHelperSQL.Query(strSql.ToString(), parameters);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                return DataRowToModel(ds.Tables[0].Rows[0]);
+            }
+            else
+            {
+                return null;
+            }
+        }
 
 
 		/// <summary>

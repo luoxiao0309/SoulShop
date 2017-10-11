@@ -18,6 +18,13 @@ namespace SoulShop.Areas.Shop.Controllers
             return buyer;
         }
 
+        private Model.T_Base_ShopAdmin GetAdminInfo()
+        {
+            Model.T_Base_ShopAdmin admin = (Model.T_Base_ShopAdmin)Session["shopAdmin"];
+
+            return admin;
+        }
+
         /*1.首页*/
         // GET: Shop/Shop
         //Cover 首页
@@ -940,16 +947,25 @@ namespace SoulShop.Areas.Shop.Controllers
         }
 
         /*8.在线聊天*/
-        //聊天服务 跨域ajax获取用户信息
         public void GetUserInfo()
         {
             string callback = Request.QueryString["callback"];
-            
+
             string result;
 
-            if (Session["buyer"] != null) {
+            if (Session["buyer"] != null)//买家
+            {
                 Model.T_Base_Buyer buyer = (Model.T_Base_Buyer)Session["buyer"];
                 var msg = new { code = 1, nickName = buyer.ID, icon = buyer.HeadIcon };
+                result = new JavaScriptSerializer().Serialize(msg);
+                Response.Write(callback + "(" + result + ")");
+
+                return;
+            }
+            else if (Session["shopAdmin"] != null)//管理员
+            {
+                Model.T_Base_ShopAdmin shopAmin = (Model.T_Base_ShopAdmin)Session["shopAdmin"];
+                var msg = new { code = 1, nickName = shopAmin.ShopID, icon = shopAmin.HeadIcon };
                 result = new JavaScriptSerializer().Serialize(msg);
                 Response.Write(callback + "(" + result + ")");
 
@@ -996,6 +1012,23 @@ namespace SoulShop.Areas.Shop.Controllers
             DAL.T_Base_ChatContacks dalChatContacks = new DAL.T_Base_ChatContacks();
             List<Model.T_Base_ChatContacks> listChatContacks = dalChatContacks.GetModelListByOwnerName("OwnerName='" + myName + "'");
 
+            DAL.T_Base_Buyer dalBuyer = new DAL.T_Base_Buyer();
+            DAL.T_Base_ShopAdmin dalShopAdmin = new DAL.T_Base_ShopAdmin();
+            //根据当前的联系人列表数据 获得店铺或BuyerName
+            foreach (Model.T_Base_ChatContacks item in listChatContacks)
+            {
+                Model.T_Base_Buyer buyer = dalBuyer.GetModel(item.ConackName);
+                if (buyer == null)
+                {
+                    Model.T_Base_ShopAdmin shopAdmin = dalShopAdmin.GetModel(item.ConackName);
+                    item.ReNickName = shopAdmin.ShopName;
+                }
+                else
+                {
+                    item.ReNickName = buyer.NickName;
+                }
+            }
+
             //json格式的联系人列表数据
             string result = JsonConvert.SerializeObject(listChatContacks);
 
@@ -1005,8 +1038,19 @@ namespace SoulShop.Areas.Shop.Controllers
         //根据聊天对象获取聊天记录
         public void GetChatItemsByContacks()
         {
-            Model.T_Base_Buyer buyer = (Model.T_Base_Buyer)Session["buyer"];
-            string nickName = buyer.NickName;
+            string nickName = "";
+            int type = (int)Session["type"];
+
+            if (type == 0)
+            {
+                Model.T_Base_Buyer buyer = (Model.T_Base_Buyer)Session["buyer"];
+                nickName = buyer.ID;
+            }
+            else if (type == 1)
+            {
+                Model.T_Base_ShopAdmin admin = (Model.T_Base_ShopAdmin)Session["ShopAdmin"];
+                nickName = admin.ShopID;
+            }
 
             string callback = Request.QueryString["callback"];
             string contacksName = Request.QueryString["contacksName"];
@@ -1027,13 +1071,13 @@ namespace SoulShop.Areas.Shop.Controllers
             }
             else
             {
-                
+
                 string sql = "SenderName in (" + contacksName +
                              ") and ReceiverName='" + nickName
                              + "' or SenderName='" + nickName
                              + "' and ReceiverName in (" + contacksName + ") order by CreateTime";
                 listSumChatOnline = dalChatOnline.GetModelList(sql);
-                
+
                 //联系人数组
                 contacksName = contacksName.Replace("'", "");
                 string[] contacksNameArray = contacksName.Split(',');
@@ -1071,7 +1115,7 @@ namespace SoulShop.Areas.Shop.Controllers
                 string result = JsonConvert.SerializeObject(listChat);
 
                 Response.Write(callback + "(" + result + ")");
-            }          
+            }
         }
 
         //添加联系人
@@ -1079,15 +1123,24 @@ namespace SoulShop.Areas.Shop.Controllers
         {
             //我的信息获取
             Model.T_Base_Buyer buyer = GetBuyerInfo();
-            if (buyer == null)
+            Model.T_Base_ShopAdmin shopAdmin = GetAdminInfo();
+            if (buyer == null && shopAdmin == null)
             {
                 return Json(new { code = 0 });
             }
-            string myName = buyer.ID;
+            string myName = "";
+            if (buyer != null)
+            {
+                myName = buyer.ID;
+            }
+            else if (shopAdmin != null)
+            {
+                myName = shopAdmin.ShopID;
+            }
 
             //根据传输的数据 进行联系人添加
             DAL.T_Base_ChatContacks dalChatContacks = new DAL.T_Base_ChatContacks();
-           
+
             if (!dalChatContacks.ExistsByOwnerAndSender(myName, contackName))
             {
                 Model.T_Base_ChatContacks chatContacks = new Model.T_Base_ChatContacks();
