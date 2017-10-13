@@ -2703,3 +2703,8 @@ function getFloatToFixedTwo(price) {
     function visibleAminateByID(idName) {
         $("#" + idName).css("visibility", "visible");
     }
+
+/*全局尺寸调整*/
+$(window).resize(function () {
+    initPoluoSize();
+})
