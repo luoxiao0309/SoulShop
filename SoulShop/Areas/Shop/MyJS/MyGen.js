@@ -2651,15 +2651,15 @@ function getFloatToFixedTwo(price) {
         setTimeout(function () {
             moveToUpAndDownBySeletor("#" + idName + " .load-aminate-item-two", perHeight, timeSpan);
             timer = setInterval('moveToUpAndDownBySeletor("#' + idName + ' .load-aminate-item-two", ' + perHeight + ', ' + timeSpan + ')', timeSpan);
-        }, timeSpan/4);
-        setTimeout(function () {
-            moveToUpAndDownBySeletor("#" + idName + " .load-aminate-item-three", perHeight, timeSpan);
-            timer = setInterval('moveToUpAndDownBySeletor("#' + idName + ' .load-aminate-item-three", ' + perHeight + ', ' + timeSpan + ')', timeSpan);
-        }, timeSpan/2);
-        setTimeout(function () {
-            moveToUpAndDownBySeletor("#" + idName + " .load-aminate-item-four", perHeight, timeSpan);
-            timer = setInterval('moveToUpAndDownBySeletor("#' + idName + ' .load-aminate-item-four", ' + perHeight + ', ' + timeSpan + ')', timeSpan);
-        }, timeSpan/4*3);
+            setTimeout(function () {
+                moveToUpAndDownBySeletor("#" + idName + " .load-aminate-item-three", perHeight, timeSpan);
+                timer = setInterval('moveToUpAndDownBySeletor("#' + idName + ' .load-aminate-item-three", ' + perHeight + ', ' + timeSpan + ')', timeSpan);
+                setTimeout(function () {
+                    moveToUpAndDownBySeletor("#" + idName + " .load-aminate-item-four", perHeight, timeSpan);
+                    timer = setInterval('moveToUpAndDownBySeletor("#' + idName + ' .load-aminate-item-four", ' + perHeight + ', ' + timeSpan + ')', timeSpan);
+                }, timeSpan / 4 * 3);
+            }, timeSpan / 2);
+        }, timeSpan / 4);
     }
 
     //初始化魄罗加载: 根据加载块的名字 进行加载块的初始化
