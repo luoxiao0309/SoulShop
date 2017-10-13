@@ -79,6 +79,18 @@ function initBtnForMain() {
     });
 }
 
+//初始化交互按钮
+function initBtnAminationForMain() {
+    $(".one-classification a").mouseenter(function () {
+        $(".one-classification a").removeClass("active");
+        $(this).addClass("active");
+    });
+    
+    $(".one-classification a").mouseleave(function () {
+        $(this).removeClass("active");
+    });
+}
+
 //初始化广告区尺寸
 function initAdPartSize() {
     //调整类别选择区高度 根据其宽度等比例放大
@@ -227,6 +239,9 @@ $(function () {
 
         //初始化百度地图及相关按钮
         initBaiduMapAndBtn();
+
+        //初始化交互按钮
+        initBtnAminationForMain();
 
         //商品卡片查看加入购物车按钮响应
         $(".join-shopcar").click(function () {
