@@ -2557,7 +2557,12 @@ function isImgRead(callback) {
             isImgRead(callback);
         }, 500);
     } else {
-        callback();
+         if (typeof callback == 'string') {
+             eval(callback);
+        }
+        else {     
+             callback();
+        }
     }
 }
 
@@ -2577,10 +2582,15 @@ function isImgReadBySelector(selector, callback) {
 
     if (!isLoad) {//未完毕
         setTimeout(function () {
-            isImgRead(callback);
+            isImgReadBySelector(selector, callback);
         }, 500);
     } else {
-        callback();
+        if (typeof callback == 'string') {
+            eval(callback);
+        }
+        else {          
+            callback();
+        }
     }
 }
 

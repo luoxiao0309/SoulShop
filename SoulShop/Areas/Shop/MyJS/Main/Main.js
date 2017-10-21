@@ -2,8 +2,8 @@ var intervalId_Carouse3d;
 var nowrotatey = 0, nowrotatex = 0;
 var rotatey = 0, rotatex = 0;
 var isLoad = false;
-var fixWidthCardNumber = 9;//固定宽度的卡片
 
+//设置纸片广告3Dcss效果
 function setMainCarouse3d() {
     var objCarouse = $("#MainCarouse");
 
@@ -14,10 +14,11 @@ function setMainCarouse3d() {
     objCarouse.css("transform", strTra);
 }
 
-//调整热销和活动商品块的高度 根据图片的长宽设置其位置
-function setShopProductCardHeight() {
-    var objProductImgWraps = $(".product-img-wrap");
-    objProductImgWraps.height($(objProductImgWraps[fixWidthCardNumber]).width());
+//根据父元素调整商品块高度
+function setShopProductCardHeightByParent(parentSelector) {
+    var objProductImgWrapTheFixed = $($(".three-wrap .product-img-wrap")[0]);
+    var objProductImgWraps = $(parentSelector + " .product-img-wrap");
+    objProductImgWraps.height(objProductImgWrapTheFixed.width());
     var lengthProductWrap = objProductImgWraps.length;
     var iPW;
     for (iPW = 0; iPW < lengthProductWrap; iPW++) {
@@ -30,6 +31,14 @@ function setShopProductCardHeight() {
     }
 }
 
+//调整热销和活动商品块的高度 根据图片的长宽设置其位置
+function setShopProductCardHeight() {
+    isImgReadBySelector("#SaleTabNow .product-img-wrap img", 'setShopProductCardHeightByParent(' + '"#SaleTabNow"' + ')');
+    isImgReadBySelector("#SaleTabPre .product-img-wrap img", 'setShopProductCardHeightByParent(' + '"#SaleTabPre"' + ')');
+    isImgReadBySelector(".three-wrap .product-img-wrap img", 'setShopProductCardHeightByParent(' + '".three-wrap"' + ')');
+}
+
+//设置活动卡片当前价格字体尺寸
 function setNowPayFontSize() {
     var objNowpays = $(".now-pay");
     var length = objNowpays.length;
@@ -43,6 +52,7 @@ function setNowPayFontSize() {
     } 
 }
 
+//初始化功能按钮
 function initBtnForMain() {
     //活动商品切换按钮
     $("#Tab-SaleTabPre").click(function () {
@@ -228,7 +238,7 @@ $(function () {
         initAdPaperE();
 
         //调整热销和活动商品块的高度 根据图片的长宽设置其位置
-        isImgReadBySelector(".product-img-wrap img", setShopProductCardHeight);
+        setShopProductCardHeight();
 
         //初始化nowpay中字体宽度
         setNowPayFontSize();     
