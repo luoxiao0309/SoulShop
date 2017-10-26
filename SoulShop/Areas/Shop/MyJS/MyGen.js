@@ -2599,7 +2599,7 @@ function getFloatToFixedTwo(price) {
     return price.toFixed(2);
 }
 
-/*魄罗载入*/
+//魄罗载入
     /*加载动画块HTMLCode：
     <div id="" class="load-aminate">
         <div class="load-aminate-item load-aminate-item-one"><img src="~/Image/NavView/load.png"></div>
@@ -2714,7 +2714,30 @@ function getFloatToFixedTwo(price) {
         $("#" + idName).css("visibility", "visible");
     }
 
+//设备大小适应
+function adjustDeviceSize() {
+    var deviceWidth = $(window).width();
+    if (deviceWidth <= 360) {
+        //计算缩放值
+        var ratio = deviceWidth / 360;
+
+        //根据设备大小 改变
+        $('meta[name="viewport"]').attr("content", "width=device-width, initial-scale=" + ratio + ", " +
+          "user-scalable=0, minimum-scale=" + ratio + ", maximum-scale=" + ratio);
+    } else {
+        //$('meta[name="viewport"]').attr("content", "width=device-width, initial-scale=1.0, " +
+        //"user-scalable=0, minimum-scale=1.0, maximum-scale=1.0");
+    }
+}
+
+/*全局初始化*/
+$(function () {
+    //根据当前大小 修改缩放
+    adjustDeviceSize();
+});
+
 /*全局尺寸调整*/
 $(window).resize(function () {
+    //初始化破锣尺寸
     initPoluoSize();
 })
